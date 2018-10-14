@@ -7,11 +7,12 @@ module.exports = {
     attributes: {
         state: {
             type: "number",
-
+        },
+        companias_id: {
+          type: "number",
         },
         epc: {
             type: "string",
-
             unique: true
         }
     }

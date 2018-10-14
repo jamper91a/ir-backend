@@ -55,10 +55,12 @@ module.exports = {
         imagen: {
             type: "string"
         },
-        epcs_id: {
-            type: "number",
+        precio_costo: {
+          type: "number"
+        },
+        precio_venta: {
+          type: "number"
+        },
 
-            required: true
-        }
     }
 };

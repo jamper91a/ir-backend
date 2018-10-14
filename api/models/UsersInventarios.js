@@ -5,7 +5,7 @@
 
 module.exports = {
     attributes: {
-        users_id: {
+        empleados_id: {
             type: "number",
 
             required: true

@@ -13,5 +13,8 @@ module.exports.routes = {
   'POST /login': 'AuthController.login',
   '/logout': 'AuthController.logout',
 
+  //Mercancia
+  'POST /productos/addMercancia': 'ProductosZona.addMercancia'
+
 
 };
