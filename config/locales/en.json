@@ -1,5 +1,11 @@
 {
-	"Welcome": "Welcome",
-	"A brand new app.": "A brand new app.",
-	"error 01": "error_01"
+	"ERRORES GENERALES": "ERRORES GENERALES",
+	"error_G01": "Data invalid",
+	"error_G02": "Registro duplicado",
+
+	"ERROR EPC": "ERROR EPC",
+	"error_EPC01": "Epc invalid",
+
+	"SYSTEM ERROR": "SYSTEM ERROR",
+	"error_S01": "BadConnection to database"
 }

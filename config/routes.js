@@ -14,7 +14,10 @@ module.exports.routes = {
   '/logout': 'AuthController.logout',
 
   //Mercancia
-  'POST /productos/addMercancia': 'ProductosZona.addMercancia'
+  'POST /productos/addMercancia': 'ProductosZona.addMercancia',
+
+  //Usuarios
+  'POST /users':'Users.crearEmpleado'
 
 
 };

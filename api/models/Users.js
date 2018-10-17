@@ -11,6 +11,7 @@ module.exports = {
 
         username: {
             type: "string",
+            unique:true
         },
         password: {
             type: "string",
@@ -28,6 +29,14 @@ module.exports = {
             type: "number",
 
             required: true
+        },
+
+        //Relaciones
+
+        //El empleado asociado a este usuario
+        empleado:{
+          collection:'empleados',
+          via: 'users_id'
         }
     },
   customToJSON: function() {

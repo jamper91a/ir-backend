@@ -1,5 +1,13 @@
 {
-  "Welcome": "Bienvenido",
-  "A brand new app.": "Una nueva aplicación.",
-  "error 01":"Epc no válido"
+  "ERRORES GENERALES": "ERRORES GENERALES",
+  "error_G01": "Datos inválidos",
+  "error_G02": "Registro duplicado",
+
+
+  "ERROR EPC": "ERROR EPC",
+  "errorEPC01": "Epc no valido",
+
+  "SYSTEM ERROR":"SYSTEM ERROR",
+  "error_S01": "Error de conexión base de datos"
+
 }

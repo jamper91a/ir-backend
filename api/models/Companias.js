@@ -8,6 +8,12 @@ module.exports = {
         name: {
             type: "string",
 
+        },
+
+      //Relaciones
+        empleados:{
+          collection: "empleados",
+          via: "companias_id"
         }
     }
 };

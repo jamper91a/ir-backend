@@ -9,6 +9,11 @@ module.exports = {
             type: "number",
 
             required: true
-        }
+        },
+      //Relaciones
+      empleados:{
+        collection: "empleados",
+        via: "locales_id"
+      }
     }
 };
