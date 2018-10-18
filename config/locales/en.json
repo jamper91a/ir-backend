@@ -2,6 +2,8 @@
 	"ERRORES GENERALES": "ERRORES GENERALES",
 	"error_G01": "Data invalid",
 	"error_G02": "Registro duplicado",
+  "error_G03":"Username not found",
+  "error_G04":"Invalid Password",
 
 	"ERROR EPC": "ERROR EPC",
 	"error_EPC01": "Epc invalid",

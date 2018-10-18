@@ -14,13 +14,15 @@
     "jsonwebtoken": "^8.3.0",
     "nodemon": "^1.18.4",
     "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "sails": "^1.0.2",
     "sails-hook-grunt": "^3.0.2",
     "sails-hook-orm": "^2.0.0-16",
     "sails-hook-sockets": "^1.4.0",
     "sails-inverse-model": "^2.0.6",
-    "sails-mysql": "^1.0.0"
+    "sails-mysql": "^1.0.0",
+    "sails-service-cipher": "^3.2.1"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3",

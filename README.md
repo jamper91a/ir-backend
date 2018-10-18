@@ -32,6 +32,8 @@ Note:  Generators are usually run using the globally-installed `sails` CLI (comm
 + npm i --save jsonwebtoken
 + npm install mocha --save-dev
 + npm install supertest --save-dev
++ npm install passport-jwt
++ npm install sails-service-cipher
 
 #Base de datos
 sails-inverse-model -u root -p 'gjwQbdRD4k;t' -d inventarioReal -m -c

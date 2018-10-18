@@ -10,8 +10,8 @@
 
 module.exports.routes = {
 
-  'POST /login': 'AuthController.login',
-  '/logout': 'AuthController.logout',
+  'POST /login': 'Users.login',
+  '/logout': 'Users.logout',
 
   //Mercancia
   'POST /productos/addMercancia': 'ProductosZona.addMercancia',
