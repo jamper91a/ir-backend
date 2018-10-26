@@ -2,12 +2,17 @@
 	"ERRORES GENERALES": "ERRORES GENERALES",
 	"error_G01": "Data invalid",
 	"error_G02": "Registro duplicado",
-  "error_G03":"Username not found",
-  "error_G04":"Invalid Password",
-
+	"error_G03": "Username not found",
+	"error_G04": "Invalid Password",
+	"error_G05": "Resultados invalidos",
 	"ERROR EPC": "ERROR EPC",
 	"error_EPC01": "Epc invalid",
-
+	"error_EPC02": "Incoveniente al crear los registros de dispositivos",
+	"ERROR PRODUCTOZONA": "ERROR PRODUCTO ZONA",
+	"error_PZ01": "Incoveniente al crear los registros de dispositivo y producto",
+	"ERROR PRODUCTO": "ERROR PRODUCTO",
+	"error_P01": "Incoveniente al obtener el producto",
 	"SYSTEM ERROR": "SYSTEM ERROR",
-	"error_S01": "BadConnection to database"
+	"error_S01": "BadConnection to database",
+	"": ""
 }
