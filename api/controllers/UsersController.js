@@ -11,25 +11,23 @@ module.exports = {
 
   crearEmpleado: function (req, res) {
     if (!req.body.usuario.username || !req.body.usuario.password || !req.body.usuario.groups_id || !req.body.empleado.companias_id || !req.body.empleado.locales_id) {
-      return res.serverError(
-        {
-          message: sails.__("error_G01"),
-          code: 'error_G01'
-        });
+      let things={code: 'error_G01', req:req, res:res, data:[], error:null};
+      return res.generalAnswer(things);
 
     }
     //Creo usuario
     Users.create(req.body.usuario).fetch().then(function (user) {
-      console.log(user);
       req.body.empleado.users_id = user.id;
       Empleados.create(req.body.empleado).fetch().then(function (empleado) {
         res.ok(empleado);
       }).catch(function (err) {
-        sails.helpers.catchCreate('Empleado', err, res);
+        let things={code: err.code, req:req, res:res, data:[], error:err, model:"Empleado"};
+        return res.generalAnswer(things);
       })
     })
       .catch(function (err) {
-        sails.helpers.catchCreate('Users', err, res);
+        let things={code: err.code, req:req, res:res, data:[], error:err, model:"Users"};
+        return res.generalAnswer(things);
       });
   },
   login: function (req, res) {
@@ -53,12 +51,16 @@ module.exports = {
                 locales_id: empleado.locales_id.id
               },
               'k{B^um3fzwP-68cN');
-            return res.ok({
+            let data={
               empleado: empleado,
               token: token
-            });
+            };
+
+            let things={code: '', req:req, res:res, data:data, error:null};
+            return res.generalAnswer(things);
           } catch (e) {
-            console.error(e);
+            let things={code: '', req:req, res:res, data:null, error:e};
+            return res.generalAnswer(things);
           }
 
 
