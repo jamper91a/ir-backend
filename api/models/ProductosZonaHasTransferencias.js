@@ -6,22 +6,15 @@
 module.exports = {
     attributes: {
         productos_zona_id: {
-            type: "number",
-
+            model: "productosZona",
             required: true
         },
         transferencias_id: {
-            type: "number",
-
+            model: "transferencias",
             required: true
         },
         estado: {
             type: "number",
-
         },
-        productos_zona_has_transferenciascol: {
-            type: "string",
-
-        }
     }
 };

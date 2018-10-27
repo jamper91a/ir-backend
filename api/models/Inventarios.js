@@ -17,9 +17,20 @@ module.exports = {
 
         },
         zonas_id: {
-            type: "number",
-
+            model: "zonas",
             required: true
+        },
+
+        //Relaciones
+        productos:{
+          collection: 'productos',
+          via: 'inventarios_id',
+          through: 'inventariosProductos'
+        },
+        users:{
+          collection:'empleados',
+          via:'inventarios_id',
+          through:'usersInventarios'
         }
     }
 };

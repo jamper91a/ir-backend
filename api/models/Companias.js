@@ -14,6 +14,18 @@ module.exports = {
         empleados:{
           collection: "empleados",
           via: "companias_id"
+        },
+        ecps:{
+          collection: "epcs",
+          via: "companias_id"
+        },
+        productos:{
+          collection: "productos",
+          via: "companias_id"
+        },
+        locales:{
+        collection: "locales",
+        via: "companias_id"
         }
     }
 };

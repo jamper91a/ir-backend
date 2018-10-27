@@ -42,8 +42,7 @@ module.exports = {
 
         },
         companias_id: {
-            type: "number",
-
+            model: "companias",
             required: true
         },
         descripcion: {
@@ -61,6 +60,12 @@ module.exports = {
         precio_venta: {
           type: "number"
         },
+      //Relaciones
+      inventarios:{
+        collection: 'inventarios',
+        via: 'productos_id',
+        through: 'inventariosProductos'
+      },
 
     }
 };

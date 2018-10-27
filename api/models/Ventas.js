@@ -6,8 +6,7 @@
 module.exports = {
     attributes: {
         users_id: {
-            type: "number",
-
+            model: "users",
             required: true
         }
     }

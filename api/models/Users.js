@@ -26,8 +26,7 @@ module.exports = {
 
         },
         groups_id: {
-            type: "number",
-
+            model: "groups",
             required: true
         },
 

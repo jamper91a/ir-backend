@@ -6,24 +6,65 @@
 module.exports = {
     attributes: {
         inventarios_id: {
-            type: "number",
-
-            required: true
+            model: "inventarios"
         },
         productos_id: {
-            type: "number",
-
-            required: true
+            model: "productos"
         },
         productos_epcs_id: {
-            type: "number",
-
-            required: true
+            model: "epcs",
+            unique:true
         },
-        zonas_id: {
-            type: "number",
+        zona_id: {
+          model: 'zonas',
+          required: true
+        },
+    },
+  /**
+   * Antes de ingresar un producto a un inventario, debo validar:
+   * Que el producto exista.
+   * Que la zona del producto concuerde con la zona del inventario.
+   * Que el estado del epc sea valido (1, lo que significa que se asigno y no se ha usado
+   * @param valuesToSet
+   * @param proceed
+   */
+  beforeCreate: function (valuesToSet, proceed) {
 
-            required: true
-        }
+
+    if(Array.isArray(valuesToSet)){
+      Productos.find({
+        id: valuesToSet.productos_id
+      })
+        .populate('productos_zona')
+        .then(function (producto) {
+        if(producto && producto.length>0){
+          if(producto.productos_zona)
+          epc.state=1;
+          epc.save();
+          return proceed();
+        } else
+          return proceed({"error":'Tag no valido bc'});
+      }).catch(function (err) {
+        return proceed(err)
+      });
+    }else{
+      try{
+        Epcs.find({
+          id: valuesToSet.epcs_id,
+          state: 0
+        }).then(function (epc) {
+          if(epc && epc.length>0){
+            return proceed();
+          }else
+            return proceed({"error":'Tag no valido bc'});
+        }).catch(function (err) {
+          return proceed(err)
+        });
+      }catch(err){
+        console.error(err);
+      }
+
     }
+
+  }
 };

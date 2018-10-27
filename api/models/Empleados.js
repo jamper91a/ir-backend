@@ -24,19 +24,11 @@ module.exports = {
     },
 
     //Relaciones
-    //Un Empleado pertenece solo a un usuario
-    /*usuario: {
-      model: "users",
-      unique: true
-    },
-    // Un empleado tiene una compania
-    compania: {
-      model: 'companias'
-    },
-    // Un empleado tiene una compania
-    local: {
-      model: 'locales'
-    }*/
+    inventarios:{
+      collection: 'inventarios',
+      via: 'empleados_id',
+      through: 'usersInventarios'
+    }
 
 
   },

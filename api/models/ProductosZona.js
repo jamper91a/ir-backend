@@ -6,13 +6,11 @@ module.exports = {
 
   attributes: {
     productos_id: {
-      type: "number",
-
+      model: "productos",
       required: true
     },
     zona_id: {
-      type: "number",
-
+      model: "zonas",
       required: true
     },
     cantidad: {
@@ -32,20 +30,16 @@ module.exports = {
       type: "string"
     },
     devoluciones_id: {
-      type: "number",
-
-      required: true
+      model: "devoluciones",
     },
     logs_usuarios: {
       type: "string"
     },
     ventas_id: {
-      type: "number",
-
-      required: true
+      model: "ventas",
     },
     epcs_id: {
-      type: "number",
+      model: "epcs",
       required: true
     }
 

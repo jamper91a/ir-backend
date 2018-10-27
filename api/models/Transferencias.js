@@ -6,22 +6,18 @@
 module.exports = {
     attributes: {
         creador_id: {
-            type: "number",
-
+            model: "empleados",
             required: true
         },
         manifiesto: {
             type: "string",
-
         },
         local_origen_id: {
-            type: "number",
-
+            model: "locales",
             required: true
         },
         local_destino_id: {
-            type: "number",
-
+            model: "locales",
             required: true
         },
         estado: {

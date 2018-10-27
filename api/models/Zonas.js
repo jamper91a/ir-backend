@@ -7,12 +7,11 @@ module.exports = {
     attributes: {
         name: {
             type: "string",
-
         },
         locales_id: {
-            type: "number",
-
+            model: "locales",
             required: true
         }
+
     }
 };

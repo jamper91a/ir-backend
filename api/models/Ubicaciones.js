@@ -7,16 +7,13 @@ module.exports = {
     attributes: {
         nombre: {
             type: "string",
-
         },
         epcs_id: {
-            type: "number",
-
+            model: "epcs",
             required: true
         },
         zonas_id: {
-            type: "number",
-
+            model: "zonas",
             required: true
         }
     }

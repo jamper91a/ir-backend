@@ -9,7 +9,8 @@ module.exports = {
             type: "number",
         },
         companias_id: {
-          type: "number",
+          model: 'companias',
+          required: true
         },
         epc: {
             type: "string",

@@ -6,14 +6,13 @@
 module.exports = {
     attributes: {
         companias_id: {
-            type: "number",
-
+            model: "companias",
             required: true
         },
-      //Relaciones
-      empleados:{
-        collection: "empleados",
-        via: "locales_id"
-      }
+        //Relaciones
+        empleados:{
+          collection: "empleados",
+          via: "locales_id"
+        }
     }
 };

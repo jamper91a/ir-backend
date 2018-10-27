@@ -6,13 +6,11 @@
 module.exports = {
     attributes: {
         empleados_id: {
-            type: "number",
-
+            model: "empleados",
             required: true
         },
         inventarios_id: {
-            type: "number",
-
+            model: "inventarios",
             required: true
         }
     }
