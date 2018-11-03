@@ -8,17 +8,19 @@ module.exports = {
         inventarios_id: {
             model: "inventarios"
         },
-        productos_id: {
-            model: "productos"
-        },
         productos_epcs_id: {
             model: "epcs",
             unique:true
         },
-        zona_id: {
+        zonas_id: {
           model: 'zonas',
           required: true
         },
+
+      //Relaciones muchos a muchos
+      productos_zona_id: {
+        model: "productosZona",
+      },
     },
   /**
    * Antes de ingresar un producto a un inventario, debo validar:
@@ -30,41 +32,47 @@ module.exports = {
    */
   beforeCreate: function (valuesToSet, proceed) {
 
-
-    if(Array.isArray(valuesToSet)){
-      Productos.find({
-        id: valuesToSet.productos_id
+      ProductosZona.find({
+        id: valuesToSet.productos_zona_id
       })
-        .populate('productos_zona')
-        .then(function (producto) {
-        if(producto && producto.length>0){
-          if(producto.productos_zona)
-          epc.state=1;
-          epc.save();
-          return proceed();
-        } else
-          return proceed({"error":'Tag no valido bc'});
-      }).catch(function (err) {
-        return proceed(err)
-      });
-    }else{
-      try{
-        Epcs.find({
-          id: valuesToSet.epcs_id,
-          state: 0
-        }).then(function (epc) {
-          if(epc && epc.length>0){
-            return proceed();
-          }else
-            return proceed({"error":'Tag no valido bc'});
+        .populate('epcs_id')
+        .then(function (productoZona) {
+          //Si el producto existe
+          if (productoZona && productoZona.length > 0) {
+            //Si la zona del proucto es la misma a la que se le va a asignar
+            if (productoZona[0].zonas_id == valuesToSet.zonas_id) {
+              //Si el epc del producto esta habilitado
+              if (productoZona[0].epcs_id.state == 1) {
+                return proceed();
+              } else {
+                var err = new Error();
+                err.bd = true;
+                err.propio = true;
+                err.number = 'error_IP03';
+                return proceed(err);
+              }
+            } else {
+              var err = new Error();
+              err.bd = true;
+              err.propio = true;
+              err.number = 'error_IP02';
+              return proceed(err);
+            }
+          } else{
+
+            var err = new Error();
+            err.bd = true;
+            err.propio = true;
+            err.number = 'error_IP01';
+            return proceed(err);
+          }
         }).catch(function (err) {
-          return proceed(err)
-        });
-      }catch(err){
-        console.error(err);
-      }
+        err.bd = false;
+        err.propio = false;
+        err.number = 'error_IP03';
+        return proceed(err);
+      });
 
-    }
-
-  }
+  },
+  tableName: 'inventarios_productos'
 };

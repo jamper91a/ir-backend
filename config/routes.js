@@ -17,7 +17,10 @@ module.exports.routes = {
   'POST /productos/addMercancia': 'ProductosZona.addMercancia',
 
   //Usuarios
-  'POST /users':'Users.crearEmpleado'
+  'POST /users':'Users.crearEmpleado',
+
+  //Inventarios
+  'POST /inventarios/crear':'Inventarios.create'
 
 
 };

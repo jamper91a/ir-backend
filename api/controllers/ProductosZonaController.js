@@ -22,7 +22,7 @@ module.exports = {
             ProductosZona.create(producto_zona).usingConnection(db).fetch().then(function () {
               cb();
             }).catch(function (err) {
-              let things={code: 'error_PZ01', req:req, res:res, data:[], error:err};
+              let things={code: err.number, req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
               cb(things);
             });
           }, function (error) {
@@ -35,7 +35,7 @@ module.exports = {
               }).limit(1).usingConnection(db).then(function (product) {
                 return product;
               }).catch(function (err) {
-                let things={code: 'error_P01', req:req, res:res, data:[], error:err};
+                let things={code: 'error_P01', req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
                 return proceed(null,things);
               });
               //Actualizo los devices
@@ -45,7 +45,7 @@ module.exports = {
                 else
                   return [];
               }).catch(function (err) {
-                let things={code: 'error_EPC02', req:req, res:res, data:[], error:err};
+                let things={code: 'error_EPC02', req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
                 return proceed(null,things);
               });
 
@@ -54,25 +54,24 @@ module.exports = {
                 epcs
               ]).then(function (values) {
                 if(values){
-                  let things={code: '', req:req, res:res, data:values[1], error:null};
+                  let data={
+                    producto: values[0],
+                    epcs: values[1]
+                  }
+                  let things={code: '', req:req, res:res, data:data, error:null};
                   return proceed(null,things);
                 }else {
-                  let things={code: 'error_G05', req:req, res:res, data:[], error:null};
+                  let things={code: 'error_G05', req:req, res:res, data:[], error:err, propio:true, bd:false};
                   return proceed(null, things);
                 }
 
               }).catch(function (err) {
-                let things={code: '', req:req, res:res, data:[], error:err};
+                let things={code: '', req:req, res:res, data:[], error:err, propio:false, bd:false};
                 return proceed(null,things);
               });
             }
 
           });
-
-
-
-
-
 
         }).then(function (operation) {
         return res.generalAnswer(operation);

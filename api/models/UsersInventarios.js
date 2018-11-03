@@ -13,5 +13,6 @@ module.exports = {
             model: "inventarios",
             required: true
         }
-    }
+    },
+  tableName:"users_inventarios"
 };

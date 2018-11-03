@@ -60,12 +60,6 @@ module.exports = {
         precio_venta: {
           type: "number"
         },
-      //Relaciones
-      inventarios:{
-        collection: 'inventarios',
-        via: 'productos_id',
-        through: 'inventariosProductos'
-      },
 
     }
 };

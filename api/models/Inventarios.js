@@ -6,7 +6,7 @@
 module.exports = {
     attributes: {
         fecha: {
-            type: "string"
+          type: 'ref', columnType: 'datetime', autoCreatedAt: true
         },
         parcial: {
             type: "number",
@@ -22,8 +22,8 @@ module.exports = {
         },
 
         //Relaciones
-        productos:{
-          collection: 'productos',
+        productos_zona:{
+          collection: 'productosZona',
           via: 'inventarios_id',
           through: 'inventariosProductos'
         },

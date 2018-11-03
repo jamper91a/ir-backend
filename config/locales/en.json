@@ -14,5 +14,11 @@
 	"error_P01": "Incoveniente al obtener el producto",
 	"SYSTEM ERROR": "SYSTEM ERROR",
 	"error_S01": "BadConnection to database",
-	"": ""
+	"ERROR INVENTARIOSPRODUCTO": "INVENTARIOSPRODUCTO",
+	"error_IP01": "Producto no existe",
+	"error_IP02": "Zona del producto no valida",
+	"error_IP03": "Epc del producto no valido",
+	"E_NON_ERROR": "E_NON_ERROR",
+	"": "",
+	"E_INVALID_NEW_RECORD": "E_INVALID_NEW_RECORD"
 }

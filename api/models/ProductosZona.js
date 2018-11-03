@@ -9,13 +9,9 @@ module.exports = {
       model: "productos",
       required: true
     },
-    zona_id: {
+    zonas_id: {
       model: "zonas",
       required: true
-    },
-    cantidad: {
-      type: "number",
-
     },
     fecha_ingreso: {
       type: 'ref', columnType: 'datetime', autoCreatedAt: true
@@ -30,38 +26,29 @@ module.exports = {
       type: "string"
     },
     devoluciones_id: {
-      model: "devoluciones",
+      model: "devoluciones"
     },
     logs_usuarios: {
       type: "string"
     },
     ventas_id: {
-      model: "ventas",
+      model: "ventas"
     },
     epcs_id: {
       model: "epcs",
       required: true
+    },
+    //Relaciones muchos a muchos
+    inventarios:{
+      collection: 'inventarios',
+      via: 'productos_zona_id',
+      through: 'inventariosProductos'
     }
 
   },
   beforeCreate: function (valuesToSet, proceed) {
     //Valido que el epc sea valido (lo busco por el epc y que el estado sea 0 -sin usar)
 
-    if(Array.isArray(valuesToSet)){
-      Epcs.find({
-        id: valuesToSet.epcs_id,
-        state: 0
-      }).then(function (epc) {
-        if(epc && epc.length>0){
-          epc.state=1;
-          epc.save();
-          return proceed();
-        } else
-          return proceed({"error":'Tag no valido bc'});
-      }).catch(function (err) {
-        return proceed(err)
-      });
-    }else{
       try{
         Epcs.find({
           id: valuesToSet.epcs_id,
@@ -70,15 +57,21 @@ module.exports = {
           if(epc && epc.length>0){
             return proceed();
           }else
-            return proceed({"error":'Tag no valido bc'});
+            var err=new Error();
+            err.bd=true;
+            err.propio=true;
+            err.number = 'error_EPC01';
+            return proceed(err);
         }).catch(function (err) {
+          err.bd=true;
+          err.propio=false;
           return proceed(err)
         });
       }catch(err){
-        console.error(err);
+        err.bd=false;
+        err.propio=false;
+        return proceed(err)
       }
-
-    }
 
   },
   tableName: 'productos_zona'

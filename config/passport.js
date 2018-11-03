@@ -74,7 +74,7 @@ const _onLocalStrategyAuth = (req, username, password, next) => {
  * @private
  */
 const _onJwtStrategyAuth = (req, payload, next) => {
-  Empleado
+  Empleados
     .findOne({id: payload.empleado_id})
     .populate("users_id")
     .populate("companias_id")
