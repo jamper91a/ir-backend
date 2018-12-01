@@ -19,10 +19,12 @@ module.exports = {
         },
         username_rfdi: {
             type: "string",
+            allowNull:true
 
         },
         password_rfdi: {
             type: "string",
+          allowNull:true
 
         },
         groups_id: {

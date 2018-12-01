@@ -43,6 +43,7 @@ const _onLocalStrategyAuth = (req, username, password, next) => {
 
       bcrypt.compare(password, user.password, function(err, res) {
         if(res) {
+          //console.log(user.id);
           Empleados.findOne({
             users_id: user.id
           })
@@ -74,6 +75,7 @@ const _onLocalStrategyAuth = (req, username, password, next) => {
  * @private
  */
 const _onJwtStrategyAuth = (req, payload, next) => {
+  //console.log(payload.empleado_id);
   Empleados
     .findOne({id: payload.empleado_id})
     .populate("users_id")
@@ -89,16 +91,6 @@ const _onJwtStrategyAuth = (req, payload, next) => {
 
 module.exports = {
   passport: {
-    /**
-     * Triggers when all Passport steps is done and user profile is parsed
-     * @param {Object} req Request object
-     * @param {Object} res Response object
-     * @param {Object} error Object with error info
-     * @param {Object} user User object
-     * @param {Object} info Information object
-     * @returns {*}
-     * @private
-     */
     onPassportAuth(req, res, error, empleado, info) {
       if (error || !empleado) return res.negotiate(error || info);
 

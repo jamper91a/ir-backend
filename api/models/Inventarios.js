@@ -20,6 +20,10 @@ module.exports = {
             model: "zonas",
             required: true
         },
+        inventarios_consolidados_id: {
+          model: "inventariosConsolidados",
+          required: false
+        },
 
         //Relaciones
         productos_zona:{

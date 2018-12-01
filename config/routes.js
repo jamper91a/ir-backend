@@ -20,7 +20,8 @@ module.exports.routes = {
   'POST /users':'Users.crearEmpleado',
 
   //Inventarios
-  'POST /inventarios/crear':'Inventarios.create'
+  'POST /inventarios/crear':'Inventarios.createParcial',
+  'POST /inventarios/consolidarParcial':'Inventarios.consolidarParcial'
 
 
 };

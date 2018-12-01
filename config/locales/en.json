@@ -16,8 +16,10 @@
 	"error_S01": "BadConnection to database",
 	"ERROR INVENTARIOSPRODUCTO": "INVENTARIOSPRODUCTO",
 	"error_IP01": "Producto no existe",
-	"error_IP02": "Zona del producto no valida",
-	"error_IP03": "Epc del producto no valido",
+	"error_IP02": "",
+	"error_IP03": "",
+	"ERROR INVENTARIOS": "INVENTARIOS",
+	"error_I01": "Deben ser zonas diferentes",
 	"E_NON_ERROR": "E_NON_ERROR",
 	"": "",
 	"E_INVALID_NEW_RECORD": "E_INVALID_NEW_RECORD"
