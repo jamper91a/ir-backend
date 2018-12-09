@@ -59,6 +59,36 @@ module.exports = {
 
   },
 
+    /**
+    * Esta funcion se encargara de listar los inventarios creados y no consolidados, con el fin de seleccionar inventarios
+    * para consolidar
+     *
+     * 1-> Busco los usuario que pertenecen a una compania
+     * 2-> Busco los inventarios creados por esos usuarios
+    * @param req
+    * @param res
+    */
+  listarInventariosParciales: async function(req,res){
+      let empleados, inventarios, things;
+      try {
+         empleados = await  Empleados.find({
+           where:{companias_id: req.empleado.companias_id.id}
+         })
+           .populate('inventarios',{
+             where:{
+               inventarios_consolidados_id:0
+             }
+           });
+         //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
+        inventarios = empleados.map(a => a.inventarios);
+        things = {code: '', data: inventarios, error: null, propio: false, bd: false};
+         return res.generalAnswer(things);
+      } catch (err) {
+        things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+        return res.generalAnswer(things);
+      }
+    },
+
   /**
    * Este servicio web se encargara de consolidar dos inventarios parciales, deben ser fechas diferentes pero la misma zona
    *

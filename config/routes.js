@@ -21,7 +21,8 @@ module.exports.routes = {
 
   //Inventarios
   'POST /inventarios/crear':'Inventarios.createParcial',
-  'POST /inventarios/consolidarParcial':'Inventarios.consolidarParcial'
+  'POST /inventarios/consolidarParcial':'Inventarios.consolidarParcial',
+  'POST /inventarios/listarInventariosParciales':'Inventarios.listarInventariosParciales'
 
 
 };
