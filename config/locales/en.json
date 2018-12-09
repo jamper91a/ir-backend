@@ -20,6 +20,7 @@
 	"error_IP03": "",
 	"ERROR INVENTARIOS": "INVENTARIOS",
 	"error_I01": "Deben ser zonas diferentes",
+	"error_I02": "Inventario ya consolidado",
 	"E_NON_ERROR": "E_NON_ERROR",
 	"": "",
 	"E_INVALID_NEW_RECORD": "E_INVALID_NEW_RECORD"

@@ -80,14 +80,20 @@ module.exports = {
           inventarios = await Inventarios.find(
             {
               where: {id: req.body.inventarios_id},
-              select: ['zonas_id']
+              select: ['zonas_id', 'inventarios_consolidados_id']
             });
-          inventarios = inventarios.map(a => a.zonas_id);
-          inventarios = inventarios.every(function (zonas_id, index) {
-            if(inventarios.includes(zonas_id,index+1)){
+          zonas = inventarios.map(a => a.zonas_id);
+          inventarios = inventarios.every(function (inventario, index) {
+            //Valido que los inventarios sean de zonas diferentes
+            if(zonas.includes(inventario.zonas_id,index+1)){
               things = {code: 'error_I01', data: [], propio: true, bd: null, error: null};
               return false;
-            }else{
+              //Valido que los inventarios no se hayan consolidado antes
+            }else if (inventario.inventarios_consolidados_id && inventario.inventarios_consolidados_id>0){
+              things = {code: 'error_I02', data: [], propio: true, bd: null, error: null};
+              return false;
+            }
+            else{
               return true;
             }
 
