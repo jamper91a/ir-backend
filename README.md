@@ -26,5 +26,5 @@ Versión final del sistema.
 + npm install sails-service-cipher
 
 #Base de datos
-sails-inverse-model -u root -p 'gjwQbdRD4k;t' -d inventarioReal -m -c
+sails-inverse-model -u root -p 'gjwQbdRD4ktt' -d inventarioReal -m -c
 

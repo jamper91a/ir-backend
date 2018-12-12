@@ -1,0 +1,35 @@
+version: '2.1'
+
+services:
+
+  mysql:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: mysql
+    healthcheck:
+      test: "exit 0"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  inventario_real:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: inventarioReal
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 1337:1337
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+
+volumes:
+  mysql-data:
+
+
+
