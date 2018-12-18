@@ -14,11 +14,11 @@ services:
     ports:
       - 3306:3306
 
-  inventario_real:
+  backend:
     build:
-      context: .
+      context: ./backEndIR
       dockerfile: Dockerfile
-    container_name: inventarioReal
+    container_name: backend
     volumes:
       - .:/usr/src/app
     ports:

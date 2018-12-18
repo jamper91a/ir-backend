@@ -3,4 +3,4 @@ ENV MYSQL_DATABASE inventarioReal
 ENV MYSQL_ROOT_PASSWORD gjwQbdRD4ktt
 ENV MYSQL_USER inventarioReal
 ENV MYSQL_PASSWORD gjwQbdRD4ktt
-ADD inventarioReal.sql /docker-entrypoint-initdb.d/
+ADD init.sql /docker-entrypoint-initdb.d/
