@@ -16,16 +16,18 @@ services:
 
   backend:
     build:
-      context: ./backEndIR
+      context: ./back-end
       dockerfile: Dockerfile
-    container_name: backend
-    volumes:
-      - .:/usr/src/app
     ports:
-      - 1337:1337
+    - 80:1337
     depends_on:
       mysql:
         condition: service_healthy
+    container_name: back-end
+    volumes:
+      - ./back-end:/usr/src/app
+#    links:
+#        - mysql
 
 
 volumes:
