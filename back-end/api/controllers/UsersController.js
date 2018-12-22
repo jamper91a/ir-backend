@@ -52,6 +52,7 @@ module.exports = {
               },
               'k{B^um3fzwP-68cN');
             let data={
+              iu:'uiass',
               empleado: empleado,
               token: token
             };

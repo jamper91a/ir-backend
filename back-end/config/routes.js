@@ -10,6 +10,10 @@
 
 module.exports.routes = {
 
+  'GET /':{
+    view: 'pages/homepage'
+  },
+
   'POST /login': 'Users.login',
   '/logout': 'Users.logout',
 

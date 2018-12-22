@@ -3,9 +3,7 @@ version: '2.1'
 services:
 
   mysql:
-    build:
-      context: ./database
-      dockerfile: Dockerfile
+    image: jamper91/iv_mysql:latest
     container_name: mysql
     healthcheck:
       test: "exit 0"
@@ -14,20 +12,24 @@ services:
     ports:
       - 3306:3306
 
-  backend:
-    build:
-      context: ./back-end
-      dockerfile: Dockerfile
+  sailsjs:
+    build: ./back-end
+    image: jamper91/back-end:latest
+    command: nodemon /usr/src/app/app.js
     ports:
-    - 80:1337
+    - 1337:1337
     depends_on:
       mysql:
         condition: service_healthy
-    container_name: back-end
+    container_name: sailsjs
     volumes:
-      - ./back-end:/usr/src/app
-#    links:
-#        - mysql
+      - ./back-end/api:/usr/src/app/api
+      - ./back-end/config:/usr/src/app/config
+      - ./back-end/tasks:/usr/src/app/task
+      - ./back-end/app.js:/usr/src/app/app.js
+      - ./back-end/Gruntfile.js:/usr/src/app/Gruntfile.js
+      - ./back-end/package.json:/usr/src/app/package.json
+      - ./back-end/package-lock.json:/usr/src/app/package-lock.json
 
 
 volumes:
