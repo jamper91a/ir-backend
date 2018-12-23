@@ -6,7 +6,7 @@
  */
 module.exports = {
 
-  createParcial:function (req, res) {
+  crearParcial:function (req, res) {
     //Validate data
     if(!req.body.inventario || !req.body.inventario_productos){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
@@ -53,7 +53,7 @@ module.exports = {
         })
       .catch(function (error) {
         error = error.raw;
-          return res.generalAnswer(error);
+        return res.generalAnswer(error);
         });
 
 
@@ -65,18 +65,28 @@ module.exports = {
      *
      * 1-> Busco los usuario que pertenecen a una compania
      * 2-> Busco los inventarios creados por esos usuarios
-    * @param req
-    * @param res
+     * @param tipo: consolidado inventarios consolidado (inventarios_consilidados_id>0)
+     * @param tipo: no_consolidado inventarios sin consolidar (inventarios_consilidados_id=0)
     */
-  listarInventariosParciales: async function(req,res){
+  listarInventarios: async function(req,res){
       let empleados, inventarios, things;
       try {
+
+        let log = {
+          where:{
+            inventarios_consolidados_id:
+            /*** Si es consolidado, busque aquellos con inventarios_consolidados_id mayor a 0, si no igual a 0*/
+              (req.body.tipo == 'consolidado' ? {'\'>\'': 0} : {'\'=\'': 0})
+          }
+        };
          empleados = await  Empleados.find({
            where:{companias_id: req.empleado.companias_id.id}
          })
            .populate('inventarios',{
              where:{
-               inventarios_consolidados_id:0
+               inventarios_consolidados_id:
+               /*** Si es consolidado, busque aquellos con inventarios_consolidados_id mayor a 0, si no igual a 0*/
+                 (req.body.tipo == 'consolidado' ? {'>': 0} : {'<=': 0})
              }
            });
          //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
@@ -182,5 +192,33 @@ module.exports = {
         error = error.raw;
         return res.generalAnswer(error);
       });
-  }
+  },
+
+  /**
+   * Este servicio web se encarga de listar inventarios
+   *
+   * @param tipo: consolidado inventarios consolidado (inventarios_consilidados_id>0)
+   * @param tipo: no_consolidado inventarios sin consolidar (inventarios_consilidados_id=0)
+   */
+  // listarInventario: async function (req, res) {
+  //   let tipo, inventarios,things;
+  //   tipo= req.body.tipo;
+  //   if(tipo){
+  //     try {
+  //       let inventarios = await Inventarios.find({
+  //         where: {
+  //           inventarios_consolidados_id:
+  //           /*** Si es consolidado, busque aquellos con inventarios_consolidados_id mayor a 0, si no igual a 0*/
+  //             (tipo == 'consolidado' ? {'>': 0} : {'=': 0})
+  //         }
+  //       });
+  //       things = {code: '', data: inventarios, error: null};
+  //       return res.generalAnswer(things);
+  //     } catch (e) {
+  //       things = {code: e.number, data: [], error: e};
+  //       return res.generalAnswer(things);
+  //     }
+  //
+  //   }
+  // }
 };

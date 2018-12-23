@@ -14,6 +14,6 @@ WORKDIR /usr/src/app
 #COPY . ./back-end/Gruntfile.js
 #COPY . ./back-end/package.json
 #COPY . ./back-end/package-lock.json
-CMD ["nodemon","./app.js"]
+CMD ["node","./app.js"]
 
 

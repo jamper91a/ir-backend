@@ -2,27 +2,30 @@
 module.exports = function generalAnswer(inputs) {
 
   // Get access to `req` and `res`
-  let req = this.req;
+  let req = this. req;
   let res = this.res;
   let sails = req._sails;
-
+  let error=inputs.error ? inputs.error: false;
+  let code = inputs.code ? inputs.code: error ? error.code ? error.code:'':'';
+  let data = inputs.data;
   //Respuesta a enviar al usuario
   var answer={
-    message: sails.__(inputs.code),
-    code: inputs.code,
-    data: inputs.data
+    message: sails.__(code),
+    code: code,
+    data: data
   };
   //Desde donde se llama a esta funcion
   let location= req.options.action;
   //Error del sistema
-  let error=inputs.error ? error: false;
-  //Parametro si un error que nosotros controlamos
-  let propio=typeof inputs.propio !== "undefined" ? true : false;
-  //Parametro si es un error nuestro de base de datos
-  let bd=typeof inputs.bd !== "undefined" ? true : false;
+
+  // //Parametro si un error que nosotros controlamos
+  // let propio=typeof inputs.propio !== "undefined" ? true : false;
+  // //Parametro si es un error nuestro de base de datos
+  // let bd=typeof inputs.bd !== "undefined" ? true : false;
 
 
   try {
+    /*
     if(error && !bd && !propio){
       //En este caso es un errore general del sistema (no de base de datos)
       try {
@@ -82,13 +85,26 @@ module.exports = function generalAnswer(inputs) {
     //Si no hubieron errores, muestro mensaje de todo bien
     }else{
       res.status(200);
+    }*/
+
+    if(error){
+      try {
+        res.status(401);
+      } catch (e) {
+        answer.message = location + "= Error tratando de mostrar el mensaje";
+        res.status(401);
+      }
+    }else{
+      res.status(200);
     }
+
   } catch (e) {
+    console.error(error);
     answer.message = location + "= " + error.message;
     res.status(401);
   }
   if(error)
-    console.log(error);
+    console.error(error);
 
   res.json(answer);
 

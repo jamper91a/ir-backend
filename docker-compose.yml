@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3'
 
 services:
 
@@ -15,12 +15,11 @@ services:
   sailsjs:
     build: ./back-end
     image: jamper91/back-end:latest
-    command: nodemon /usr/src/app/app.js
     ports:
-    - 1337:1337
+      - 1337:1337
+      - 56745:56745
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
     container_name: sailsjs
     volumes:
       - ./back-end/api:/usr/src/app/api

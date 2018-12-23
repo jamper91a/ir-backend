@@ -23,16 +23,18 @@ module.exports = {
       type: 'ref', columnType: 'datetime',
     },
     devolucion_observaciones: {
-      type: "string"
+      type: "string",
+      allowNull: true
     },
     devoluciones_id: {
-      model: "devoluciones"
+      model: "devoluciones",
     },
     logs_usuarios: {
-      type: "string"
+      type: "string",
+      allowNull: true
     },
     ventas_id: {
-      model: "ventas"
+      model: "ventas",
     },
     epcs_id: {
       model: "epcs",
@@ -74,5 +76,5 @@ module.exports = {
       }
 
   },
-  tableName: 'productos_zona'
+  tableName: 'productos_zonas'
 };
