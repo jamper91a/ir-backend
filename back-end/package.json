@@ -22,7 +22,8 @@
     "sails-hook-sockets": "^1.4.0",
     "sails-inverse-model": "^2.0.7",
     "sails-mysql": "^1.0.0",
-    "sails-service-cipher": "^3.2.1"
+    "sails-service-cipher": "^3.2.1",
+    "waterline": "github:Atlantis-Software/waterline#deepPopulate"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3",
