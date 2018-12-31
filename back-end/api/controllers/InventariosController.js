@@ -67,7 +67,7 @@ module.exports = {
      * 2-> Busco los inventarios creados por esos usuarios
      * @param tipo: consolidado inventarios consolidado (inventarios_consilidados_id>0)
      * @param tipo: no_consolidado inventarios sin consolidar (inventarios_consilidados_id=0)
-     * @param colaboraivo: boolean, determia si se listan parciales o colaborativos
+     * @param colaborativo: boolean, determia si se listan parciales o colaborativos
     */
   listar: async function(req,res){
       let empleados, inventarios, things;
