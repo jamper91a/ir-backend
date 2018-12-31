@@ -6,7 +6,7 @@
  */
 module.exports = {
 
-  crearParcial:function (req, res) {
+  crear:function (req, res) {
     //Validate data
     if(!req.body.inventario || !req.body.inventario_productos){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
@@ -67,8 +67,9 @@ module.exports = {
      * 2-> Busco los inventarios creados por esos usuarios
      * @param tipo: consolidado inventarios consolidado (inventarios_consilidados_id>0)
      * @param tipo: no_consolidado inventarios sin consolidar (inventarios_consilidados_id=0)
+     * @param colaboraivo: boolean, determia si se listan parciales o colaborativos
     */
-  listarInventarios: async function(req,res){
+  listar: async function(req,res){
       let empleados, inventarios, things;
       try {
          empleados = await  Empleados.find({
@@ -78,7 +79,8 @@ module.exports = {
              where:{
                inventarios_consolidados_id:
                /*** Si es consolidado, busque aquellos con inventarios_consolidados_id mayor a 0, si no igual a 0*/
-                 (req.body.tipo == 'consolidado' ? {'>': 0} : {'<=': 0})
+                 (req.body.tipo == 'consolidado' ? {'>': 0} : {'<=': 0}),
+               colaborativo: req.body.colaborativo
              }
            });
          //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
@@ -101,7 +103,7 @@ module.exports = {
    * inventarios_id: Id de los inventarios a consolidar
    * @param res
    */
-  consolidarParcial:function (req, res) {
+  consolidar:function (req, res) {
     let invC,things,inv,inventarios;
 
     sails.getDatastore()
@@ -191,7 +193,7 @@ module.exports = {
    *
    * @param inventario_id: consolidado inventarios consolidado (inventarios_consilidados_id>0)
    */
-  listarProductosInventario: async function (req, res) {
+  listarProductos: async function (req, res) {
     let inventario_id, inventario,things;
     inventario_id= req.body.inventario_id;
     if(inventario_id){

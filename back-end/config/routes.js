@@ -24,10 +24,10 @@ module.exports.routes = {
   'POST /users':'Users.crearEmpleado',
 
   //Inventarios
-  'POST /inventarios/crear':'Inventarios.crearParcial',
-  'POST /inventarios/consolidarParcial':'Inventarios.consolidarParcial',
-  'POST /inventarios/listarInventarios':'Inventarios.listarInventarios',
-  'POST /inventarios/listarProductosInventario':'Inventarios.listarProductosInventario',
+  'POST /inventarios/crear':'Inventarios.crear',
+  'POST /inventarios/consolidar':'Inventarios.consolidar',
+  'POST /inventarios/listarInventarios':'Inventarios.listar',
+  'POST /inventarios/listarProductosInventario':'Inventarios.listarProductos',
 
 
 };
