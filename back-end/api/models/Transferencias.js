@@ -24,9 +24,6 @@ module.exports = {
             type: "number",
 
         },
-        fecha: {
-            type: "string"
-        },
         mensaje: {
             type: "string"
         }

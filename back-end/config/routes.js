@@ -30,4 +30,10 @@ module.exports.routes = {
   'POST /inventarios/listarProductosInventario':'Inventarios.listarProductos',
 
 
+  //Transferencias
+  'POST /transferencias/crear':'Transferencias.crear',
+  'POST /transferencias/buscar':'Transferencias.buscar',
+  'POST /transferencias/obtenerTransferencias':'Transferencias.obtenerTransferencias',
+
+
 };

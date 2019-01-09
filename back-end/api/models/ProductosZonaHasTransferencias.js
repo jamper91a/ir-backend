@@ -16,5 +16,22 @@ module.exports = {
         estado: {
             type: "number",
         },
-    }
+    },
+  tableName:"productos_zona_has_transferencias",
+
+  beforeCreate: function (valuesToSet, proceed) {
+
+    ProductosZonaHasTransferencias.find({
+      productos_zona_id: valuesToSet.productos_zona_id,
+      estado: 0
+    })
+      .then(function (productoZonaHasTransferencia) {
+        //No puede existir el mismo producto en transferencia a la vez
+        if(productoZonaHasTransferencia)
+              return proceed('error_PZHT01');
+        else
+          return proceed();
+    });
+
+  }
 };
