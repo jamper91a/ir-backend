@@ -27,6 +27,7 @@ module.exports = function generalAnswer(inputs) {
     console.error(error);
   }
 
+  answer.code='OK'
   res.json(answer);
 
 };
