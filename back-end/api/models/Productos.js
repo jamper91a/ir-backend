@@ -52,7 +52,8 @@ module.exports = {
             type: "string"
         },
         imagen: {
-            type: "string"
+            type: "string",
+          allowNull: true
         },
         precio_costo: {
           type: "number"

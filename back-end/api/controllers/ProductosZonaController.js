@@ -18,14 +18,29 @@ module.exports = {
       sails.getDatastore()
         .transaction(async (db,proceed)=>{
 
-          async.each(productos_zona, function (producto_zona, cb) {
-            ProductosZona.create(producto_zona).usingConnection(db).fetch().then(function () {
-              cb();
-            }).catch(function (err) {
-              let things={code: err.number, req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
+          async.each(productos_zona,
+            async function (producto_zona, cb) {
+            //Busco el epc id de ese epc
+            try {
+              let aux = await Epcs.find({epc: producto_zona.epc}).limit(1);
+              if(aux){
+                console.log(aux[0]);
+                producto_zona.epcs_id=aux[0].id;
+                console.log((producto_zona));
+                ProductosZona.create(producto_zona).usingConnection(db).fetch().then(function () {
+                  cb();
+                }).catch(function (err) {
+                  let things={code: err.number, req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
+                  cb(things);
+                });
+              }
+            } catch (e) {
+              let things={code: '', req:req, res:res, data:[], error:e};
               cb(things);
-            });
-          }, function (error) {
+            }
+
+          },
+            function (error) {
             if(error)
             {
               return proceed(null,error);
@@ -55,7 +70,7 @@ module.exports = {
               ]).then(function (values) {
                 if(values){
                   let data={
-                    producto: values[0],
+                    producto: values[0][0],
                     epcs: values[1]
                   }
                   let things={code: '', req:req, res:res, data:data, error:null};

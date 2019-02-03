@@ -5,6 +5,7 @@
 	"error_G03": "Username not found",
 	"error_G04": "Invalid Password",
 	"error_G05": "Resultados invalidos",
+	"error_G06": "No se encontro informacion",
 	"ERROR EPC": "ERROR EPC",
 	"error_EPC01": "Epc invalid",
 	"error_EPC02": "Incoveniente al crear los registros de dispositivos",

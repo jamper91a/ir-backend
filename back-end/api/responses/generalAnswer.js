@@ -18,16 +18,16 @@ module.exports = function generalAnswer(inputs) {
   let location= req.options.action;
 
   if(error){
-      res.status(401);
+      res.status(500);
   }else{
     res.status(200);
   }
   if(error){
     console.error(location);
     console.error(error);
+  }else{
+    answer.code='OK';
   }
-
-  answer.code='OK'
   res.json(answer);
 
 };

@@ -35,6 +35,7 @@ module.exports = {
     },
     ventas_id: {
       model: "ventas",
+      required: false
     },
     epcs_id: {
       model: "epcs",
@@ -58,12 +59,13 @@ module.exports = {
         }).then(function (epc) {
           if(epc && epc.length>0){
             return proceed();
-          }else
-            var err=new Error();
-            err.bd=true;
-            err.propio=true;
+          }else {
+            let err = new Error('error_EPC01');
+            err.bd = true;
+            err.propio = true;
             err.number = 'error_EPC01';
             return proceed(err);
+          }
         }).catch(function (err) {
           err.bd=true;
           err.propio=false;
