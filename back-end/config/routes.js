@@ -36,5 +36,8 @@ module.exports.routes = {
   'POST /transferencias/buscar':'Transferencias.buscar',
   'POST /transferencias/obtenerTransferencias':'Transferencias.obtenerTransferencias',
 
+  //Usuarios
+  'GET /zonas/listar':'Zonas.listar',
+
 
 };
