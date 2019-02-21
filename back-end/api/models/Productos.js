@@ -62,5 +62,13 @@ module.exports = {
           type: "number"
         },
 
-    }
+    },
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.companias_id =="number")
+      this.companias_id = {
+        id: this.companias_id
+      };
+    return this;
+  }
 };

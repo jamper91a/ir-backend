@@ -10,11 +10,9 @@ module.exports = {
         },
         parcial: {
             type: "number",
-
         },
         colaborativo: {
             type: "number",
-
         },
         zonas_id: {
             model: "zonas",
@@ -25,7 +23,7 @@ module.exports = {
           required: false
         },
 
-        //Relaciones
+        //region Relaciones
         productos_zona:{
           collection: 'productosZona',
           via: 'inventarios_id',
@@ -36,5 +34,18 @@ module.exports = {
           via:'inventarios_id',
           through:'usersInventarios'
         }
-    }
+        //endregion
+    },
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.zonas_id =="number")
+      this.zonas_id = {
+        id: this.zonas_id
+      };
+    if(typeof this.inventarios_consolidados_id =="number")
+      this.inventarios_consolidados_id = {
+        id: this.inventarios_consolidados_id
+      };
+    return this;
+  }
 };

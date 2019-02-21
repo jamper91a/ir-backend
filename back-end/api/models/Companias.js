@@ -24,8 +24,8 @@ module.exports = {
           via: "companias_id"
         },
         locales:{
-        collection: "locales",
-        via: "companias_id"
+          collection: "locales",
+          via: "companias_id"
         }
     }
 };

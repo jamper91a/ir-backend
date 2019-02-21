@@ -94,6 +94,7 @@ module.exports = {
       }).catch(function (error) {
         return res.generalAnswer(error);
       });
-    }
+    },
+
 
 };

@@ -9,5 +9,13 @@ module.exports = {
             model: "users",
             required: true
         }
-    }
+    },
+  customToJSON: function() {
+    if(typeof this.users_id =="number")
+      this.users_id = {
+        id: this.users_id
+      };
+
+    return this;
+  },
 };

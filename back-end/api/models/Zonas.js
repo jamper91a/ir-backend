@@ -13,5 +13,13 @@ module.exports = {
             required: true
         }
 
-    }
+    },
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.locales_id =="number")
+      this.locales_id = {
+        id: this.locales_id
+      };
+    return this;
+  }
 };

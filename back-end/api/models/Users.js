@@ -15,17 +15,14 @@ module.exports = {
         },
         password: {
             type: "string",
-
         },
         username_rfdi: {
             type: "string",
             allowNull:true
-
         },
         password_rfdi: {
             type: "string",
-          allowNull:true
-
+            allowNull:true
         },
         groups_id: {
             model: "groups",
@@ -41,6 +38,10 @@ module.exports = {
         }
     },
   customToJSON: function() {
+    if(typeof this.groups_id =="number")
+      this.groups_id = {
+        id: this.groups_id
+      };
     return _.omit(this, ['password'])
   },
   beforeCreate: function(user, cb){

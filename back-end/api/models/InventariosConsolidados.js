@@ -10,6 +10,13 @@ module.exports = {
         required: true
       },
     },
-
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.empleados_id =="number")
+      this.empleados_id = {
+        id: this.empleados_id
+      };
+    return this;
+  },
   tableName: 'inventarios_consolidados'
 };

@@ -74,6 +74,63 @@ module.exports = {
   logout: function (req, res) {
     req.logout();
     res.redirect('/');
+  },
+  sync: async function (req, res) {
+
+    let epcs, productos, productos_zona;
+    //Obtengo los epcs
+    epcs = await Epcs.find({
+      where: {
+        companias_id: req.empleado.companias_id.id,
+        state:0,
+        createdAt: (req.body.last_update ? {'>': req.body.last_update} : {'>': '2018-01-01'})
+      }
+    })
+      .populate("companias_id");
+    // Obtengo los productos de la compania
+    productos = await Productos.find({
+      where:{
+        companias_id: req.empleado.companias_id.id,
+        updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
+      }
+    })
+      .populate("companias_id");
+    // Obtengo los productos_zona de la compania por zona
+    try {
+      let zonas = await Zonas.find({
+        where: {
+          locales_id: req.empleado.locales_id.id
+        }
+      });
+      productos_zona = await ProductosZona.find({
+        where: {
+          zonas_id: _.map(zonas, 'id'),
+          updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
+        }
+      })
+        .populate('productos_id')
+        .populate('zonas_id')
+        .populate('devoluciones_id')
+        .populate('epcs_id');
+    } catch (e) {
+      console.log(e);
+    }
+
+    let things = {
+      code: '',
+      data:
+        {
+          epcs: epcs,
+          productos: productos,
+          productos_zona: productos_zona
+        },
+      error: null,
+      propio: false,
+      bd: false
+    };
+    return res.generalAnswer(things);
+
   }
+
 
 };

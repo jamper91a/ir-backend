@@ -28,5 +28,6 @@
 	"E_INVALID_POPULATES": "E_INVALID_POPULATES",
 	"E_INVALID_CRITERIA": "E_INVALID_CRITERIA",
 	"E_INVALID_NEW_RECORDS": "E_INVALID_NEW_RECORDS",
-	"error_PZHT01": "El producto ya se encuentra en transferencia"
+	"error_PZHT01": "El producto ya se encuentra en transferencia",
+	" ": " "
 }

@@ -17,6 +17,20 @@ module.exports = {
             type: "number",
         },
     },
+
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.productos_zona_id =="number")
+      this.productos_zona_id = {
+        id: this.productos_zona_id
+      };
+    if(typeof this.transferencias_id =="number")
+      this.transferencias_id = {
+        id: this.transferencias_id
+      };
+
+    return this;
+  },
   tableName:"productos_zona_has_transferencias",
 
   beforeCreate: function (valuesToSet, proceed) {

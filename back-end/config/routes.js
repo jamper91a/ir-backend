@@ -23,6 +23,7 @@ module.exports.routes = {
 
   //Usuarios
   'POST /users':'Users.crearEmpleado',
+  'POST /sync':'Users.sync',
 
   //Inventarios
   'POST /inventarios/crear':'Inventarios.crear',

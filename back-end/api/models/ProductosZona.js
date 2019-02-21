@@ -49,6 +49,30 @@ module.exports = {
     }
 
   },
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.epcs_id =="number")
+      this.epcs_id = {
+        id: this.epcs_id
+      };
+    if(typeof this.ventas_id =="number")
+      this.ventas_id = {
+        id: this.ventas_id
+      };
+    if(typeof this.devoluciones_id =="number")
+      this.devoluciones_id = {
+        id: this.devoluciones_id
+      };
+    if(typeof this.zonas_id =="number")
+      this.zonas_id = {
+        id: this.zonas_id
+      };
+    if(typeof this.productos_id =="number")
+      this.productos_id = {
+        id: this.productos_id
+      };
+    return this;
+  },
   beforeCreate: function (valuesToSet, proceed) {
     //Valido que el epc sea valido (lo busco por el epc y que el estado sea 0 -sin usar)
 

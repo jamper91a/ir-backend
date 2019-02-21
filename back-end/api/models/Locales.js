@@ -14,5 +14,14 @@ module.exports = {
           collection: "empleados",
           via: "locales_id"
         }
-    }
+    },
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.companias_id =="number")
+      this.companias_id = {
+        id: this.companias_id
+      };
+
+    return this;
+  },
 };

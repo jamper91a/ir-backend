@@ -22,6 +22,22 @@ module.exports = {
         model: "productosZona",
       },
     },
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.inventarios_id =="number")
+      this.inventarios_id = {
+        id: this.inventarios_id
+      };
+    if(typeof this.productos_epcs_id =="number")
+      this.productos_epcs_id = {
+        id: this.productos_epcs_id
+      };
+    if(typeof this.zonas_id =="number")
+      this.zonas_id = {
+        id: this.zonas_id
+      };
+    return this;
+  },
   /**
    * Antes de ingresar un producto a un inventario, debo validar:
    * Que el producto exista.

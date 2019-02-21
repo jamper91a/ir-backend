@@ -16,5 +16,18 @@ module.exports = {
             model: "zonas",
             required: true
         }
-    }
+    },
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.epcs_id =="number")
+      this.epcs_id = {
+        id: this.epcs_id
+      };
+    if(typeof this.zonas_id =="number")
+      this.zonas_id = {
+        id: this.zonas_id
+      };
+
+    return this;
+  },
 };

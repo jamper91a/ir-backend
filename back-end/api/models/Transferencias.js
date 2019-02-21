@@ -27,5 +27,22 @@ module.exports = {
         mensaje: {
             type: "string"
         }
-    }
+    },
+  customToJSON: function() {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if(typeof this.creador_id =="number")
+      this.creador_id = {
+        id: this.creador_id
+      };
+    if(typeof this.local_origen_id =="number")
+      this.local_origen_id = {
+        id: this.local_origen_id
+      };
+    if(typeof this.local_destino_id =="number")
+      this.local_destino_id = {
+        id: this.local_destino_id
+      };
+
+    return this;
+  },
 };

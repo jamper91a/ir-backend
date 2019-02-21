@@ -14,5 +14,16 @@ module.exports = {
             required: true
         }
     },
+  customToJSON: function() {
+    if(typeof this.empleados_id =="number")
+      this.empleados_id = {
+        id: this.empleados_id
+      };
+    if(typeof this.inventarios_id =="number")
+      this.inventarios_id = {
+        id: this.inventarios_id
+      };
+    return this;
+  },
   tableName:"users_inventarios"
 };
