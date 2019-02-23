@@ -77,7 +77,7 @@ module.exports = {
   },
   sync: async function (req, res) {
 
-    let epcs, productos, productos_zona;
+    let epcs, productos, productos_zona, zonas;
     //Obtengo los epcs
     epcs = await Epcs.find({
       where: {
@@ -97,7 +97,7 @@ module.exports = {
       .populate("companias_id");
     // Obtengo los productos_zona de la compania por zona
     try {
-      let zonas = await Zonas.find({
+      zonas = await Zonas.find({
         where: {
           locales_id: req.empleado.locales_id.id
         }
@@ -122,7 +122,8 @@ module.exports = {
         {
           epcs: epcs,
           productos: productos,
-          productos_zona: productos_zona
+          productos_zona: productos_zona,
+          zonas: zonas
         },
       error: null,
       propio: false,

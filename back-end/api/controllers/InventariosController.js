@@ -13,7 +13,14 @@ module.exports = {
       return res.generalAnswer(things);
     }
 
+
+
+    req.body.inventario_productos =JSON.parse(req.body.inventario_productos);
+    req.body.inventario =JSON.parse(req.body.inventario);
+
     let inventario_productos = req.body.inventario_productos;
+
+    // console.log(req.body);
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {

@@ -22,7 +22,6 @@ module.exports = {
           model: "inventariosConsolidados",
           required: false
         },
-
         //region Relaciones
         productos_zona:{
           collection: 'productosZona',
