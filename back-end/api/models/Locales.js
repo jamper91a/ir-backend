@@ -5,6 +5,7 @@
 
 module.exports = {
     attributes: {
+        name:{type: "string"},
         companias_id: {
             model: "companias",
             required: true

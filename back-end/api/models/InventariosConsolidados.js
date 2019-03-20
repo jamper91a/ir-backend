@@ -5,6 +5,7 @@
 
 module.exports = {
     attributes: {
+      name: {type: 'string'},
       empleados_id: {
         model: "empleados",
         required: true

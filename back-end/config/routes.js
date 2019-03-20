@@ -31,6 +31,9 @@ module.exports.routes = {
   'POST /inventarios/listarInventarios':'Inventarios.listar',
   'POST /inventarios/listarProductosInventario':'Inventarios.listarProductos',
 
+  //InventariosConsolidados
+  'POST /inventariosConsolidados/listar':'InventariosConsolidados.listar',
+
 
   //Transferencias
   'POST /transferencias/crear':'Transferencias.crear',

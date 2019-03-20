@@ -86,19 +86,21 @@ module.exports = {
              where:{
                inventarios_consolidados_id:
                /*** Si es consolidado, busque aquellos con inventarios_consolidados_id mayor a 0, si no igual a 0*/
-                 (req.body.tipo == 'consolidado' ? {'>': 0} : {'<=': 0}),
+                 (req.body.tipo == 'consolidado' ? {'>': 1} : {'<=':1}),
                colaborativo: req.body.colaborativo
              }
            });
          //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
         inventarios = empleados.map(a => a.inventarios);
-        things = {code: '', data: inventarios, error: null, propio: false, bd: false};
+        things = {code: '', data: inventarios[0], error: null, propio: false, bd: false};
          return res.generalAnswer(things);
       } catch (err) {
         things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
         return res.generalAnswer(things);
       }
     },
+
+
 
 
 
@@ -153,7 +155,7 @@ module.exports = {
         //1 -> Se crea un nuevo inventario consolidado.
 
         try {
-          invC = await InventariosConsolidados.create({empleados_id:req.empleado.id}).usingConnection(db).fetch();
+          invC = await InventariosConsolidados.create({empleados_id:req.empleado.id, name:req.body.name}).usingConnection(db).fetch();
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
           return proceed(things);
@@ -173,7 +175,7 @@ module.exports = {
             .usingConnection(db).fetch();
           things =
             {
-              code: '',
+              code: 'OK',
               data: {
                 inventarios:inv,
                 inventarios_consolidados: invC
@@ -205,13 +207,14 @@ module.exports = {
    */
   listarProductos: async function (req, res) {
     let inventario_id, inventario,things;
-    inventario_id= req.body.inventario_id;
+    inventario_id= req.body.inventarios_id;
     if(inventario_id){
       try {
-        inventario = await Inventarios.find({id: inventario_id}).populate('productos_zona');
-        async.each(inventario[0].productos_zona, async function(element, cb){
-          let producto = await Productos.find({id:element.productos_id}).limit(1);
-          if(producto.length>0)
+        inventario = await Inventarios.findOne({id: inventario_id})
+          .populate('productos_zona');
+        async.each(inventario.productos_zona, async function(element, cb){
+          let producto = await Productos.findOne({id:element.productos_id});
+          if(producto)
             element.productos_id = producto;
           cb();
         }, function(error){
