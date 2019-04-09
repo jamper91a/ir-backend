@@ -9,7 +9,7 @@ module.exports = {
     addMercancia:function (req, res) {
       //Validate data
       if(!req.body.productos_zona || !req.body.productos_id){
-        let things={code: 'error_G01', req:req, res:res, data:[], error:null};
+        let things={code: 'error_G01', req:req, res:res, data:[], error:new Error("error_G01")};
         return res.generalAnswer(things);
       }
 
@@ -22,17 +22,18 @@ module.exports = {
             async function (producto_zona, cb) {
             //Busco el epc id de ese epc
             try {
-              let aux = await Epcs.find({epc: producto_zona.epc}).limit(1);
+              let aux = await Epcs.findOne({epc: producto_zona.epc});
               if(aux){
-                console.log(aux[0]);
-                producto_zona.epcs_id=aux[0].id;
-                console.log((producto_zona));
+                producto_zona.epcs_id=aux.id;
                 ProductosZona.create(producto_zona).usingConnection(db).fetch().then(function () {
                   cb();
                 }).catch(function (err) {
                   let things={code: err.number, req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
                   cb(things);
                 });
+              }else{
+                let things={code: 'error_G01', req:req, res:res, data:[], error:new Error("Epc no valid: "+ producto_zona.epc)};
+                cb(things);
               }
             } catch (e) {
               let things={code: '', req:req, res:res, data:[], error:e};

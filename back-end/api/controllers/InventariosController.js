@@ -9,17 +9,19 @@ module.exports = {
   crear:function (req, res) {
     //Validate data
     if(!req.body.inventario || !req.body.inventario_productos){
-      let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
+      let things={code: 'error_G01', data:[], propio:true, bd:false, error:new Error("error_G01")};
       return res.generalAnswer(things);
     }
 
 
-
-    req.body.inventario_productos =JSON.parse(req.body.inventario_productos);
-    req.body.inventario =JSON.parse(req.body.inventario);
+    try {
+      req.body.inventario_productos = JSON.parse(req.body.inventario_productos);
+      req.body.inventario = JSON.parse(req.body.inventario);
+    } catch (e) {
+      // console.error(e);
+    }
 
     let inventario_productos = req.body.inventario_productos;
-
     // console.log(req.body);
 
     sails.getDatastore()
@@ -62,6 +64,65 @@ module.exports = {
         error = error.raw;
         return res.generalAnswer(error);
         });
+  },
+
+
+  /**
+  Este servicio web se encarga de adjuntar productos a un inventario colaborativo ya existente
+  */
+  adjuntar: async function(req, res){
+    let inv, things, u_i,i_p;
+    //Validate data
+    if(!req.body.inventario || !req.body.inventario_productos){
+      let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
+      return res.generalAnswer(things);
+    }
+
+    req.body.inventario_productos =JSON.parse(req.body.inventario_productos);
+    req.body.inventario =JSON.parse(req.body.inventario);
+    let inventario_productos = req.body.inventario_productos;
+    try {
+      inv = await Inventarios.findOne({id: req.body.inventario.id});
+      if(inv.colaborativo){
+        sails.getDatastore()
+          .transaction(async (db,proceed)=> {
+
+            //Una vez creado el inventario, le asocio el usuari
+            try {
+              u_i = await UsersInventarios.create({inventarios_id:inv.id,empleados_id:req.empleado.id}).usingConnection(db).fetch();
+              //await Inventarios.addToCollection(inv.id, 'users', [req.empleado.id]).usingConnection(db);
+            } catch (err) {
+              things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+              return proceed(things);
+            }
+            try {
+              inventario_productos.forEach(ip => ip.inventarios_id = inv.id);
+              i_p = await InventariosProductos.createEach(inventario_productos).usingConnection(db).fetch();
+              things = {code: '', data: {
+                  inventarios:inv,
+                  users_inventarios:u_i,
+                  inventario_productos: i_p
+                }, error: null, propio: false, bd: false};
+              return proceed(null, things);
+            } catch (err) {
+              things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+              return proceed(things);
+            }
+          })
+          .then(function (operation) {
+            return res.generalAnswer(operation);
+          })
+          .catch(function (error) {
+            error = error.raw;
+            return res.generalAnswer(error);
+          });
+      }
+    } catch (e) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+
+    // console.log(req.body);
 
 
   },
@@ -85,8 +146,10 @@ module.exports = {
            .populate('inventarios',{
              where:{
                inventarios_consolidados_id:
-               /*** Si es consolidado, busque aquellos con inventarios_consolidados_id mayor a 0, si no igual a 0*/
-                 (req.body.tipo == 'consolidado' ? {'>': 1} : {'<=':1}),
+               /** Si es consolidado, busque aquellos con inventarios_consolidados_id mayor a 0,
+                *  Si es no_consolidado busque aquellos con inventarios_consolidados_id igual a 0 o 1
+                *  Si es all busque todos*/
+                 (req.body.tipo == 'consolidado' ? {'>': 1} : req.body.tipo == "no_consolidado" ? {'<=':1} : {'>=':0 }),
                colaborativo: req.body.colaborativo
              }
            });
@@ -118,6 +181,11 @@ module.exports = {
   consolidar:function (req, res) {
     let invC,things,inv,inventarios;
 
+    try {
+      req.body.inventarios_id = JSON.parse(req.body.inventarios_id);
+    } catch (e) {
+    }
+
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
 
@@ -132,11 +200,11 @@ module.exports = {
           inventarios = inventarios.every(function (inventario, index) {
             //Valido que los inventarios sean de zonas diferentes
             if(zonas.includes(inventario.zonas_id,index+1)){
-              things = {code: 'error_I01', data: [], propio: true, bd: null, error: null};
+              things = {code: 'error_I01', data: [], propio: true, bd: null, error: new Error('error_I01')};
               return false;
               //Valido que los inventarios no se hayan consolidado antes
-            }else if (inventario.inventarios_consolidados_id && inventario.inventarios_consolidados_id>0){
-              things = {code: 'error_I02', data: [], propio: true, bd: null, error: null};
+            }else if (inventario.inventarios_consolidados_id && inventario.inventarios_consolidados_id>1){
+              things = {code: 'error_I02', data: [], propio: true, bd: null, error: new Error('error_I02')};
               return false;
             }
             else{

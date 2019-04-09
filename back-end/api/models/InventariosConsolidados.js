@@ -10,6 +10,11 @@ module.exports = {
         model: "empleados",
         required: true
       },
+      //Relaciones
+      inventarios:{
+        collection: 'inventarios',
+        via: 'inventarios_consolidados_id'
+      }
     },
   customToJSON: function() {
     //Si no se obtiene algun producto asociado, se retorna un objecto
