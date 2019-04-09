@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  mysql:
+    image: jamper91/iv_mysql:latest
+    container_name: mysql
+    healthcheck:
+      test: "exit 0"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  sailsjs:
+    build: ./back-end
+    image: jamper91/back-end:latest
+    ports:
+      - 1337:1337
+      - 56745:56745
+    depends_on:
+      - mysql
+    container_name: sailsjs
+    volumes:
+      - ./back-end/api:/usr/src/app/api
+      - ./back-end/config:/usr/src/app/config
+      - ./back-end/tasks:/usr/src/app/task
+      - ./back-end/app.js:/usr/src/app/app.js
+      - ./back-end/Gruntfile.js:/usr/src/app/Gruntfile.js
+      - ./back-end/package.json:/usr/src/app/package.json
+      - ./back-end/package-lock.json:/usr/src/app/package-lock.json
+
+
+volumes:
+  mysql-data:
+
+
+
