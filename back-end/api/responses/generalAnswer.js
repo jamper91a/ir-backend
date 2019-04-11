@@ -24,8 +24,8 @@ module.exports = function generalAnswer(inputs) {
     res.status(200);
   }
   if(error){
-    // console.error(location);
-    // console.error(error);
+    console.error(location);
+    console.error(error);
   }else{
     answer.code='OK';
   }

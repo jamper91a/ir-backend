@@ -20,15 +20,6 @@
  */
 
 module.exports = {
-
-
-  /**************************************************************************
-  *                                                                         *
-  * Tell Sails what database(s) it should use in production.                *
-  *                                                                         *
-  * (https://sailsjs.com/config/datastores)                                 *
-  *                                                                         *
-  **************************************************************************/
   datastores: {
 
     /***************************************************************************
@@ -45,74 +36,23 @@ module.exports = {
     *    and any other, adapter-specific customizations.                       *
     *    (See https://sailsjs.com/config/datastores for help.)                 *
     *                                                                          *
-    ***************************************************************************/
+    ***************************nodemon a************************************************/
     default: {
       adapter: 'sails-mysql',
-      url: 'mysql://jorge:aIR2019**@localhost:3306/inventarioReal',
+      url: 'mysql://jorge:aIR2019**@coexnort.servehttp.com:8037/inventarioReal',
 
     },
 
   },
-
-
-
+  port: 8023,
   models: {
-
-    /***************************************************************************
-    *                                                                          *
-    * To help avoid accidents, Sails automatically sets the automigration      *
-    * strategy to "safe" when your app lifts in production mode.               *
-    * (This is just here as a reminder.)                                       *
-    *                                                                          *
-    * More info:                                                               *
-    * https://sailsjs.com/docs/concepts/models-and-orm/model-settings#?migrate *
-    *                                                                          *
-    ***************************************************************************/
     migrate: 'safe',
-
-    /***************************************************************************
-    *                                                                          *
-    * If, in production, this app has access to physical-layer CASCADE         *
-    * constraints (e.g. PostgreSQL or MySQL), then set those up in the         *
-    * database and uncomment this to disable Waterline's `cascadeOnDestroy`    *
-    * polyfill.  (Otherwise, if you are using a databse like Mongo, you might  *
-    * choose to keep this enabled.)                                            *
-    *                                                                          *
-    ***************************************************************************/
-    // cascadeOnDestroy: false,
-
   },
-
-
-
-  /**************************************************************************
-  *                                                                         *
-  * Always disable "shortcut" blueprint routes.                             *
-  *                                                                         *
-  * > You'll also want to disable any other blueprint routes if you are not *
-  * > actually using them (e.g. "actions" and "rest") -- but you can do     *
-  * > that in `config/blueprints.js`, since you'll want to disable them in  *
-  * > all environments (not just in production.)                            *
-  *                                                                         *
-  ***************************************************************************/
   blueprints: {
     shortcuts: true,
     rest: true,
   },
 
-
-
-  /***************************************************************************
-  *                                                                          *
-  * Configure your security settings for production.                         *
-  *                                                                          *
-  * IMPORTANT:                                                               *
-  * If web browsers will be communicating with your app, be sure that        *
-  * you have CSRF protection enabled.  To do that, set `csrf: true` over     *
-  * in the `config/security.js` file (not here), so that CSRF app can be     *
-  * tested with CSRF protection turned on in development mode too.           *
-  *                                                                          *
-  ***************************************************************************/
   security: {
 
     /***************************************************************************
@@ -133,25 +73,11 @@ module.exports = {
     }
 
   },
-
-
-
-
-  /**************************************************************************
-  *                                                                         *
-  * Set the production log level.                                           *
-  *                                                                         *
-  * (https://sailsjs.com/config/log)                                        *
-  *                                                                         *
-  ***************************************************************************/
   log: {
     level: 'debug'
   },
 
-  port: 8023,
-
   sockets: {
     onlyAllowOrigins: []
   }
-
 };
