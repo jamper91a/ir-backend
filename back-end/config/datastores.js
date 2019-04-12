@@ -53,5 +53,10 @@ module.exports.datastores = {
 
   },
 
+  test:{
+    adapter: 'sails-mysql',
+    url: 'mysql://jorgem:aIR2019**@localhost:3306/inventarioRealTest',
+  }
+
 
 };
