@@ -14,7 +14,11 @@ before(function(done) {
     // and disable all logs except errors and warnings:
     hooks: { grunt: false },
     log: { level: 'warn' },
-
+    datastore: {
+      test:{
+        adapter: 'sails-mysql',
+        url: 'mysql://jorgem:aIR2019**@localhost:3306/inventarioRealTest',
+      }}
 
   }, async function(err) {
     if (err) { return done(err); }
