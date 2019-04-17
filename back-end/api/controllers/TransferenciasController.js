@@ -13,11 +13,11 @@ module.exports = {
    */
   crear: function (req, res) {
     //Validate data
-    if(!req.body.transferencia || !req.body.productos_has_transferencias){
+    if(!req.body.transferencia || !req.body.productos_zona_has_transferencias){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
-    let productos_has_transferencias=req.body.productos_has_transferencias;
+    let productos_zona_has_transferencias=req.body.productos_zona_has_transferencias;
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
@@ -104,9 +104,9 @@ module.exports = {
    * @param local_id Id del local a buscar
    * @param tipo: Entrada o salida
    */
-  obtenerTransferencias: async function (req, res) {
+  obtenerTransferencia: async function (req, res) {
 
-    if(!req.body.local_id || req.body.tipo){
+    if(!req.body.local_id || !req.body.tipo){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
@@ -116,18 +116,10 @@ module.exports = {
     let transferencias, things;
 
     try {
-      transferencias = await  Transferencias.find({
-        where:{companias_id: req.empleado.companias_id.id}
-      })
-        .populate('productos_zona_has_inventario',{
-          where:{
-            inventarios_consolidados_id:
-             // Si es tipo entrada, busco por el local origen, si no, por el local destino
-              (tipo == 'entrada' ? {'local_origen_id': local_id} : {'local_destino_id': local_id}),
-            // Busco aquellas transferencias sin finalizar
-            estado: 1
-          }
-        });
+      transferencias = await  Transferencias.findOne(
+        tipo === 'entrada' ? {'local_origen_id': local_id} : {'local_destino_id': local_id}
+      )
+        .populate('productos');
 
       things = {code: 'Ok', data: transferencias};
       return res.generalAnswer(things);
@@ -136,6 +128,83 @@ module.exports = {
       return res.generalAnswer(things);
     }
 
+  },
+
+
+
+  obtenerTransferencias: async function (req, res) {
+
+    if(!req.body.local_id){
+      let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
+      return res.generalAnswer(things);
+    }
+
+    let local_id=req.body.local_id;
+    let transferencias, things;
+
+    try {
+      transferencias = await  Transferencias.find({
+        or: [
+          {'local_origen_id': local_id},
+          {'local_destino_id': local_id}
+        ]
+      })
+        .populate('productos');
+
+      things = {code: 'Ok', data: transferencias};
+      return res.generalAnswer(things);
+    } catch (err) {
+      things = {error: err};
+      return res.generalAnswer(things);
+    }
+
+  },
+
+
+  /**
+   * Obtiene los productos_zona_has_transferencia les cambia le estado.
+   * Ademas debe buscar el local destino y una zona que pertenezca a ese local para cambiar los produtos_zona a esa zona
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  finalizarTransferencia: async function(req, res){
+    if(!req.body.productos_zona_has_transferencias){
+      let things={code: 'error_G01', data:[], propio:true, bd:false, error:new Error('error_G01')};
+      return res.generalAnswer(things);
+    }
+
+    let productos_zona_has_transferencias=req.body.productos_zona_has_transferencias;
+    let transferencias, things;
+
+    sails.getDatastore()
+      .transaction(async (db,proceed)=> {
+        await ProductosZonaHasTransferencias.update(_.map(productos_zona_has_transferencias, 'id'), {estado: 1}).usingConnection(db);
+        await productos_zona_has_transferencias.forEach(async function (pht) {
+          //Find the zona where the product must go
+          let transferencia = await Transferencias.findOne({id: pht.transferencias_id});
+          if(transferencia){
+            let locales_destino = await Locales.findOne({id:transferencia.local_destino_id})
+              .populate("zonas",{limit:1});
+            await ProductosZona.update({id:pht.productos_zonas_id}, {zonas_id: locales_destino.zonas[0].id}).usingConnection(db)
+          }
+        });
+        return proceed(null, {});
+        // try {
+        //   productos_has_transferencias.forEach(ip => ip.transferencias_id = tra.id);
+        //   return proceed(null, {});
+        // } catch (err) {
+        //   things = {code: err.message, error: err};
+        //   return proceed(things);
+        // }
+      })
+      .then(function (operation) {
+        return res.generalAnswer(operation);
+      })
+      .catch(function (error) {
+        error = error.raw;
+        return res.generalAnswer(error);
+      });
   }
 
 };

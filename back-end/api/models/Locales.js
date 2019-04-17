@@ -14,7 +14,12 @@ module.exports = {
         empleados:{
           collection: "empleados",
           via: "locales_id"
+        },
+        zonas:{
+          collection: "zonas",
+          via:"locales_id"
         }
+
     },
   customToJSON: function() {
     //Si no se obtiene algun producto asociado, se retorna un objecto

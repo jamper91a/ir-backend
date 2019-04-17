@@ -30,5 +30,9 @@
 	"E_INVALID_NEW_RECORDS": "E_INVALID_NEW_RECORDS",
 	"error_PZHT01": "El producto ya se encuentra en transferencia",
 	" ": " ",
-	"OK": "OK"
+	"OK": "OK",
+	"Invalid initial data for new records.\nDetails:\n  Could not use one of the provided new records: Missing value for required attribute `productos_zona_id`.  Expected a number (the id of a productoszona), but instead, got: undefined\n [?] See https://sailsjs.com/support for help.": "Invalid initial data for new records.\nDetails:\n  Could not use one of the provided new records: Missing value for required attribute `productos_zona_id`.  Expected a number (the id of a productoszona), but instead, got: undefined\n [?] See https://sailsjs.com/support for help.",
+	"Ok": "Ok",
+	"More than one matching record found for `.findOne()`:\n···\n1,2\n···\n\nCriteria used:\n···\n{ where: { and: [ { productos_zona_id: 1 }, { estado: 0 } ] },\n  limit: 2,\n  skip: 0,\n  sort: [],\n  select:\n   [ 'createdAt',\n     'updatedAt',\n     'id',\n     'productos_zona_id',\n     'transferencias_id',\n     'estado' ] }\n···": "More than one matching record found for `.findOne()`:\n···\n1,2\n···\n\nCriteria used:\n···\n{ where: { and: [ { productos_zona_id: 1 }, { estado: 0 } ] },\n  limit: 2,\n  skip: 0,\n  sort: [],\n  select:\n   [ 'createdAt',\n     'updatedAt',\n     'id',\n     'productos_zona_id',\n     'transferencias_id',\n     'estado' ] }\n···",
+	"productos_has_transferencias is not defined": "productos_has_transferencias is not defined"
 }

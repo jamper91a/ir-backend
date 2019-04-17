@@ -10,10 +10,17 @@ const jwt = require('jsonwebtoken');
 module.exports = {
 
   crearEmpleado: function (req, res) {
-    if (!req.body.usuario.username || !req.body.usuario.password || !req.body.usuario.groups_id || !req.body.empleado.companias_id || !req.body.empleado.locales_id) {
-      let things={code: 'error_G01', req:req, res:res, data:[], error:null};
-      return res.generalAnswer(things);
+    console.log("crearEmpleado");
+    try {
+      if (!req.body.usuario.username || !req.body.usuario.password || !req.body.usuario.groups_id || !req.body.empleado.companias_id || !req.body.empleado.locales_id) {
+        console.log("no parameter");
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: null};
+        return res.generalAnswer(things);
 
+      }
+      console.log("no parameter 2");
+    } catch (e) {
+      console.error(e);
     }
     //Creo usuario
     Users.create(req.body.usuario).fetch().then(function (user) {

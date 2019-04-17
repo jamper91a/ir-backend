@@ -1,6 +1,7 @@
 
 module.exports = function generalAnswer(inputs) {
 
+  console.log("Error");
   // Get access to `req` and `res`
   let req = this.req;
   let res = this.res;
@@ -24,8 +25,8 @@ module.exports = function generalAnswer(inputs) {
     res.status(200);
   }
   if(error){
-    console.error(location);
-    console.error(error);
+    console.log(location);
+    console.log(error);
   }else{
     answer.code='OK';
   }
