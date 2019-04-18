@@ -89,7 +89,6 @@ module.exports = {
     epcs = await Epcs.find({
       where: {
         companias_id: req.empleado.companias_id.id,
-        state:0,
         createdAt: (req.body.last_update ? {'>': req.body.last_update} : {'>': '2018-01-01'})
       }
     })
