@@ -35,7 +35,7 @@ module.exports = {
 
   beforeCreate: function (valuesToSet, proceed) {
 
-    ProductosZonaHasTransferencias.find({
+    ProductosZonaHasTransferencias.findOne({
       productos_zona_id: valuesToSet.productos_zona_id,
       estado: 0
     })
@@ -45,6 +45,8 @@ module.exports = {
               return proceed('error_PZHT01');
         else
           return proceed();
+    }).catch(function (error) {
+      return proceed(error);
     });
 
   }

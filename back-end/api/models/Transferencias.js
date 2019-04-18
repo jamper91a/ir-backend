@@ -26,7 +26,16 @@ module.exports = {
         },
         mensaje: {
             type: "string"
-        }
+        },
+        //Relaciones muchos a muchos
+        productos: {
+          collection: 'ProductosZonaHasTransferencias',
+          via: 'transferencias_id'
+        },
+      // empleados:{
+      //   collection: "empleados",
+      //   via: "locales_id"
+      // }
     },
   customToJSON: function() {
     //Si no se obtiene algun producto asociado, se retorna un objecto
