@@ -35,8 +35,8 @@ module.exports = {
         }
         //Una vez creado la transferencia, le asocio los productos
         try {
-          productos_has_transferencias.forEach(ip => ip.transferencias_id = tra.id);
-          p_t = await ProductosZonaHasTransferencias.createEach(productos_has_transferencias).usingConnection(db).fetch();
+          productos_zona_has_transferencias.forEach(ip => ip.transferencias_id = tra.id);
+          p_t = await ProductosZonaHasTransferencias.createEach(productos_zona_has_transferencias).usingConnection(db).fetch();
           things = {
             code: 'Ok',
             data: {
@@ -119,7 +119,9 @@ module.exports = {
       transferencias = await  Transferencias.findOne(
         tipo === 'entrada' ? {'local_origen_id': local_id} : {'local_destino_id': local_id}
       )
-        .populate('productos');
+        .populate('productos')
+        .populate('local_origen_id')
+        .populate('local_destino_id');
 
       things = {code: 'Ok', data: transferencias};
       return res.generalAnswer(things);
@@ -149,7 +151,9 @@ module.exports = {
           {'local_destino_id': local_id}
         ]
       })
-        .populate('productos');
+        .populate('productos')
+        .populate('local_origen_id')
+        .populate('local_destino_id');;
 
       things = {code: 'Ok', data: transferencias};
       return res.generalAnswer(things);
