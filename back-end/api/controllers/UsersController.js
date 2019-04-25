@@ -84,7 +84,7 @@ module.exports = {
   },
   sync: async function (req, res) {
 
-    let epcs, productos, productos_zona, zonas;
+    let epcs, productos, productos_zona, zonas, locales;
     //Obtengo los epcs
     epcs = await Epcs.find({
       where: {
@@ -101,13 +101,15 @@ module.exports = {
       }
     })
       .populate("companias_id");
-    // Obtengo los productos_zona de la compania por zona
+
     try {
+      //Obtengo las zonas
       zonas = await Zonas.find({
         where: {
           locales_id: req.empleado.locales_id.id
         }
       });
+      // Obtengo los productos_zona de la compania por zona
       productos_zona = await ProductosZona.find({
         where: {
           zonas_id: _.map(zonas, 'id'),
@@ -122,6 +124,15 @@ module.exports = {
       console.log(e);
     }
 
+    // Obtengo los locales de la compania
+        locales = await Locales.find({
+          where:{
+            companias_id: req.empleado.companias_id.id,
+            updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
+          }
+        })
+          .populate("companias_id");
+
     let things = {
       code: '',
       data:
@@ -129,7 +140,8 @@ module.exports = {
           epcs: epcs,
           productos: productos,
           productos_zona: productos_zona,
-          zonas: zonas
+          zonas: zonas,
+          locales: locales
         },
       error: null,
       propio: false,
