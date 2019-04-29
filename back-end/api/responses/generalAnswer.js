@@ -1,7 +1,6 @@
 
 module.exports = function generalAnswer(inputs) {
 
-  console.log("Error");
   // Get access to `req` and `res`
   let req = this.req;
   let res = this.res;

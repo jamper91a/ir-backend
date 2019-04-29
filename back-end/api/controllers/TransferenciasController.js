@@ -144,7 +144,7 @@ module.exports = {
     let transferencias, things;
 
     try {
-      transferencias = await  Transferencias.findOne(
+      transferencias = await  Transferencias.find(
         tipo === 'entrada' ? {'local_origen_id': local_id} : {'local_destino_id': local_id}
       )
         .populate('productos')
@@ -179,11 +179,9 @@ module.exports = {
           {'local_destino_id': local_id}
         ]
       })
-        .populate('productos',{
-          estado:0
-        })
+        .populate('productos')
         .populate('local_origen_id')
-        .populate('local_destino_id');;
+        .populate('local_destino_id');
 
       things = {code: 'Ok', data: transferencias};
       return res.generalAnswer(things);
