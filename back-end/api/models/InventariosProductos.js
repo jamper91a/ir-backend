@@ -56,7 +56,8 @@ module.exports = {
           //Si el producto existe
           if (productoZona && productoZona.length > 0) {
             //Si la zona del proucto es la misma a la que se le va a asignar
-            if (productoZona[0].zonas_id == valuesToSet.zonas_id) {
+            // if (productoZona[0].zonas_id == valuesToSet.zonas_id) {
+            if (true) {
               //Si el epc del producto esta habilitado
               if (productoZona[0].epcs_id.state == 1) {
                 return proceed();

@@ -21,7 +21,7 @@ module.exports = {
             required: true
         },
         estado: {
-            type: "number",
+            type: "boolean",
 
         },
         mensaje: {
