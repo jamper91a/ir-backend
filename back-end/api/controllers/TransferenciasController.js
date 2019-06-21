@@ -151,7 +151,28 @@ module.exports = {
         .populate('local_origen_id')
         .populate('local_destino_id');
 
+      //Lleno la informacion de cada produco_zona_has_transferencias
+      for (let i = 0; i < transferencias.length; i++) {
+        let transferencia = transferencias[i];
+        for (let j = 0; j < transferencia.productos.length; j++) {
+          let producto = transferencia.productos[j];
+          let pzi = producto.productos_zona_id;
+          //Busco la informacion de dichos elementos
+          let pz = await ProductosZona.findOne({id:pzi});
+          transferencias[i].productos[j].productos_zona_id = pz;
+        }
+      }
+      // transferencias.forEach(async function (transferencia, indexA, array) {
+      //   await transferencia.productos.forEach(async function (producto, indexB, array) {
+      //     let pzi = producto.productos_zona_id;
+      //     //Busco la informacion de dichos elementos
+      //     let pz = await ProductosZona.findOne({id:pzi});
+      //     array[indexB].productos_zona_id = pz;
+      //   });
+      //   array[indexA].productos = transferencia.productos;
+      // });
       things = {code: 'Ok', data: transferencias};
+
       return res.generalAnswer(things);
     } catch (err) {
       things = {error: err};

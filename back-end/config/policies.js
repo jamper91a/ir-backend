@@ -9,8 +9,8 @@
  */
 
 module.exports.policies = {
-  '*': ['isAuthenticated'],
-  // '*': true,
+  // '*': ['isAuthenticated'],
+  '*': true,
 
   UsersController: {
     'login': true
