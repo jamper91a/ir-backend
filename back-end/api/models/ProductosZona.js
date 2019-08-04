@@ -26,10 +26,6 @@ module.exports = {
       type: "string",
       allowNull: true
     },
-    total: {
-      type: "number",
-      allowNull: true
-    },
     devoluciones_id: {
       model: "devoluciones",
       required: false

@@ -83,14 +83,14 @@ module.exports = {
     res.redirect('/');
   },
   sync: async function (req, res) {
-
+  console.log(req.body.last_update);
     try {
       let epcs, productos, productos_zona, zonas, locales;
       //Obtengo los epcs
       epcs = await Epcs.find({
         where: {
           companias_id: req.empleado.companias_id.id,
-          createdAt: (req.body.last_update ? {'>': req.body.last_update} : {'>': '2018-01-01'})
+          updatedAt: (req.body.last_update ? {'>': req.body.last_update} : {'>': '2018-01-01'})
         }
       })
         .populate("companias_id");

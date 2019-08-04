@@ -145,7 +145,8 @@ module.exports = {
 
     try {
       transferencias = await  Transferencias.find(
-        tipo === 'entrada' ? {'local_origen_id': local_id} : {'local_destino_id': local_id}
+        // tipo === 'entrada' ? {'local_origen_id': local_id} : {'local_destino_id': local_id}
+        tipo === 'entrada' ? {'local_destino_id': local_id} : {'local_origen_id': local_id}
       )
         .populate('productos')
         .populate('local_origen_id')
@@ -247,7 +248,8 @@ module.exports = {
           if(transferencia){
             let locales_destino = await Locales.findOne({id:transferencia.local_destino_id})
               .populate("zonas",{limit:1});
-            await ProductosZona.update({id:pht.productos_zonas_id}, {zonas_id: locales_destino.zonas[0].id}).usingConnection(db)
+            console.log(pht.productos_zona_id);
+            await ProductosZona.updateOne({id:pht.productos_zona_id}, {zonas_id: locales_destino.zonas[0].id}).usingConnection(db)
           }
         });
         return proceed(null, {});
