@@ -28,6 +28,7 @@ module.exports = {
     },
     devoluciones_id: {
       model: "devoluciones",
+      required: false
     },
     logs_usuarios: {
       type: "string",
