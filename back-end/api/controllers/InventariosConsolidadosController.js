@@ -27,7 +27,7 @@ module.exports = {
         })
           .populate('inventarios',{
             where:{
-              inventarios_consolidados_id: {'>': 1},
+              inventarios_consolidados_id: {'>': 0},
               colaborativo: req.body.colaborativo
             }
           });
