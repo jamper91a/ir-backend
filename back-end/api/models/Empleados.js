@@ -4,7 +4,7 @@
  * @description :: A model definition.  Represents a database table/collection/etc.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
-
+var moment = require('moment');
 module.exports = {
 
   attributes: {
@@ -54,6 +54,12 @@ module.exports = {
       this.productos_id = {
         id: this.productos_id
       };
+    if(this.createdAt){
+      this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
+    }
+    if(this.updatedAt){
+      this.updatedAt = moment(this.updatedAt).format("YYYY-MM-DDTHH:mm:ss");
+    }
     return this;
   },
 

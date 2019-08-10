@@ -34,7 +34,7 @@ module.exports = {
         //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
         empleados.forEach(function (empleado) {
           if(empleado.inventarios){
-            empleado.inventarios.forEach(function (inventario) {
+            empleado.inventarios.forEach(async function (inventario) {
               inventariosEmpleado.push(inventario);
             })
           }
@@ -43,11 +43,9 @@ module.exports = {
         inventariosConsolidados = await  InventariosConsolidados.find({
           id: {in: inventariosEmpleado}
         });
-        //Obtengo los inventarios consolidados a partir de los inventarios
 
-        //Buscar inventarios que son colaborativos o no
-
-        things = {code: '', data: inventariosConsolidados, error: null, propio: false, bd: false};
+        //Obtengo la cnatidad de productos de cada inventario consolidados
+        things = {code: '', data:inventariosConsolidados , error: null, propio: false, bd: false};
          return res.generalAnswer(things);
       } catch (err) {
         things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};

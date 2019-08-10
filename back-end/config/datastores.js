@@ -50,6 +50,7 @@ module.exports.datastores = {
     ***************************************************************************/
      adapter: 'sails-mysql',
      url: 'mysql://inventarioReal:gjwQbdRD4ktt@localhost:3306/inventarioReal',
+    timezone: 'utc-5'
 
   },
 
