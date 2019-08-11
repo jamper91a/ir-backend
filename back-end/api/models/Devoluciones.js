@@ -7,6 +7,9 @@ module.exports = {
     attributes: {
         name: {
             type: "string",
+        },
+        tipo: {
+            type: "number",
         }
     },
   customToJSON: function() {
