@@ -126,7 +126,8 @@ module.exports = {
           }
         })
           .populate('productos_id')
-          .populate('zonas_id');
+          .populate('zonas_id')
+          .populate('epcs_id');
 
         let things = {code: '', data: productos, error: null, propio: false, bd: false};
         return res.generalAnswer(things);
