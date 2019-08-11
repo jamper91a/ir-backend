@@ -134,6 +134,14 @@ module.exports = {
       })
         .populate("companias_id");
 
+      // Obtengo los tipos de devoluciones
+      devoluciones = await Devoluciones.find({
+        where: {
+          id: {'>': 1},
+          updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
+        }
+      });
+
       let things = {
         code: '',
         data:
@@ -142,7 +150,8 @@ module.exports = {
             productos: productos,
             productos_zona: productos_zona,
             zonas: zonas,
-            locales: locales
+            locales: locales,
+            devoluciones: devoluciones
           },
         error: null,
         propio: false,

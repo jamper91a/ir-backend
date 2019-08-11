@@ -45,6 +45,10 @@ module.exports.routes = {
   'POST /transferencias/obtenerTransferencia':'Transferencias.obtenerTransferencia',
   'POST /transferencias/obtenerTransferencias':'Transferencias.obtenerTransferencias',
   'POST /transferencias/finalizarTransferencia':'Transferencias.finalizarTransferencia',
+  
+  //Devoluciones
+  'POST /devoluciones/devolverProductos':'Devoluciones.devolverProductos',
+  
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',
