@@ -188,16 +188,17 @@ module.exports = {
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
-
+        var totalProductos=0;
         //Se valida que la zona de los inventarios sean diferentes
         try {
           inventarios = await Inventarios.find(
             {
               where: {id: req.body.inventarios_id},
               select: ['zonas_id', 'inventarios_consolidados_id']
-            });
+            }).populate("productos_zona");
           zonas = inventarios.map(a => a.zonas_id);
           inventarios = inventarios.every(function (inventario, index) {
+            totalProductos+=inventario.productos_zona.length;
             //Valido que los inventarios sean de zonas diferentes
             if(zonas.includes(inventario.zonas_id,index+1)){
               things = {code: 'error_I01', data: [], propio: true, bd: null, error: new Error('error_I01')};
@@ -223,7 +224,7 @@ module.exports = {
         //1 -> Se crea un nuevo inventario consolidado.
 
         try {
-          invC = await InventariosConsolidados.create({empleados_id:req.empleado.id, name:req.body.name}).usingConnection(db).fetch();
+          invC = await InventariosConsolidados.create({empleados_id:req.empleado.id, name:req.body.name,productos:totalProductos}).usingConnection(db).fetch();
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
           return proceed(things);

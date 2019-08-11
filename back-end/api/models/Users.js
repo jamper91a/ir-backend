@@ -4,7 +4,7 @@
 */
 
 const bcrypt = require('bcrypt-nodejs');
-
+var moment = require('moment');
 
 module.exports = {
     attributes: {
@@ -42,6 +42,12 @@ module.exports = {
       this.groups_id = {
         id: this.groups_id
       };
+    if(this.createdAt){
+      this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
+    }
+    if(this.updatedAt){
+      this.updatedAt = moment(this.updatedAt).format("YYYY-MM-DDTHH:mm:ss");
+    }
     return _.omit(this, ['password'])
   },
   beforeCreate: function(user, cb){
