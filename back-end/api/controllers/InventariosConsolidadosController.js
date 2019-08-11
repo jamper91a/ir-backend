@@ -70,13 +70,6 @@ module.exports = {
           .populate('inventarios');
       if(inventarioConsolidado)
         inventarioConsolidado = inventarioConsolidado[0];
-      //Busco los productos de cada inventario
-      // let i=0;
-      // await inventarioConsolidado.inventarios.forEach(async function (inventario) {
-      //   let inv = await Inventarios.findOne({where:{id:inventario.id}}).populate('productos_zona');
-      //   inventarioConsolidado.inventarios[i]=inv;
-      //   i++;
-      // });
       async.each(inventarioConsolidado.inventarios, async function(inventario, cb){
         let inv = await Inventarios.findOne({where:{id:inventario.id}}).populate('productos_zona');
         if(inv)
