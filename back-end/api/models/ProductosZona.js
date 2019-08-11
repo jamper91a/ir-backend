@@ -43,6 +43,7 @@ module.exports = {
       model: "epcs",
       required: true
     },
+
     //Relaciones muchos a muchos
     inventarios:{
       collection: 'inventarios',

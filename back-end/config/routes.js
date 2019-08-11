@@ -20,6 +20,7 @@ module.exports.routes = {
   //Mercancia
   'POST /productos/addMercancia': 'ProductosZona.addMercancia',
   'POST /productos': 'Productos.get',
+  'POST /productos/findProductInLocalByEanPlu': 'ProductosZona.findProductInLocalByEanPlu',
 
   //Usuarios
   'POST /users':'Users.crearEmpleado',

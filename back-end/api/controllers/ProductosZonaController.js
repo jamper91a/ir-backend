@@ -97,5 +97,43 @@ module.exports = {
       });
     },
 
+    findProductInLocalByEanPlu: async function(req,res){
+      try {
+        if (!req.body.productos_id) {
+          let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+          return res.generalAnswer(things);
+        }
 
+        //Find all locals from the company of the empleado
+        let locales = await Locales.find({
+          where: {companias_id: req.empleado.companias_id.id},
+          select: ['id']
+        });
+        locales = locales.map(l => l.id);
+        //Find all zones of the company of the empleado
+        let zonas = await Zonas.find({
+          where: {
+            locales_id: locales
+          },
+          select: ['id']
+        });
+        zonas = zonas.map(z => z.id);
+        //Find productos where productoid and zonas match
+        let productos = await ProductosZona.find({
+          where: {
+            productos_id: req.body.productos_id,
+            zonas_id: zonas
+          }
+        })
+          .populate('productos_id')
+          .populate('zonas_id');
+
+        let things = {code: '', data: productos, error: null, propio: false, bd: false};
+        return res.generalAnswer(things);
+      } catch (e) {
+        let things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+        return res.generalAnswer(things);
+      }
+
+    }
 };
