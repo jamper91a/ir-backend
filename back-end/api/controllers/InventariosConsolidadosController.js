@@ -52,6 +52,50 @@ module.exports = {
         return res.generalAnswer(things);
       }
     },
+
+  ultimoInventario: async function(req, res){
+    let inventariosConsolidados, things, inventariosEmpleado = [];
+    try {
+
+      //Busco el ultimo invnetario consolidado de este empleado
+      let inventarioConsolidado = await
+        InventariosConsolidados
+          .find({
+            where:{
+              empleados_id:req.empleado.id
+            }
+          })
+          .sort('createdAt desc')
+          .limit(1)
+          .populate('inventarios');
+      if(inventarioConsolidado)
+        inventarioConsolidado = inventarioConsolidado[0];
+      //Busco los productos de cada inventario
+      // let i=0;
+      // await inventarioConsolidado.inventarios.forEach(async function (inventario) {
+      //   let inv = await Inventarios.findOne({where:{id:inventario.id}}).populate('productos_zona');
+      //   inventarioConsolidado.inventarios[i]=inv;
+      //   i++;
+      // });
+      async.each(inventarioConsolidado.inventarios, async function(inventario, cb){
+        let inv = await Inventarios.findOne({where:{id:inventario.id}}).populate('productos_zona');
+        if(inv)
+          inventario.productos_zona = inv.productos_zona;
+        cb();
+      }, function(error){
+        let things={code: '', data:[], error:null};
+        if(error){
+          things.error=error;
+        }
+        things.data = inventarioConsolidado;
+        return res.generalAnswer(things);
+      });
+
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  },
   /**
    * Esta funcion se encarga de buscar los inventarios que pertenecen a un inventario consolidados, luego obtiene los
    * productos de dichos inventarios y los retorna
@@ -98,4 +142,6 @@ module.exports = {
 
     }
   }
+
+
 };

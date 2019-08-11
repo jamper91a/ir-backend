@@ -36,6 +36,7 @@ module.exports.routes = {
   //InventariosConsolidados
   'POST /inventariosConsolidados/listar':'InventariosConsolidados.listar',
   'POST /inventariosConsolidados/listarProductos':'InventariosConsolidados.listarProductos',
+  'POST /inventariosConsolidados/ultimoInventario':'InventariosConsolidados.ultimoInventario',
 
 
   //Transferencias
