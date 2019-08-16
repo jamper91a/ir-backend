@@ -52,6 +52,50 @@ module.exports = {
         return res.generalAnswer(things);
       }
     },
+  listarTodos: async function(req,res){
+    let inventariosConsolidados, things, inventariosEmpleado = [];
+    try {
+      //Encontrar todos los empleados de la compania
+      // empleados = await Empleados.find(
+      //   {
+      //     select: ['id'],
+      //     where: {companias_id: req.empleado.companias_id.id}
+      //   });
+      // console.log(empleados);
+      // let empleados_id = empleados.map(a => a.id);
+      // inventariosConsolidados = await  InventariosConsolidados.find({
+      //   empleados_id: {in: empleados_id}
+      // });
+
+      empleados = await  Empleados.find({
+        where:{companias_id: req.empleado.companias_id.id}
+      })
+        .populate('inventarios',{
+          where:{
+            inventarios_consolidados_id: {'>': 0}
+          }
+        });
+      //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
+      empleados.forEach(function (empleado) {
+        if(empleado.inventarios){
+          empleado.inventarios.forEach(async function (inventario) {
+            inventariosEmpleado.push(inventario);
+          })
+        }
+      });
+      inventariosEmpleado = inventariosEmpleado.map(a => a.inventarios_consolidados_id);
+      inventariosConsolidados = await  InventariosConsolidados.find({
+        id: {in: inventariosEmpleado}
+      });
+
+      //Obtengo la cnatidad de productos de cada inventario consolidados
+      things = {code: '', data:inventariosConsolidados , error: null, propio: false, bd: false};
+      return res.generalAnswer(things);
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  },
 
   ultimoInventario: async function(req, res){
     let inventariosConsolidados, things, inventariosEmpleado = [];

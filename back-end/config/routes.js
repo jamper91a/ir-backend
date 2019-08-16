@@ -36,6 +36,7 @@ module.exports.routes = {
 
   //InventariosConsolidados
   'POST /inventariosConsolidados/listar':'InventariosConsolidados.listar',
+  'POST /inventariosConsolidados/listarTodos':'InventariosConsolidados.listarTodos',
   'POST /inventariosConsolidados/listarProductos':'InventariosConsolidados.listarProductos',
   'POST /inventariosConsolidados/ultimoInventario':'InventariosConsolidados.ultimoInventario',
 
@@ -50,6 +51,8 @@ module.exports.routes = {
   //Devoluciones
   'POST /devoluciones/devolverProductos':'Devoluciones.devolverProductos',
   
+  //Reportes
+  'POST /reportes/diferenceBetweenInventories': 'Reportes.diferenceBetweenInventories',
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',
