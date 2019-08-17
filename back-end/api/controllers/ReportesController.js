@@ -8,13 +8,13 @@ module.exports = {
 
   diferenceBetweenInventories: async function(req,res){
     try {
-      if (!req.body.firstInventory || !req.body.secondInventory) {
+      if (!req.body.inventario_inicial || !req.body.inventario_final) {
         let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
         return res.generalAnswer(things);
       }
       //Find all inventories of the first consolidated inventory
       let inventories = await Inventarios.find({
-        where: {inventarios_consolidados_id: req.body.firstInventory}
+        where: {inventarios_consolidados_id: req.body.inventario_inicial}
       })
         .populate('productos_zona');
       //Add the products of the first inventory to an var
@@ -24,7 +24,7 @@ module.exports = {
 
       //Find all inventories of the second consolidated inventory
       inventories = await Inventarios.find({
-        where: {inventarios_consolidados_id: req.body.secondInventory}
+        where: {inventarios_consolidados_id: req.body.inventario_final}
       })
         .populate('productos_zona');
       //Add the products of the first inventory to an var
@@ -69,5 +69,47 @@ module.exports = {
       return res.generalAnswer(things);
     }
   },
+
+  guardarReporte: async function (req, res) {
+    try {
+      sails.getDatastore()
+        .transaction(async (db,proceed)=> {
+
+          try {
+            if (!req.body.productos || !req.body.reporte.inventario_inicial_id || !req.body.reporte.inventario_final_id || !req.body.reporte.tipo_inventario) {
+              let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+              return res.generalAnswer(things);
+            }
+            let empleado_id= req.empleado.id;
+            req.body.reporte.empleados_id=empleado_id;
+            let productos= req.body.productos;
+            //Creo el reporte
+            let reporte= await Reportes.create(req.body.reporte).usingConnection(db).fetch();
+            //Asocios los productos al reporte reciente creado
+            productos.forEach(pz => pz.reportes_id = reporte.id);
+            await ReportesHasProductosZonas.createEach(productos).usingConnection(db);
+            things = {
+              code: 'ok', data: {}, error: null, propio: false, bd: false};
+            return proceed(null, things);
+          } catch (err) {
+            things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+            return proceed(things);
+          }
+
+        })
+        .then(function (operation) {
+          return res.generalAnswer(operation);
+        })
+        .catch(function (error) {
+          error = error.raw;
+          return res.generalAnswer(error);
+        });
+
+    }catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+
+    }
+  }
 
 };

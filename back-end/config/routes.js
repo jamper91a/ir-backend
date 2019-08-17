@@ -53,6 +53,7 @@ module.exports.routes = {
   
   //Reportes
   'POST /reportes/diferenceBetweenInventories': 'Reportes.diferenceBetweenInventories',
+  'POST /reportes/guardarReporte': 'Reportes.guardarReporte',
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',
