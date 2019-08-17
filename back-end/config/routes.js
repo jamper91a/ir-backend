@@ -20,6 +20,7 @@ module.exports.routes = {
   //Mercancia
   'POST /productos/addMercancia': 'ProductosZona.addMercancia',
   'POST /productos': 'Productos.get',
+  'POST /productos/findProductInLocalByEanPlu': 'ProductosZona.findProductInLocalByEanPlu',
 
   //Usuarios
   'POST /users':'Users.crearEmpleado',
@@ -35,6 +36,7 @@ module.exports.routes = {
 
   //InventariosConsolidados
   'POST /inventariosConsolidados/listar':'InventariosConsolidados.listar',
+  'POST /inventariosConsolidados/listarTodos':'InventariosConsolidados.listarTodos',
   'POST /inventariosConsolidados/listarProductos':'InventariosConsolidados.listarProductos',
   'POST /inventariosConsolidados/ultimoInventario':'InventariosConsolidados.ultimoInventario',
 
@@ -49,6 +51,9 @@ module.exports.routes = {
   //Devoluciones
   'POST /devoluciones/devolverProductos':'Devoluciones.devolverProductos',
   
+  //Reportes
+  'POST /reportes/diferenceBetweenInventories': 'Reportes.diferenceBetweenInventories',
+  'POST /reportes/guardarReporte': 'Reportes.guardarReporte',
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',

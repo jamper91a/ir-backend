@@ -37,5 +37,6 @@
 	"productos_has_transferencias is not defined": "productos_has_transferencias is not defined",
 	"General error": "General error",
 	"Unexpected error from database adapter: ER_BAD_FIELD_ERROR: Unknown column 'productos_zona_id' in 'field list'": "Unexpected error from database adapter: ER_BAD_FIELD_ERROR: Unknown column 'productos_zona_id' in 'field list'",
-	"Correcto": "Correcto"
+	"Correcto": "Correcto",
+	"ok": "ok"
 }
