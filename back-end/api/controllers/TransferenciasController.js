@@ -97,7 +97,7 @@ module.exports = {
     }
     try {
       products = await Epcs.find({where: {epc: [req.body.productos]}})
-        .populate('productos_zona');
+        .populate(products);
     } catch (e) {
       res.generalAnswer({error:e});
     }

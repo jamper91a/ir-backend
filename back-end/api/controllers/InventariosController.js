@@ -37,7 +37,7 @@ module.exports = {
         }
         //Una vez creado el inventario, le asocio el usuari
         try {
-          u_i = await Usersinventories.create({inventories_id:inv.id,empleados_id:req.employee.id}).usingConnection(db).fetch();
+          u_i = await Usersinventories.create({inventories_id:inv.id,employee:req.employee.id}).usingConnection(db).fetch();
          //await inventories.addToCollection(inv.id, 'users', [req.employee.id]).usingConnection(db);
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
@@ -89,7 +89,7 @@ module.exports = {
 
             //Una vez creado el inventario, le asocio el usuari
             try {
-              u_i = await Usersinventories.create({inventories_id:inv.id,empleados_id:req.employee.id}).usingConnection(db).fetch();
+              u_i = await Usersinventories.create({inventories_id:inv.id,employee:req.employee.id}).usingConnection(db).fetch();
               //await inventories.addToCollection(inv.id, 'users', [req.employee.id]).usingConnection(db);
             } catch (err) {
               things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
@@ -224,7 +224,7 @@ module.exports = {
         //1 -> Se crea un nuevo inventario consolidado.
 
         try {
-          invC = await ConsolidatedInventories.create({empleados_id:req.employee.id, name:req.body.name,productos:totalProductos}).usingConnection(db).fetch();
+          invC = await ConsolidatedInventories.create({employee:req.employee.id, name:req.body.name,productos:totalProductos}).usingConnection(db).fetch();
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
           return proceed(things);
@@ -280,7 +280,7 @@ module.exports = {
     if(inventario_id){
       try {
         inventario = await inventories.findOne({id: inventario_id})
-          .populate('productos_zona');
+          .populate(products);
         async.each(inventario.productos_zona, async function(element, cb){
           let producto = await Productos.findOne({id:element.productos_id});
           if(producto)

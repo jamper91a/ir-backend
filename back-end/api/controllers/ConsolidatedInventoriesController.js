@@ -86,36 +86,48 @@ module.exports = {
     }
   },
 
-  ultimoInventario: async function(req, res){
-    let inventoriesConsolidados, things;
+  lastInventory: async function(req, res){
+    let consolidatedInventories, things;
     try {
 
       //Busco el ultimo invnetario consolidado de este empleado
-      let inventarioConsolidado = await
-        inventoriesConsolidados
-          .find({
+      consolidatedInventories = await
+        ConsolidatedInventories.find({
             where:{
-              empleados_id:req.employee.id
+              employee:req.employee.id
             }
           })
           .sort('createdAt desc')
           .limit(1)
           .populate('inventories');
-      if(inventarioConsolidado)
-        inventarioConsolidado = inventarioConsolidado[0];
-      async.each(inventarioConsolidado.inventories, async function(inventario, cb){
-        let inv = await inventories.findOne({where:{id:inventario.id}}).populate('productos_zona');
-        if(inv)
-          inventario.productos_zona = inv.productos_zona;
-        cb();
-      }, function(error){
-        let things={code: '', data:[], error:null};
-        if(error){
-          things.error=error;
+      if(consolidatedInventories && consolidatedInventories.length>0){
+        consolidatedInventories = consolidatedInventories[0];
+        if(consolidatedInventories.inventories){
+          async.each(consolidatedInventories.inventories, async function(inventario, cb){
+            let inv = await Inventories.findOne({where:{id:inventario.id}}).populate(products);
+            if(inv)
+              inventario.products = inv.products;
+            cb();
+          }, function(error){
+            let things={code: '', data:[], error:null};
+            if(error){
+              things.error=error;
+            }
+            things.data = consolidatedInventories;
+            return res.generalAnswer(things);
+          });
+        }else{
+          things = {code: '', data: [], error: null};
+          return res.generalAnswer(things);
         }
-        things.data = inventarioConsolidado;
+      }
+      else{
+        things = {code: '', data: [], error: null};
         return res.generalAnswer(things);
-      });
+      }
+
+
+
 
     } catch (err) {
       things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
@@ -136,7 +148,7 @@ module.exports = {
       try {
         let productosZona=[];
         inventories = await inventories.find({consolidatedInventory: consolidatedInventory})
-          .populate('productos_zona');
+          .populate(products);
         async.each(inventories, async function(inventario, cb){
           async.each(inventario.productos_zona, async function(element, cb){
             let producto = await Productos.findOne({id:element.productos_id});
@@ -153,10 +165,10 @@ module.exports = {
           if(error){
             things.error=error;
           }
-          inventarioConsolidado = await ConsolidatedInventories.findOne({id:consolidatedInventory});
+          consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
           things.data = {
             productosZona: productosZona,
-            inventoriesConsolidados: inventarioConsolidado
+            inventoriesConsolidados: consolidatedInventories
           };
           return res.generalAnswer(things);
         });

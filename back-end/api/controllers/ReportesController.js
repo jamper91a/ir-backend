@@ -16,7 +16,7 @@ module.exports = {
       let inventories = await inventories.find({
         where: {consolidatedInventory: req.body.inventario_inicial}
       })
-        .populate('productos_zona');
+        .populate(products);
       //Add the products of the first inventory to an var
       let productsFirstInventory= [];
       for(const inventory  of inventories)
@@ -26,7 +26,7 @@ module.exports = {
       inventories = await inventories.find({
         where: {consolidatedInventory: req.body.inventario_final}
       })
-        .populate('productos_zona');
+        .populate(products);
       //Add the products of the first inventory to an var
       let productsSecondInventory= [];
       for(const inventory  of inventories)
@@ -80,7 +80,7 @@ module.exports = {
               let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
               return res.generalAnswer(things);
             }
-            req.body.reporte.empleados_id=req.employee.id;
+            req.body.reporte.employee=req.employee.id;
             let productos= req.body.productos;
             //Creo el reporte
             let reporte= await Reportes.create(req.body.reporte).usingConnection(db).fetch();
