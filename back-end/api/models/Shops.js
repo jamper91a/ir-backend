@@ -5,18 +5,22 @@
 var moment = require('moment');
 module.exports = {
   attributes: {
-    state: {
-      type: "number",
-    },
+    name: {type: "string"},
     company: {
-      model: 'companias',
-      columnName: "company_id",
-      required: true
+      model: "companies",
+      required: true,
+      columnName: "companias_id",
     },
-    epc: {
-      type: "string",
-      unique: true
+    //Relaciones
+    employee: {
+      collection: "employees",
+      via: "shop_id"
+    },
+    zone: {
+      collection: "zones",
+      via: "shop_id"
     }
+
   },
   customToJSON: function () {
     //Si no se obtiene algun producto asociado, se retorna un objecto
@@ -24,6 +28,7 @@ module.exports = {
       this.company = {
         id: this.company
       };
+
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
     }
@@ -31,5 +36,5 @@ module.exports = {
       this.updatedAt = moment(this.updatedAt).format("YYYY-MM-DDTHH:mm:ss");
     }
     return this;
-  }
+  },
 };

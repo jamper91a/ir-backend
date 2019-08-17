@@ -5,24 +5,47 @@
 var moment = require('moment');
 module.exports = {
   attributes: {
-    state: {
-      type: "number",
+    ean: {type: "string"},
+    plu: {type: "string"},
+    plu2: {type: "string"},
+    plu3: {type: "string"},
+    branch: {type: "string"},
+    gender: {type: "string"},
+    color: {type: "string"},
+    size: {type: "string"},
+    category: {type: "string"},
+    description: {type: "string"},
+    amount: {type: "number"},
+    imagen: {
+      type: "string",
+      allowNull: true
+    },
+    cost_price: {
+      type: "number"
+    },
+    sell_price: {
+      type: "number"
     },
     company: {
-      model: 'companias',
+      model: "companies",
       columnName: "company_id",
       required: true
     },
-    epc: {
-      type: "string",
-      unique: true
-    }
+    supplier: {
+      model: "suppliers",
+      columnName: "spplier_id"
+    },
+
   },
   customToJSON: function () {
     //Si no se obtiene algun producto asociado, se retorna un objecto
     if (typeof this.company == "number")
       this.company = {
         id: this.company
+      };
+    if (typeof this.supplier == "number")
+      this.supplier = {
+        id: this.supplier
       };
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
