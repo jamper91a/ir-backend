@@ -5,9 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 module.exports = {
-  devolverProductos: function (req, res) {
+  returnProducts: function (req, res) {
     productos_zona = JSON.parse(req.body.productos_zona);
-    console.log(productos_zona);
     sails.getDatastore()
       .transaction(async (db, proceed) => {
         //actualizacion de cada producto zona

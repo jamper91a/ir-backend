@@ -9,7 +9,7 @@ module.exports = {
     company: {
       model: "companies",
       required: true,
-      columnName: "companias_id",
+      columnName: "company_id",
     },
     //Relaciones
     employee: {

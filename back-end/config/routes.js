@@ -35,7 +35,7 @@ module.exports.routes = {
   'POST /inventarios/adjuntar':'Inventarios.adjuntar',
 
   //InventariosConsolidados
-  'POST /inventariosConsolidados/listar':'InventariosConsolidados.listar',
+  'POST /inventariosConsolidados/listar':'ConsolidatedInventories.list',
   'POST /inventariosConsolidados/listarTodos':'InventariosConsolidados.listarTodos',
   'POST /inventariosConsolidados/listarProductos':'InventariosConsolidados.listarProductos',
   'POST /inventariosConsolidados/ultimoInventario':'InventariosConsolidados.ultimoInventario',

@@ -38,29 +38,28 @@ module.exports = {
       });
   },
   login: function (req, res) {
-    passport.authenticate('local', function (err, empleado, info) {
-      if (err || !empleado) {
+    passport.authenticate('local', function (err, employee, info) {
+      if (err || !employee) {
         return res.badRequest(info);
       }
 
-      req.login(empleado, {session: false}, (err) => {
+      req.login(employee, {session: false}, (err) => {
         if (err) {
           res.badRequest(err);
         }
-        if (empleado) {
+        if (employee) {
           try {
             const token = jwt.sign(
               {
-                empleado_id: empleado.id,
-                user_id: empleado.users_id.id,
-                username: empleado.users_id.username,
-                company_id: empleado.companias_id.id,
-                locales_id: empleado.locales_id.id
+                employee_id: employee.id,
+                user_id: employee.user.id,
+                username: employee.user.username,
+                company_id: employee.company.id,
+                shop_id: employee.shop.id
               },
               'k{B^um3fzwP-68cN');
             let data={
-              iu:'uiass',
-              empleado: empleado,
+              employee: employee,
               token: token
             };
 

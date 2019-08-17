@@ -154,7 +154,7 @@ module.exports = {
              }
            });
          //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
-        inventarios = empleados.map(a => a.inventarios);
+        inventarios = employees.map(a => a.inventarios);
         things = {code: '', data: inventarios[0], error: null, propio: false, bd: false};
          return res.generalAnswer(things);
       } catch (err) {

@@ -33,5 +33,5 @@ module.exports = {
     }
     return this;
   },
-  tableName: "employees_invenories"
+  tableName: "employees_inventories"
 };

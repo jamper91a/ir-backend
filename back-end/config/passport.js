@@ -34,37 +34,68 @@ const JWT_STRATEGY_CONFIG = {
  * @param {Function} next Callback
  * @private
  */
-const _onLocalStrategyAuth = (req, username, password, next) => {
-  Users
-    .findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: username})
-    .then(user => {
-      if (!user)
-        return next(null, false, {code: 'error_G03',message: sails.__('error_G03')});
+const _onLocalStrategyAuth = async (req, username, password, next) => {
 
-      bcrypt.compare(password, user.password, function(err, res) {
-        if(res) {
-          //console.log(user.id);
-          Empleados.findOne({
-            users_id: user.id
+  try {
+    let user = await Users.findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: username});
+    if (!user)
+      return next(null, false, {code: 'error_G03',message: sails.__('error_G03')});
+
+    bcrypt.compare(password, user.password, function(err, res) {
+      if(res) {
+        //console.log(user.id);
+        Employees.findOne({
+          user: user.id
+        })
+          .populate("company")
+          .populate("shop")
+          .then(function (employee) {
+            employee.user = user;
+            return next(null, employee, {message: ''});
           })
-            .populate("companias_id")
-            .populate("locales_id")
-            .then(function (empleado) {
-              empleado.users_id = user;
-              return next(null, empleado, {message: ''});
-            })
-            .catch(function (err) {
-              return next(err);
-            });
-        }
-        else
-          return next(null, null, {code: 'error_G04',message: sails.__('error_G04')});
-
-      });
-
+          .catch(function (err) {
+            return next(err);
+          });
+      }
+      else
+        return next(null, null, {code: 'error_G04',message: sails.__('error_G04')});
 
     })
-    .catch(next);
+  }catch (e) {
+    console.error(e);
+    next(e);
+  }
+
+  // Users
+  //   .findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: username})
+  //   .then(user => {
+  //     if (!user)
+  //       return next(null, false, {code: 'error_G03',message: sails.__('error_G03')});
+  //
+  //     bcrypt.compare(password, user.password, function(err, res) {
+  //       if(res) {
+  //         //console.log(user.id);
+  //         Employees.findOne({
+  //           user: user.id
+  //         })
+  //           .populate("company")
+  //           .populate("shop")
+  //           .then(function (employee) {
+  //             employee.user = user;
+  //             return next(null, employee, {message: ''});
+  //           })
+  //           .catch(function (err) {
+  //             return next(err);
+  //           });
+  //       }
+  //       else
+  //         return next(null, null, {code: 'error_G04',message: sails.__('error_G04')});
+  //
+  //     });
+  //
+  //
+  //   })
+  //   .catch(next);
 };
 
 /**
@@ -76,26 +107,26 @@ const _onLocalStrategyAuth = (req, username, password, next) => {
  */
 const _onJwtStrategyAuth = (req, payload, next) => {
   //console.log(payload.empleado_id);
-  Empleados
-    .findOne({id: payload.empleado_id})
-    .populate("users_id")
-    .populate("companias_id")
-    .populate("locales_id")
-    .then(empleado => {
-      if (!empleado)
+  Employees
+    .findOne({id: payload.employee_id})
+    .populate("user")
+    .populate("company")
+    .populate("shop")
+    .then(employee => {
+      if (!employee)
         return next(null, null, sails.config.errors.USER_NOT_FOUND);
-      return next(null, empleado, {});
+      return next(null, employee, {});
     })
     .catch(next);
 };
 
 module.exports = {
   passport: {
-    onPassportAuth(req, res, error, empleado, info) {
-      if (error || !empleado) return res.negotiate(error || info);
+    onPassportAuth(req, res, error, employee, info) {
+      if (error || !employee) return res.negotiate(error || info);
 
       return res.ok({
-        empleado: empleado
+        employee: employee
       });
     }
   }
