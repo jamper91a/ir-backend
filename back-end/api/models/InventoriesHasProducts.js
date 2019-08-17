@@ -19,10 +19,8 @@ module.exports = {
       required: true,
       columnName: "zone_id",
     },
-
-    //Relaciones muchos a muchos
     product: {
-      model: "products_has_zones",
+      model: "ProductsHasZones",
       columnName: "products_has_zone_id",
     },
   },

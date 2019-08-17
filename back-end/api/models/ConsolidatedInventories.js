@@ -15,7 +15,7 @@ module.exports = {
     //Relaciones
     inventories: {
       collection: 'inventories',
-      via: 'consolidated_inventory_id'
+      via: 'consolidatedInventory'
     }
   },
   customToJSON: function () {

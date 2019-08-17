@@ -20,20 +20,20 @@ module.exports = {
       required: true
     },
     consolidatedInventory: {
-      model: "consolidated_inventories",
+      model: "ConsolidatedInventories",
       columnName: "consolidated_inventory_id",
       required: false
     },
     //region Relaciones
     products: {
-      collection: 'products_zones',
+      collection: 'ProductsHasZones',
       via: 'inventory',
-      through: 'inventories_has_products'
+      through: 'InventoriesHasProducts'
     },
     employees: {
-      collection: 'employees',
-      via: 'inventory_id',
-      through: 'employees_inventories'
+      collection: 'Employees',
+      via: 'inventory',
+      through: 'EmployeesInventories'
     }
     //endregion
   },

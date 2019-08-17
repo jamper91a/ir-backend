@@ -17,8 +17,7 @@ module.exports = {
     },
     homologatorEmployee: {
       model: "employees",
-      columnName: "homologator_employee_id",
-      type: "number",
+      columnName: "homologator_employee_id"
     }
   },
 

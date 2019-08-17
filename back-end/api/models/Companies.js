@@ -9,23 +9,22 @@ module.exports = {
       type: "string",
 
     },
-
     //Relaciones
     employee: {
       collection: "employees",
-      via: "company_id"
+      via: "company"
     },
     ecps: {
       collection: "epcs",
-      via: "company_id"
+      via: "company"
     },
     products: {
       collection: "products",
-      via: "company_id"
+      via: "company"
     },
     shops: {
       collection: "shops",
-      via: "company_id"
+      via: "company"
     }
   },
   customToJSON: function () {

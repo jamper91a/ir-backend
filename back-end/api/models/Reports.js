@@ -26,8 +26,8 @@ module.exports = {
     },
     //   //region Relaciones
     products: {
-      collection: 'reportsHasProductosZonas',
-      via: 'report_id'
+      collection: 'ReportsHasProductsZones',
+      via: 'report'
     }
     // productos_zona:{
     //   collection: 'productosZona',

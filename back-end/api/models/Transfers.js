@@ -26,7 +26,7 @@ module.exports = {
     //Relaciones muchos a muchos
     products: {
       collection: 'TransfersHasZonesProducts',
-      via: 'transfer_id'
+      via: 'transfer'
     },
     // empleados:{
     //   collection: "empleados",

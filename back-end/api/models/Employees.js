@@ -29,8 +29,8 @@ module.exports = {
     //Relaciones
     inventories: {
       collection: 'inventories',
-      via: 'employee_id',
-      through: 'inventories_users'
+      via: 'employee',
+      through: 'EmployeesInventories'
     }
 
 

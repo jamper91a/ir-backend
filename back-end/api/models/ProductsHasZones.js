@@ -52,9 +52,9 @@ module.exports = {
     //Relaciones muchos a muchos
     inventories: {
       collection: 'inventories',
-      via: 'products_has_zone_id',
+      via: 'product',
       // via: 'product',
-      through: 'inventoriesHasProducts'
+      through: 'InventoriesHasProducts'
     }
 
   },

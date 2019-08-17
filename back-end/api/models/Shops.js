@@ -14,11 +14,11 @@ module.exports = {
     //Relaciones
     employee: {
       collection: "employees",
-      via: "shop_id"
+      via: "shop"
     },
     zone: {
       collection: "zones",
-      via: "shop_id"
+      via: "shop"
     }
 
   },
