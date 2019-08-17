@@ -13,7 +13,7 @@ module.exports = {
       return res.generalAnswer(things);
     }
     try {
-      producto = await  Productos.findOne({
+      producto = await  Products.findOne({
         where:{
           or:[
             {ean: req.body.codigo},

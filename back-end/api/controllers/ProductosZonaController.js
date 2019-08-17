@@ -8,7 +8,7 @@ module.exports = {
 
     addMercancia:function (req, res) {
       //Validate data
-      if(!req.body.productos_zona || !req.body.productos_id){
+      if(!req.body.productos_zona || !req.body.product){
         let things={code: 'error_G01', req:req, res:res, data:[], error:new Error("error_G01")};
         return res.generalAnswer(things);
       }
@@ -46,8 +46,8 @@ module.exports = {
             {
               return proceed(null,error);
             }else{
-              let product = Productos.find({
-                  id: req.body.productos_id
+              let product = Products.find({
+                  id: req.body.product
               }).limit(1).usingConnection(db).then(function (product) {
                 return product;
               }).catch(function (err) {
@@ -99,7 +99,7 @@ module.exports = {
 
     findProductInLocalByEanPlu: async function(req,res){
       try {
-        if (!req.body.productos_id) {
+        if (!req.body.product) {
           let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
           return res.generalAnswer(things);
         }
@@ -121,7 +121,7 @@ module.exports = {
         //Find productos where productoid and zonas match
         let productos = await ProductosZona.find({
           where: {
-            productos_id: req.body.productos_id,
+            productos_id: req.body.product,
             zonas_id: zonas
           }
         })

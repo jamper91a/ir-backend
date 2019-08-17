@@ -33,7 +33,7 @@ module.exports = {
     },
     supplier: {
       model: "suppliers",
-      columnName: "spplier_id"
+      columnName: "supplier_id"
     },
 
   },

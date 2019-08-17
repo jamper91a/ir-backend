@@ -282,9 +282,9 @@ module.exports = {
         inventario = await inventories.findOne({id: inventario_id})
           .populate(products);
         async.each(inventario.productos_zona, async function(element, cb){
-          let producto = await Productos.findOne({id:element.productos_id});
+          let producto = await Products.findOne({id:element.product});
           if(producto)
-            element.productos_id = producto;
+            element.product = producto;
           cb();
         }, function(error){
           let things={code: '', data:[], error:null};

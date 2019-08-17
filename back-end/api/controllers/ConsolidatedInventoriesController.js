@@ -104,9 +104,13 @@ module.exports = {
         consolidatedInventories = consolidatedInventories[0];
         if(consolidatedInventories.inventories){
           async.each(consolidatedInventories.inventories, async function(inventario, cb){
-            let inv = await Inventories.findOne({where:{id:inventario.id}}).populate(products);
-            if(inv)
-              inventario.products = inv.products;
+            try {
+              let inv = await Inventories.findOne({where: {id: inventario.id}}).populate('products');
+              if (inv)
+                inventario.products = inv.products;
+            } catch (e) {
+              cb(e);
+            }
             cb();
           }, function(error){
             let things={code: '', data:[], error:null};
@@ -141,20 +145,20 @@ module.exports = {
    * @param res
    * @returns {Promise<*>}
    */
-  listarProductos: async function (req, res) {
+  listProducts: async function (req, res) {
     let consolidatedInventory, things;
     consolidatedInventory= req.body.consolidatedInventory;
     if(consolidatedInventory){
       try {
-        let productosZona=[];
-        inventories = await inventories.find({consolidatedInventory: consolidatedInventory})
-          .populate(products);
-        async.each(inventories, async function(inventario, cb){
-          async.each(inventario.productos_zona, async function(element, cb){
-            let producto = await Productos.findOne({id:element.productos_id});
-            if(producto)
-               element.productos_id = producto;
-            productosZona.push(element);
+        let zonesHasProducts=[];
+        let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory})
+          .populate('products');
+        async.each(inventories, async function(inventory, cb){
+          async.each(inventory.products, async function(product, cb){
+            let aux_product = await Products.findOne({id:product.product});
+            if(aux_product)
+               product.product = aux_product;
+            zonesHasProducts.push(product);
             cb();
           }, function(error){
             cb(error);
@@ -165,9 +169,9 @@ module.exports = {
           if(error){
             things.error=error;
           }
-          consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
+          let consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
           things.data = {
-            productosZona: productosZona,
+            productosZona: zonesHasProducts,
             inventoriesConsolidados: consolidatedInventories
           };
           return res.generalAnswer(things);
@@ -178,6 +182,9 @@ module.exports = {
         return res.generalAnswer(things);
       }
 
+    }else{
+      things = {code: '', data: [], error: null};
+      return res.generalAnswer(things);
     }
   }
 

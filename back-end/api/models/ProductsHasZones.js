@@ -19,18 +19,18 @@ module.exports = {
       type: "string",
       allowNull: true
     },
-    logs_user: {
+    logs_users: {
       type: "string",
       allowNull: true
     },
     product: {
-      model: "products",
+      model: "Products",
       required: true,
       columnName: "product_id"
     },
     zone: {
       model: "zones",
-      columnName: "zones",
+      columnName: "zone_id",
       required: true
     },
     devolution: {
