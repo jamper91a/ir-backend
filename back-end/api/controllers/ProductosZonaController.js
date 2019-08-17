@@ -73,7 +73,7 @@ module.exports = {
                   let data={
                     producto: values[0][0],
                     epcs: values[1]
-                  }
+                  };
                   let things={code: '', req:req, res:res, data:data, error:null};
                   return proceed(null,things);
                 }else {
@@ -106,7 +106,7 @@ module.exports = {
 
         //Find all locals from the company of the empleado
         let locales = await Locales.find({
-          where: {companias_id: req.empleado.companias_id.id},
+          where: {company: req.employee.company.id},
           select: ['id']
         });
         locales = locales.map(l => l.id);

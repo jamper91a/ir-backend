@@ -8,8 +8,6 @@ module.exports = {
 
   /**
    * Se encarga de crear una transferencia
-   * @param transferencia
-   * @param productos
    */
   crear: function (req, res) {
     //Validate data
@@ -33,7 +31,7 @@ module.exports = {
       .transaction(async (db,proceed)=> {
 
         //Primero creo la transferencia
-        req.body.transferencia.creador_id=req.empleado.id;
+        req.body.transferencia.creador_id=req.employee.id;
         //Generate Manifest
         //0 -> First Letter Company
         //1 -> First number from Id Company
@@ -42,14 +40,14 @@ module.exports = {
         //4 -> Amount of product
         //5,6,7,8 -> Random text
         req.body.transferencia.manifiesto=
-          req.empleado.companias_id.name.substr(0,1)+
-          (req.empleado.companias_id.id+"").substr(0,1)+
+          req.employee.company.name.substr(0,1)+
+          (req.employee.company.id+"").substr(0,1)+
           (req.body.transferencia.local_origen_id+"").substr(0,1)+
           (req.body.transferencia.local_destino_id+"").substr(0,1)+
           req.body.productos_zona_has_transferencias.length+
           sails.helpers.randomString(5);
         req.body.transferencia.estado=0;
-        req.body.creador_id = req.empleado.id;
+        req.body.creador_id = req.employee.id;
         let tra,p_t, things;
         try {
           tra = await Transferencias.create(req.body.transferencia).usingConnection(db).fetch();
@@ -90,7 +88,6 @@ module.exports = {
 
   /**
    * Se encarga de buscar una lista de productos en la tabla de transferencia y mostrar los detalles
-   * @param productos (epcs ids)
    */
   buscar: async function (req, res) {
     let products, productosZonaHasTransferencias;
@@ -129,8 +126,6 @@ module.exports = {
   /**
    * Funcion para obtener los manifiestos electronicos de las transferencias, se necesita el id del local y el tipo
    * de manifiesto a buscar (de entrada o de salida)
-   * @param local_id Id del local a buscar
-   * @param tipo: Entrada o salida
    */
   obtenerTransferencia: async function (req, res) {
 
@@ -159,8 +154,7 @@ module.exports = {
           let producto = transferencia.productos[j];
           let pzi = producto.productos_zona_id;
           //Busco la informacion de dichos elementos
-          let pz = await ProductosZona.findOne({id:pzi});
-          transferencias[i].productos[j].productos_zona_id = pz;
+          transferencias[i].productos[j].productos_zona_id = await ProductosZona.findOne({id: pzi});
         }
       }
       // transferencias.forEach(async function (transferencia, indexA, array) {
@@ -229,7 +223,6 @@ module.exports = {
     }
 
     let productos_zona_has_transferencias;
-    let transferencias, things;
     try {
       productos_zona_has_transferencias=JSON.parse(req.body.productos_zona_has_transferencias);
     } catch (e) {

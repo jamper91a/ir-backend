@@ -9,9 +9,9 @@ module.exports = {
   listar: async function(req,res){
     let zonas, things;
     try {
-      console.log(req.empleado);
+      console.log(req.employee);
       zonas = await  Zonas.find({
-        where:{locales_id: req.empleado.locales_id.id}
+        where:{locales_id: req.employee.locales_id.id}
       });
       things = {code: '', data: zonas, error: null, propio: false, bd: false};
       return res.generalAnswer(things);

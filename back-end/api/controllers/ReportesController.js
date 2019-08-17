@@ -13,29 +13,29 @@ module.exports = {
         return res.generalAnswer(things);
       }
       //Find all inventories of the first consolidated inventory
-      let inventories = await Inventarios.find({
-        where: {inventarios_consolidados_id: req.body.inventario_inicial}
+      let inventories = await inventories.find({
+        where: {consolidatedInventory: req.body.inventario_inicial}
       })
         .populate('productos_zona');
       //Add the products of the first inventory to an var
-      let productsFirstInventory= new Array();
+      let productsFirstInventory= [];
       for(const inventory  of inventories)
         productsFirstInventory = productsFirstInventory.concat(inventory.productos_zona);
 
       //Find all inventories of the second consolidated inventory
-      inventories = await Inventarios.find({
-        where: {inventarios_consolidados_id: req.body.inventario_final}
+      inventories = await inventories.find({
+        where: {consolidatedInventory: req.body.inventario_final}
       })
         .populate('productos_zona');
       //Add the products of the first inventory to an var
-      let productsSecondInventory= new Array();
+      let productsSecondInventory= [];
       for(const inventory  of inventories)
         productsSecondInventory = productsSecondInventory.concat(inventory.productos_zona);
-      let notFoundProducts = new Array();
+      let notFoundProducts = [];
       //Search for the products of the first inventory in the second inventory
       async.forEach(productsFirstInventory,
         async function (firstProduct, cb) {
-          let found = productsSecondInventory.find(product => product.id == firstProduct.id);
+          let found = productsSecondInventory.find(product => product.id === firstProduct.id);
           //If the product was not found I will check if it was sold or transfer
           if(!found){
             if(firstProduct.ventas_id<=1){
@@ -80,8 +80,7 @@ module.exports = {
               let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
               return res.generalAnswer(things);
             }
-            let empleado_id= req.empleado.id;
-            req.body.reporte.empleados_id=empleado_id;
+            req.body.reporte.empleados_id=req.employee.id;
             let productos= req.body.productos;
             //Creo el reporte
             let reporte= await Reportes.create(req.body.reporte).usingConnection(db).fetch();

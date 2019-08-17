@@ -21,7 +21,7 @@ module.exports = {
 
           ]
         }
-      }).populate('companias_id');
+      }).populate('company');
       if(producto)
         things = {code: '', data: producto, error: null, propio: false, bd: false};
       else

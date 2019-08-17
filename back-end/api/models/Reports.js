@@ -31,8 +31,8 @@ module.exports = {
     }
     // productos_zona:{
     //   collection: 'productosZona',
-    //   via: 'inventarios_id',
-    //   through: 'inventariosProductos'
+    //   via: 'inventories_id',
+    //   through: 'inventoriesProductos'
     // },
     //endregion
   },

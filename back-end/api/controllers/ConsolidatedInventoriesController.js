@@ -1,14 +1,14 @@
 /**
- * Inventarios
+ * inventories
  *
- * @description :: Server-side logic for managing Inventarios
+ * @description :: Server-side logic for managing inventories
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 module.exports = {
 
 
   /**
-   * List all the consolidated inventories of the company of the current user
+   * List all the colaborative consolidated inventories of the company of the current user
    * @param req
    * @param res
    * @returns {Promise<*>}
@@ -26,7 +26,7 @@ module.exports = {
               collaborative: req.body.collaborative
             }
           });
-        //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
+        //Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
         employees.forEach(function (employee) {
           if(employee.inventories){
             employee.inventories.forEach(async function (inventory) {
@@ -46,70 +46,65 @@ module.exports = {
         return res.generalAnswer(returnData);
       }
     },
-  listarTodos: async function(req,res){
-    let inventariosConsolidados, things, inventariosEmpleado = [];
-    try {
-      //Encontrar todos los empleados de la compania
-      // empleados = await Empleados.find(
-      //   {
-      //     select: ['id'],
-      //     where: {companias_id: req.empleado.companias_id.id}
-      //   });
-      // console.log(empleados);
-      // let empleados_id = empleados.map(a => a.id);
-      // inventariosConsolidados = await  InventariosConsolidados.find({
-      //   empleados_id: {in: empleados_id}
-      // });
 
-      employees = await  Empleados.find({
-        where:{companias_id: req.empleado.companias_id.id}
+  /**
+   * List all the consolidated inventories of the company of the current user
+   * @param req
+   * @param res
+   * @returns {Promise<*>}
+   */
+  listAll: async function(req,res){
+    let consolidatedInventories, returnData, employeeIventories = [], employees;
+    try {
+      employees = await  Employees.find({
+        where:{company: req.employee.company.id}
       })
-        .populate('inventarios',{
+        .populate('inventories',{
           where:{
-            inventarios_consolidados_id: {'>': 0}
+            consolidatedInventory: {'>': 0}
           }
         });
-      //Se elimina la informacion innecesaria y se muestra solo los inventarios de cada empleado
-      employees.forEach(function (empleado) {
-        if(empleado.inventarios){
-          empleado.inventarios.forEach(async function (inventario) {
-            inventariosEmpleado.push(inventario);
+      //Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
+      employees.forEach(function (employee) {
+        if(employee.inventories){
+          employee.inventories.forEach(async function (inventory) {
+            employeeIventories.push(inventory);
           })
         }
       });
-      inventariosEmpleado = inventariosEmpleado.map(a => a.inventarios_consolidados_id);
-      inventariosConsolidados = await  InventariosConsolidados.find({
-        id: {in: inventariosEmpleado}
+      employeeIventories = employeeIventories.map(a => a.consolidatedInventory);
+      consolidatedInventories = await  ConsolidatedInventories.find({
+        id: {in: employeeIventories}
       });
 
       //Obtengo la cnatidad de productos de cada inventario consolidados
-      things = {code: '', data:inventariosConsolidados , error: null, propio: false, bd: false};
-      return res.generalAnswer(things);
+      returnData = {code: '', data:consolidatedInventories , error: null, propio: false, bd: false};
+      return res.generalAnswer(returnData);
     } catch (err) {
-      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
-      return res.generalAnswer(things);
+      returnData = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(returnData);
     }
   },
 
   ultimoInventario: async function(req, res){
-    let inventariosConsolidados, things, inventariosEmpleado = [];
+    let inventoriesConsolidados, things;
     try {
 
       //Busco el ultimo invnetario consolidado de este empleado
       let inventarioConsolidado = await
-        InventariosConsolidados
+        inventoriesConsolidados
           .find({
             where:{
-              empleados_id:req.empleado.id
+              empleados_id:req.employee.id
             }
           })
           .sort('createdAt desc')
           .limit(1)
-          .populate('inventarios');
+          .populate('inventories');
       if(inventarioConsolidado)
         inventarioConsolidado = inventarioConsolidado[0];
-      async.each(inventarioConsolidado.inventarios, async function(inventario, cb){
-        let inv = await Inventarios.findOne({where:{id:inventario.id}}).populate('productos_zona');
+      async.each(inventarioConsolidado.inventories, async function(inventario, cb){
+        let inv = await inventories.findOne({where:{id:inventario.id}}).populate('productos_zona');
         if(inv)
           inventario.productos_zona = inv.productos_zona;
         cb();
@@ -128,21 +123,21 @@ module.exports = {
     }
   },
   /**
-   * Esta funcion se encarga de buscar los inventarios que pertenecen a un inventario consolidados, luego obtiene los
-   * productos de dichos inventarios y los retorna
+   * Esta funcion se encarga de buscar los inventories que pertenecen a un inventario consolidados, luego obtiene los
+   * productos de dichos inventories y los retorna
    * @param req
    * @param res
    * @returns {Promise<*>}
    */
   listarProductos: async function (req, res) {
-    let inventarios_consolidados_id, inventario,things;
-    inventarios_consolidados_id= req.body.inventarios_consolidados_id;
-    if(inventarios_consolidados_id){
+    let consolidatedInventory, things;
+    consolidatedInventory= req.body.consolidatedInventory;
+    if(consolidatedInventory){
       try {
         let productosZona=[];
-        inventarios = await Inventarios.find({inventarios_consolidados_id: inventarios_consolidados_id})
+        inventories = await inventories.find({consolidatedInventory: consolidatedInventory})
           .populate('productos_zona');
-        async.each(inventarios, async function(inventario, cb){
+        async.each(inventories, async function(inventario, cb){
           async.each(inventario.productos_zona, async function(element, cb){
             let producto = await Productos.findOne({id:element.productos_id});
             if(producto)
@@ -158,10 +153,10 @@ module.exports = {
           if(error){
             things.error=error;
           }
-          inventarioConsolidado = await InventariosConsolidados.findOne({id:inventarios_consolidados_id});
+          inventarioConsolidado = await ConsolidatedInventories.findOne({id:consolidatedInventory});
           things.data = {
             productosZona: productosZona,
-            inventariosConsolidados: inventarioConsolidado
+            inventoriesConsolidados: inventarioConsolidado
           };
           return res.generalAnswer(things);
         });
