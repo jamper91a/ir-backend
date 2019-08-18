@@ -7,7 +7,7 @@ module.exports = {
   attributes: {
     report: {
       model: "reports",
-      columnName: "reports_id",
+      columnName: "report_id",
       required: true
     },
     product: {

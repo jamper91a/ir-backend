@@ -48,9 +48,9 @@ module.exports.routes = {
   //Devoluciones
   'POST /devoluciones/devolverProductos':'Devolutions.devolverProductos',
   
-  //Reportes
-  'POST /reportes/diferenceBetweenInventories': 'Reportes.diferenceBetweenInventories',
-  'POST /reportes/guardarReporte': 'Reportes.guardarReporte',
+  //Report
+  'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
+  'POST /reportes/guardarReporte': 'Reports.saveReport',
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',
