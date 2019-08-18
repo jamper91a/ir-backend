@@ -43,7 +43,7 @@ module.exports = {
               cb();
             }else{
               //Search for the product in the transfer table
-              let transfer = await Transferencias.find({where: {productos_zonas_id: firstProduct.id}});
+              let transfer = await Transfers.find({where: {productos_zonas_id: firstProduct.id}});
               if(!transfer){
                 notFoundProducts.push(firstProduct);
 

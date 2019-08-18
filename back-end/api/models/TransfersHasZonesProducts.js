@@ -43,13 +43,13 @@ module.exports = {
 
   beforeCreate: function (valuesToSet, proceed) {
 
-    ProductosZonaHasTransferencias.findOne({
-      productos_zona_id: valuesToSet.productos_zona_id,
-      estado: 0
+    TransfersHasZonesProducts.findOne({
+      product: valuesToSet.product,
+      state: 0
     })
-      .then(function (productoZonaHasTransferencia) {
+      .then(function (transferHasZonesProduct) {
         //No puede existir el mismo producto en transferencia a la vez
-        if (productoZonaHasTransferencia)
+        if (transferHasZonesProduct)
           return proceed('error_PZHT01');
         else
           return proceed();

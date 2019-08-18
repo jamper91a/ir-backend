@@ -6,7 +6,7 @@ var moment = require('moment');
 module.exports = {
   attributes: {
     state: {type: "boolean"},
-    manifiesto: {type: "string"},
+    manifest: {type: "string"},
     message: {type: "string"},
     employee: {
       model: "employees",
