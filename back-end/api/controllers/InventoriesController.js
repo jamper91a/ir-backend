@@ -6,50 +6,49 @@
  */
 module.exports = {
 
-  crear:function (req, res) {
+  create:function (req, res) {
     //Validate data
-    if(!req.body.inventario || !req.body.inventario_productos){
+    if(!req.body.inventory || !req.body.products){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:new Error("error_G01")};
       return res.generalAnswer(things);
     }
 
 
     try {
-      req.body.inventario_productos = JSON.parse(req.body.inventario_productos);
-      req.body.inventario = JSON.parse(req.body.inventario);
+      req.body.products = JSON.parse(req.body.products);
+      req.body.inventory = JSON.parse(req.body.inventory);
     } catch (e) {
       // console.error(e);
     }
 
-    let inventario_productos = req.body.inventario_productos;
+    let products = req.body.products;
     // console.log(req.body);
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
 
         //Primero creo el inventario
-        let inv,u_i,i_p, things;
+        let newInventory,employeesInventory,inventoriesProducts, things;
         try {
-          inv = await inventories.create(req.body.inventario).usingConnection(db).fetch();
+          newInventory = await Inventories.create(req.body.inventory).usingConnection(db).fetch();
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
           return proceed(things);
         }
         //Una vez creado el inventario, le asocio el usuari
         try {
-          u_i = await Usersinventories.create({inventories_id:inv.id,employee:req.employee.id}).usingConnection(db).fetch();
-         //await inventories.addToCollection(inv.id, 'users', [req.employee.id]).usingConnection(db);
+          employeesInventory = await EmployeesInventories.create({inventory:newInventory.id,employee:req.employee.id}).usingConnection(db).fetch();
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
           return proceed(things);
         }
         try {
-          inventario_productos.forEach(ip => ip.inventories_id = inv.id);
-          i_p = await inventoriesProductos.createEach(inventario_productos).usingConnection(db).fetch();
+          products.forEach(product => product.inventory = newInventory.id);
+          inventoriesProducts = await InventoriesHasProducts.createEach(products).usingConnection(db).fetch();
           things = {code: '', data: {
-              inventories:inv,
-              users_inventories:u_i,
-              inventario_productos: i_p
+              inventory:newInventory,
+              employeesInventory:employeesInventory,
+              products: inventoriesProducts
             }, error: null, propio: false, bd: false};
           return proceed(null, things);
         } catch (err) {
@@ -73,35 +72,35 @@ module.exports = {
   adjuntar: async function(req, res){
     let inv, things, u_i,i_p;
     //Validate data
-    if(!req.body.inventario || !req.body.inventario_productos){
+    if(!req.body.inventory || !req.body.products){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
 
-    req.body.inventario_productos =JSON.parse(req.body.inventario_productos);
-    req.body.inventario =JSON.parse(req.body.inventario);
-    let inventario_productos = req.body.inventario_productos;
+    req.body.products =JSON.parse(req.body.products);
+    req.body.inventory =JSON.parse(req.body.inventory);
+    let products = req.body.products;
     try {
-      inv = await inventories.findOne({id: req.body.inventario.id});
+      inv = await inventories.findOne({id: req.body.inventory.id});
       if(inv.colaborativo){
         sails.getDatastore()
           .transaction(async (db,proceed)=> {
 
             //Una vez creado el inventario, le asocio el usuari
             try {
-              u_i = await Usersinventories.create({inventories_id:inv.id,employee:req.employee.id}).usingConnection(db).fetch();
+              u_i = await Usersinventories.create({inventory:inv.id,employee:req.employee.id}).usingConnection(db).fetch();
               //await inventories.addToCollection(inv.id, 'users', [req.employee.id]).usingConnection(db);
             } catch (err) {
               things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
               return proceed(things);
             }
             try {
-              inventario_productos.forEach(ip => ip.inventories_id = inv.id);
-              i_p = await inventoriesProductos.createEach(inventario_productos).usingConnection(db).fetch();
+              products.forEach(ip => ip.inventory = inv.id);
+              i_p = await inventoriesProductos.createEach(products).usingConnection(db).fetch();
               things = {code: '', data: {
                   inventories:inv,
                   users_inventories:u_i,
-                  inventario_productos: i_p
+                  products: i_p
                 }, error: null, propio: false, bd: false};
               return proceed(null, things);
             } catch (err) {
@@ -182,7 +181,7 @@ module.exports = {
     let invC,things,inv,inventories;
 
     try {
-      req.body.inventories_id = JSON.parse(req.body.inventories_id);
+      req.body.inventory = JSON.parse(req.body.inventory);
     } catch (e) {
     }
 
@@ -193,18 +192,18 @@ module.exports = {
         try {
           inventories = await inventories.find(
             {
-              where: {id: req.body.inventories_id},
+              where: {id: req.body.inventory},
               select: ['zonas_id', 'consolidatedInventory']
             }).populate("productos_zona");
           zonas = inventories.map(a => a.zonas_id);
-          inventories = inventories.every(function (inventario, index) {
-            totalProductos+=inventario.productos_zona.length;
+          inventories = inventories.every(function (inventory, index) {
+            totalProductos+=inventory.productos_zona.length;
             //Valido que los inventories sean de zonas diferentes
-            if(zonas.includes(inventario.zonas_id,index+1)){
+            if(zonas.includes(inventory.zonas_id,index+1)){
               things = {code: 'error_I01', data: [], propio: true, bd: null, error: new Error('error_I01')};
               return false;
               //Valido que los inventories no se hayan consolidado antes
-            }else if (inventario.consolidatedInventory && inventario.consolidatedInventory>1){
+            }else if (inventory.consolidatedInventory && inventory.consolidatedInventory>1){
               things = {code: 'error_I02', data: [], propio: true, bd: null, error: new Error('error_I02')};
               return false;
             }
@@ -235,7 +234,7 @@ module.exports = {
         try {
           inv = await inventories.update(
             {
-              id: req.body.inventories_id
+              id: req.body.inventory
             })
             .set(
               {
@@ -275,13 +274,13 @@ module.exports = {
    * @param inventario_id: consolidado inventories consolidado (inventories_consilidados_id>0)
    */
   listarProductos: async function (req, res) {
-    let inventario_id, inventario,things;
-    inventario_id= req.body.inventories_id;
+    let inventario_id, inventory,things;
+    inventario_id= req.body.inventory;
     if(inventario_id){
       try {
-        inventario = await inventories.findOne({id: inventario_id})
+        inventory = await inventories.findOne({id: inventario_id})
           .populate(products);
-        async.each(inventario.productos_zona, async function(element, cb){
+        async.each(inventory.productos_zona, async function(element, cb){
           let producto = await Products.findOne({id:element.product});
           if(producto)
             element.product = producto;
@@ -291,7 +290,7 @@ module.exports = {
           if(error){
             things.error=error;
           }
-          things.data = inventario;
+          things.data = inventory;
           return res.generalAnswer(things);
         });
 

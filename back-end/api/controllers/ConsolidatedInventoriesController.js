@@ -103,11 +103,11 @@ module.exports = {
       if(consolidatedInventories && consolidatedInventories.length>0){
         consolidatedInventories = consolidatedInventories[0];
         if(consolidatedInventories.inventories){
-          async.each(consolidatedInventories.inventories, async function(inventario, cb){
+          async.each(consolidatedInventories.inventories, async function(inventory, cb){
             try {
-              let inv = await Inventories.findOne({where: {id: inventario.id}}).populate('products');
+              let inv = await Inventories.findOne({where: {id: inventory.id}}).populate('products');
               if (inv)
-                inventario.products = inv.products;
+                inventory.products = inv.products;
             } catch (e) {
               cb(e);
             }

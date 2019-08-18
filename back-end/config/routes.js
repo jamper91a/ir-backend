@@ -27,12 +27,12 @@ module.exports.routes = {
   'POST /sync':'Users.sync',
 
   //Inventarios
-  'POST /inventarios/crear':'Inventarios.crear',
-  'POST /inventarios/consolidar':'Inventarios.consolidar',
-  'POST /inventarios/listarInventarios':'Inventarios.listar',
-  'POST /inventarios/listarProductosInventario':'Inventarios.listarProductos',
-  'POST /inventarios/listarProductosInventariosColaborativos':'Inventarios.listarProductosInventariosColaborativos',
-  'POST /inventarios/adjuntar':'Inventarios.adjuntar',
+  'POST /inventarios/crear':'Inventories.create',
+  'POST /inventarios/consolidar':'Inventories.consolidar',
+  'POST /inventarios/listarInventarios':'Inventories.listar',
+  'POST /inventarios/listarProductosInventario':'Inventories.listarProductos',
+  // 'POST /inventarios/listarProductosInventariosColaborativos':'Inventories.listarProductosInventariosColaborativos',
+  'POST /inventarios/adjuntar':'Inventories.adjuntar',
 
   //InventariosConsolidados
   'POST /inventariosConsolidados/listar':'ConsolidatedInventories.list',
@@ -49,7 +49,7 @@ module.exports.routes = {
   'POST /transferencias/finalizarTransferencia':'Transferencias.finalizarTransferencia',
   
   //Devoluciones
-  'POST /devoluciones/devolverProductos':'Devoluciones.devolverProductos',
+  'POST /devoluciones/devolverProductos':'Devolutions.devolverProductos',
   
   //Reportes
   'POST /reportes/diferenceBetweenInventories': 'Reportes.diferenceBetweenInventories',
