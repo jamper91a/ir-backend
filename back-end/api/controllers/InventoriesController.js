@@ -152,7 +152,7 @@ module.exports = {
                /** Si es consolidado, busque aquellos con consolidatedInventory mayor a 1,
                 *  Si es no_consolidado busque aquellos con consolidatedInventory igual 1
                 *  Si es all busque todos*/
-                 (req.body.tipo == 'consolidado' ? {'>': 1} : req.body.tipo == "no_consolidado" ? {'=':1} : {'>=':1 }),
+                 (req.body.type == 'consolidado' ? {'>': 1} : req.body.type == "no_consolidado" ? 1 : {'>=':1 }),
                collaborative: req.body.collaborative
              }
            });
