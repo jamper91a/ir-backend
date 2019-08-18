@@ -6,14 +6,13 @@
  */
 module.exports = {
 
-  listar: async function(req,res){
-    let zonas, things;
+  list: async function(req,res){
+    let zones, things;
     try {
-      console.log(req.employee);
-      zonas = await  Zones.find({
+      zones = await  Zones.find({
         where:{shop: req.employee.shop.id}
       });
-      things = {code: '', data: zonas, error: null, propio: false, bd: false};
+      things = {code: '', data: zones, error: null, propio: false, bd: false};
       return res.generalAnswer(things);
     } catch (err) {
       things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
