@@ -10,23 +10,20 @@ const jwt = require('jsonwebtoken');
 module.exports = {
 
   crearEmpleado: function (req, res) {
-    console.log("crearEmpleado");
     try {
-      if (!req.body.usuario.username || !req.body.usuario.password || !req.body.usuario.groups_id || !req.body.empleado.company || !req.body.empleado.shop) {
-        console.log("no parameter");
+      if (!req.body.user.username || !req.body.user.password || !req.body.user.group || !req.body.user.company || !req.body.user.shop) {
         let things = {code: 'error_G01', req: req, res: res, data: [], error: null};
         return res.generalAnswer(things);
 
       }
-      console.log("no parameter 2");
     } catch (e) {
       console.error(e);
     }
     //Creo usuario
-    Users.create(req.body.usuario).fetch().then(function (user) {
-      req.body.empleado.users_id = user.id;
-      Employees.create(req.body.empleado).fetch().then(function (empleado) {
-        res.ok(empleado);
+    Users.create(req.body.user).fetch().then(function (user) {
+      req.body.employee.user = user.id;
+      Employees.create(req.body.employee).fetch().then(function (employee) {
+        res.ok(employee);
       }).catch(function (err) {
         let things={code: err.code, req:req, res:res, data:[], error:err, model:"Empleado"};
         return res.generalAnswer(things);
@@ -82,9 +79,8 @@ module.exports = {
     res.redirect('/');
   },
   sync: async function (req, res) {
-  console.log(req.body.last_update);
     try {
-      let epcs, productos, products, zonas, locales;
+      let epcs, products, zones, shops, devolutions;
       //Obtengo los epcs
       epcs = await Epcs.find({
         where: {
@@ -104,7 +100,7 @@ module.exports = {
 
       try {
         //Obtengo las zonas
-        zonas = await Zones.find({
+        zones = await Zones.find({
           where: {
             shop: req.employee.shop.id
           }
@@ -112,7 +108,7 @@ module.exports = {
         // Obtengo los productos_zona de la compania por zona
         products = await ProductsHasZones.find({
           where: {
-            zone: _.map(zonas, 'id'),
+            zone: _.map(zones, 'id'),
             updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
           }
         })
@@ -125,7 +121,7 @@ module.exports = {
       }
 
       // Obtengo los locales de la compania
-      locales = await Shops.find({
+      shops = await Shops.find({
         where: {
           company: req.employee.company.id,
           updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
@@ -134,7 +130,7 @@ module.exports = {
         .populate("company");
 
       // Obtengo los tipos de devoluciones
-      devoluciones = await Devoluciones.find({
+      devolutions = await Devolutions.find({
         where: {
           id: {'>': 1},
           updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
@@ -145,12 +141,11 @@ module.exports = {
         code: '',
         data:
           {
-            epc: epcs,
+            epcs: epcs,
             products: products,
-            products: products,
-            zonas: zonas,
-            locales: locales,
-            devoluciones: devoluciones
+            zones: zones,
+            shops: shops,
+            devolutions: devolutions
           },
         error: null,
         propio: false,
