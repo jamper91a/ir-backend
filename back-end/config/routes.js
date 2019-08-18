@@ -40,8 +40,8 @@ module.exports.routes = {
 
   //Transferencias
   'POST /transferencias/crear':'Transfers.create',
-  'POST /transferencias/buscar':'Transfers.buscar',
-  'POST /transferencias/obtenerTransferencia':'Transfers.obtenerTransferencia',
+  'POST /transferencias/buscar':'Transfers.find',
+  'POST /transferencias/listTransfersByType':'Transfers.listTransfersByType',
   'POST /transferencias/obtenerTransferencias':'Transfers.obtenerTransferencias',
   'POST /transferencias/finalizarTransferencia':'Transfers.finalizarTransferencia',
   

@@ -15,17 +15,9 @@ module.exports = {
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
-    // try {
-    //   req.body.transferencia=JSON.parse(req.body.transferencia);
-    // } catch (e) {
-    //   // console.error(e);
-    // }
+
     let products=req.body.products;
-    // try {
-    //   products = JSON.parse(req.body.products);
-    // } catch (e) {
-    //   products = req.body.products;
-    // }
+
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
@@ -89,27 +81,27 @@ module.exports = {
   /**
    * Se encarga de buscar una lista de productos en la tabla de transferencia y mostrar los detalles
    */
-  buscar: async function (req, res) {
-    let products, productosZonaHasTransferencias;
-    if(!req.body.productos){
+  find: async function (req, res) {
+    let products, transferHasZonesProducts;
+    if(!req.body.products){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
     try {
-      products = await Epcs.find({where: {epc: [req.body.productos]}})
-        .populate(products);
+      products = await Epcs.find({where: {epc: [req.body.products]}})
+        .populate('products');
     } catch (e) {
       res.generalAnswer({error:e});
     }
 
     //Busco los productosZonaHasTransferencias
     try {
-      productosZonaHasTransferencias = await TransfersHasZonesProducts.find({product: [products]}
-        .populate("transferencias"));
+      transferHasZonesProducts = await TransfersHasZonesProducts.find({product: [products]}
+        .populate("transfer"));
       let things = {
         code: 'Ok',
         data: {
-          productosZonaHasTransferencias:productosZonaHasTransferencias,
+          transferHasZonesProducts:transferHasZonesProducts,
           products: products
         }};
 
@@ -123,50 +115,37 @@ module.exports = {
 
   },
 
-  /**
-   * Funcion para obtener los manifiestos electronicos de las transferencias, se necesita el id del local y el tipo
-   * de manifiesto a buscar (de entrada o de salida)
-   */
-  obtenerTransferencia: async function (req, res) {
 
-    if(!req.body.local_id || !req.body.tipo){
+  listTransfersByType: async function (req, res) {
+
+    if(!req.body.shopSource || !req.body.type){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
 
-    let local_id=req.body.local_id;
-    let tipo=req.body.tipo;
-    let transferencias, things;
+    let shopSource=req.body.shopSource;
+    let type=req.body.type;
+    let transfers, things;
 
     try {
-      transferencias = await  Transfers.find(
-        // tipo === 'entrada' ? {'local_origen_id': local_id} : {'local_destino_id': local_id}
-        tipo === 'entrada' ? {'local_destino_id': local_id} : {'local_origen_id': local_id}
+      transfers = await  Transfers.find(
+        type === 'entrada' ? {'shopDestination': shopSource} : {'shopSource': shopSource}
       )
-        .populate('productos')
-        .populate('local_origen_id')
-        .populate('local_destino_id');
+        .populate('products')
+        .populate('shopSource')
+        .populate('shopDestination');
 
       //Lleno la informacion de cada produco_zona_has_transferencias
-      for (let i = 0; i < transferencias.length; i++) {
-        let transferencia = transferencias[i];
-        for (let j = 0; j < transferencia.productos.length; j++) {
-          let producto = transferencia.productos[j];
-          let pzi = producto.product;
+      for (let i = 0; i < transfers.length; i++) {
+        let transfer = transfers[i];
+        for (let j = 0; j < transfer.products.length; j++) {
+          let product = transfer.products[j];
+          let productZone = product.product;
           //Busco la informacion de dichos elementos
-          transferencias[i].productos[j].product = await ProductsHasZones.findOne({id: pzi});
+          transfers[i].products[j].product = await ProductsHasZones.findOne({id: productZone});
         }
       }
-      // transferencias.forEach(async function (transferencia, indexA, array) {
-      //   await transferencia.productos.forEach(async function (producto, indexB, array) {
-      //     let pzi = producto.productos_zona_id;
-      //     //Busco la informacion de dichos elementos
-      //     let pz = await ProductosZona.findOne({id:pzi});
-      //     array[indexB].productos_zona_id = pz;
-      //   });
-      //   array[indexA].productos = transferencia.productos;
-      // });
-      things = {code: 'Ok', data: transferencias};
+      things = {code: 'Ok', data: transfers};
 
       return res.generalAnswer(things);
     } catch (err) {
@@ -177,7 +156,10 @@ module.exports = {
   },
 
 
-
+  /**
+   * Funcion para obtener los manifiestos electronicos de las transferencias, se necesita el id del local y el tipo
+   * de manifiesto a buscar (de entrada o de salida)
+   */
   obtenerTransferencias: async function (req, res) {
 
     if(!req.body.local_id){
@@ -191,13 +173,13 @@ module.exports = {
     try {
       transferencias = await  Transfers.find({
         or: [
-          {'local_origen_id': local_id},
-          {'local_destino_id': local_id}
+          {'shopSource': local_id},
+          {'shopDestination': local_id}
         ]
       })
-        .populate('productos')
-        .populate('local_origen_id')
-        .populate('local_destino_id');
+        .populate('products')
+        .populate('shopSource')
+        .populate('shopDestination');
 
       things = {code: 'Ok', data: transferencias};
       return res.generalAnswer(things);
@@ -239,7 +221,7 @@ module.exports = {
           //Find the zona where the product must go
           let transferencia = await Transfers.findOne({id: pht.transfer});
           if(transferencia){
-            let locales_destino = await Shops.findOne({id:transferencia.local_destino_id})
+            let locales_destino = await Shops.findOne({id:transferencia.shopDestination})
               .populate("zonas",{limit:1});
             console.log(pht.product);
             await ProductsHasZones.updateOne({id:pht.product}, {zone: locales_destino.zonas[0].id}).usingConnection(db)

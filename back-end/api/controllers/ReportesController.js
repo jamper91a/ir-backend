@@ -76,17 +76,17 @@ module.exports = {
         .transaction(async (db,proceed)=> {
 
           try {
-            if (!req.body.productos || !req.body.reporte.inventario_inicial_id || !req.body.reporte.inventario_final_id || !req.body.reporte.tipo_inventario) {
+            if (!req.body.products || !req.body.reporte.inventario_inicial_id || !req.body.reporte.inventario_final_id || !req.body.reporte.tipo_inventario) {
               let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
               return res.generalAnswer(things);
             }
             req.body.reporte.employee=req.employee.id;
-            let productos= req.body.productos;
+            let products= req.body.products;
             //Creo el reporte
             let reporte= await Reportes.create(req.body.reporte).usingConnection(db).fetch();
             //Asocios los productos al reporte reciente creado
-            productos.forEach(pz => pz.reportes_id = reporte.id);
-            await ReportesHasProductosZonas.createEach(productos).usingConnection(db);
+            products.forEach(pz => pz.reportes_id = reporte.id);
+            await ReportesHasProductosZonas.createEach(products).usingConnection(db);
             things = {
               code: 'ok', data: {}, error: null, propio: false, bd: false};
             return proceed(null, things);

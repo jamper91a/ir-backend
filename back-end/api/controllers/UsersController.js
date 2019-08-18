@@ -94,7 +94,7 @@ module.exports = {
       })
         .populate("company");
       // Obtengo los productos de la compania
-      productos = await Products.find({
+      products = await Products.find({
         where: {
           company: req.employee.company.id,
           updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
@@ -146,7 +146,7 @@ module.exports = {
         data:
           {
             epc: epcs,
-            productos: productos,
+            products: products,
             products: products,
             zonas: zonas,
             locales: locales,
