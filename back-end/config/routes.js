@@ -10,16 +10,13 @@
 
 module.exports.routes = {
 
-  'GET /':{
-    view: 'pages/homepage'
-  },
 
   'POST /login': 'Users.login',
   '/logout': 'Users.logout',
 
   //Mercancia
   'POST /productos/addMercancia': 'ProductosZona.addMercancia',
-  'POST /productos': 'Productos.get',
+  'POST /productos/findOne': 'Products.findOne',
   'POST /productos/findProductInLocalByEanPlu': 'ProductosZona.findProductInLocalByEanPlu',
 
   //Usuarios
