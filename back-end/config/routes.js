@@ -42,7 +42,7 @@ module.exports.routes = {
   'POST /transferencias/crear':'Transfers.create',
   'POST /transferencias/buscar':'Transfers.find',
   'POST /transferencias/listTransfersByType':'Transfers.listTransfersByType',
-  'POST /transferencias/obtenerTransferencias':'Transfers.obtenerTransferencias',
+  'POST /transferencias/listTransfersByShop':'Transfers.listTransfersByShop',
   'POST /transferencias/finalizarTransferencia':'Transfers.finalizarTransferencia',
   
   //Devoluciones

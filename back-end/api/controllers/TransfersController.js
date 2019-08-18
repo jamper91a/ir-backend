@@ -115,7 +115,10 @@ module.exports = {
 
   },
 
-
+  /**
+   * Funcion para obtener los manifiestos electronicos de las transferencias, se necesita el id del local y el tipo
+   * de manifiesto a buscar (de entrada o de salida)
+   */
   listTransfersByType: async function (req, res) {
 
     if(!req.body.shopSource || !req.body.type){
@@ -156,32 +159,29 @@ module.exports = {
   },
 
 
-  /**
-   * Funcion para obtener los manifiestos electronicos de las transferencias, se necesita el id del local y el tipo
-   * de manifiesto a buscar (de entrada o de salida)
-   */
-  obtenerTransferencias: async function (req, res) {
 
-    if(!req.body.local_id){
+  listTransfersByShop: async function (req, res) {
+
+    if(!req.body.shop){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
 
-    let local_id=req.body.local_id;
-    let transferencias, things;
+    let shop=req.body.shop;
+    let transfers, things;
 
     try {
-      transferencias = await  Transfers.find({
+      transfers = await  Transfers.find({
         or: [
-          {'shopSource': local_id},
-          {'shopDestination': local_id}
+          {'shopSource': shop},
+          {'shopDestination': shop}
         ]
       })
         .populate('products')
         .populate('shopSource')
         .populate('shopDestination');
 
-      things = {code: 'Ok', data: transferencias};
+      things = {code: 'Ok', data: transfers};
       return res.generalAnswer(things);
     } catch (err) {
       things = {error: err};
