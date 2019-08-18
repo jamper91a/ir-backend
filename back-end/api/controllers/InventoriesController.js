@@ -277,17 +277,17 @@ module.exports = {
    *
    * @param inventario_id: consolidado inventories consolidado (inventories_consilidados_id>0)
    */
-  listarProductos: async function (req, res) {
-    let inventario_id, inventory,things;
-    inventario_id= req.body.inventory;
-    if(inventario_id){
+  listProducts: async function (req, res) {
+    let inventoryToList, inventory,things;
+    inventoryToList= req.body.inventory;
+    if(inventoryToList){
       try {
-        inventory = await inventories.findOne({id: inventario_id})
-          .populate(products);
-        async.each(inventory.products, async function(element, cb){
-          let producto = await Products.findOne({id:element.product});
-          if(producto)
-            element.product = producto;
+        inventory = await Inventories.findOne({id: inventoryToList})
+          .populate('products');
+        async.each(inventory.products, async function(product, cb){
+          let aux_product = await Products.findOne({id:product.product});
+          if(aux_product)
+            product.product = aux_product;
           cb();
         }, function(error){
           let things={code: '', data:[], error:null};
