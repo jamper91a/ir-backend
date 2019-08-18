@@ -102,7 +102,7 @@ module.exports = {
 
     try {
       Epcs.find({
-        id: valuesToSet.epcs_id,
+        id: valuesToSet.epc,
         state: 0
       }).then(function (epc) {
         if (epc && epc.length > 0) {

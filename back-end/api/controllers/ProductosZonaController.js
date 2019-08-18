@@ -24,8 +24,8 @@ module.exports = {
             try {
               let aux = await Epcs.findOne({epc: producto_zona.epc});
               if(aux){
-                producto_zona.epcs_id=aux.id;
-                ProductosZona.create(producto_zona).usingConnection(db).fetch().then(function () {
+                producto_zona.epc=aux.id;
+                ProductsHasZones.create(producto_zona).usingConnection(db).fetch().then(function () {
                   cb();
                 }).catch(function (err) {
                   let things={code: err.number, req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
@@ -55,7 +55,7 @@ module.exports = {
                 return proceed(null,things);
               });
               //Actualizo los devices
-              let epcs = Epcs.update(_.map(productos_zona, 'epcs_id'), {state: 1}).usingConnection(db).fetch().then(function (devices) {
+              let epcs = Epcs.update(_.map(productos_zona, 'epc'), {state: 1}).usingConnection(db).fetch().then(function (devices) {
                 if(devices)
                   return devices;
                 else
@@ -119,7 +119,7 @@ module.exports = {
         });
         zonas = zonas.map(z => z.id);
         //Find productos where productoid and zonas match
-        let productos = await ProductosZona.find({
+        let productos = await ProductsHasZones.find({
           where: {
             productos_id: req.body.product,
             zonas_id: zonas
@@ -127,7 +127,7 @@ module.exports = {
         })
           .populate('productos_id')
           .populate('zonas_id')
-          .populate('epcs_id');
+          .populate('epc');
 
         let things = {code: '', data: productos, error: null, propio: false, bd: false};
         return res.generalAnswer(things);

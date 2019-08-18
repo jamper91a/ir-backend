@@ -154,7 +154,7 @@ module.exports = {
           let producto = transferencia.productos[j];
           let pzi = producto.productos_zona_id;
           //Busco la informacion de dichos elementos
-          transferencias[i].productos[j].productos_zona_id = await ProductosZona.findOne({id: pzi});
+          transferencias[i].productos[j].productos_zona_id = await ProductsHasZones.findOne({id: pzi});
         }
       }
       // transferencias.forEach(async function (transferencia, indexA, array) {
@@ -242,7 +242,7 @@ module.exports = {
             let locales_destino = await Locales.findOne({id:transferencia.local_destino_id})
               .populate("zonas",{limit:1});
             console.log(pht.productos_zona_id);
-            await ProductosZona.updateOne({id:pht.productos_zona_id}, {zonas_id: locales_destino.zonas[0].id}).usingConnection(db)
+            await ProductsHasZones.updateOne({id:pht.productos_zona_id}, {zonas_id: locales_destino.zonas[0].id}).usingConnection(db)
           }
         });
         return proceed(null, {});

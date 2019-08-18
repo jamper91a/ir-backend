@@ -110,7 +110,7 @@ module.exports = {
           }
         });
         // Obtengo los productos_zona de la compania por zona
-        productos_zona = await ProductosZona.find({
+        productos_zona = await ProductsHasZones.find({
           where: {
             zonas_id: _.map(zonas, 'id'),
             updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
@@ -118,8 +118,8 @@ module.exports = {
         })
           .populate('productos_id')
           .populate('zonas_id')
-          .populate('devoluciones_id')
-          .populate('epcs_id');
+          .populate('devolution')
+          .populate('epc');
       } catch (e) {
         console.error(e);
       }
