@@ -8,17 +8,17 @@ module.exports = {
 
     addMercancia:function (req, res) {
       //Validate data
-      if(!req.body.productos_zona || !req.body.product){
+      if(!req.body.products || !req.body.product){
         let things={code: 'error_G01', req:req, res:res, data:[], error:new Error("error_G01")};
         return res.generalAnswer(things);
       }
 
-      let productos_zona = JSON.parse(req.body.productos_zona);
+      let products = JSON.parse(req.body.products);
 
       sails.getDatastore()
         .transaction(async (db,proceed)=>{
 
-          async.each(productos_zona,
+          async.each(products,
             async function (producto_zona, cb) {
             //Busco el epc id de ese epc
             try {
@@ -55,7 +55,7 @@ module.exports = {
                 return proceed(null,things);
               });
               //Actualizo los devices
-              let epcs = Epcs.update(_.map(productos_zona, 'epc'), {state: 1}).usingConnection(db).fetch().then(function (devices) {
+              let epcs = Epcs.update(_.map(products, 'epc'), {state: 1}).usingConnection(db).fetch().then(function (devices) {
                 if(devices)
                   return devices;
                 else
@@ -122,11 +122,11 @@ module.exports = {
         let productos = await ProductsHasZones.find({
           where: {
             productos_id: req.body.product,
-            zonas_id: zonas
+            zone: zonas
           }
         })
           .populate('productos_id')
-          .populate('zonas_id')
+          .populate('zone')
           .populate('epc');
 
         let things = {code: '', data: productos, error: null, propio: false, bd: false};

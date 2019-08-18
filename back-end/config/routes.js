@@ -28,7 +28,7 @@ module.exports.routes = {
 
   //Inventarios
   'POST /inventarios/crear':'Inventories.create',
-  'POST /inventarios/consolidar':'Inventories.consolidar',
+  'POST /inventarios/consolidar':'Inventories.consolidate',
   'POST /inventarios/listarInventarios':'Inventories.list',
   'POST /inventarios/listarProductosInventario':'Inventories.listarProductos',
   // 'POST /inventarios/listarProductosInventariosColaborativos':'Inventories.listarProductosInventariosColaborativos',

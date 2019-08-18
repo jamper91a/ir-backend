@@ -242,7 +242,7 @@ module.exports = {
             let locales_destino = await Locales.findOne({id:transferencia.local_destino_id})
               .populate("zonas",{limit:1});
             console.log(pht.productos_zona_id);
-            await ProductsHasZones.updateOne({id:pht.productos_zona_id}, {zonas_id: locales_destino.zonas[0].id}).usingConnection(db)
+            await ProductsHasZones.updateOne({id:pht.productos_zona_id}, {zone: locales_destino.zonas[0].id}).usingConnection(db)
           }
         });
         return proceed(null, {});

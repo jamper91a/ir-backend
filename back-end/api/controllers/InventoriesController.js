@@ -181,29 +181,29 @@ module.exports = {
    * inventories_id: Id de los inventories a consolidar
    * @param res
    */
-  consolidar:function (req, res) {
-    let invC,things,inv,inventories;
+  consolidate:function (req, res) {
+    let inventoryConsolidated,things,inventory,inventories;
 
-    try {
-      req.body.inventory = JSON.parse(req.body.inventory);
-    } catch (e) {
-    }
+    // try {
+    //   req.body.inventory = JSON.parse(req.body.inventory);
+    // } catch (e) {
+    // }
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
-        var totalProductos=0;
+        var totalProducts=0;
         //Se valida que la zona de los inventories sean diferentes
         try {
-          inventories = await inventories.find(
+          inventories = await Inventories.find(
             {
-              where: {id: req.body.inventory},
-              select: ['zonas_id', 'consolidatedInventory']
-            }).populate("productos_zona");
-          zonas = inventories.map(a => a.zonas_id);
+              where: {id: req.body.inventories},
+              select: ['zone', 'consolidatedInventory']
+            }).populate("products");
+          let zones = inventories.map(a => a.zone);
           inventories = inventories.every(function (inventory, index) {
-            totalProductos+=inventory.productos_zona.length;
+            totalProducts+=inventory.products.length;
             //Valido que los inventories sean de zonas diferentes
-            if(zonas.includes(inventory.zonas_id,index+1)){
+            if(zones.includes(inventory.zone,index+1)){
               things = {code: 'error_I01', data: [], propio: true, bd: null, error: new Error('error_I01')};
               return false;
               //Valido que los inventories no se hayan consolidado antes
@@ -227,7 +227,7 @@ module.exports = {
         //1 -> Se crea un nuevo inventario consolidado.
 
         try {
-          invC = await ConsolidatedInventories.create({employee:req.employee.id, name:req.body.name,productos:totalProductos}).usingConnection(db).fetch();
+          inventoryConsolidated = await ConsolidatedInventories.create({employee:req.employee.id, name:req.body.name,total_products:totalProducts}).usingConnection(db).fetch();
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
           return proceed(things);
@@ -236,21 +236,21 @@ module.exports = {
 
         //2 -> Se asocian los inventories parciales al inventario consolidado
         try {
-          inv = await inventories.update(
+          inventory = await Inventories.update(
             {
-              id: req.body.inventory
+              id: req.body.inventories
             })
             .set(
               {
-                consolidatedInventory: invC.id
+                consolidatedInventory: inventoryConsolidated.id
               })
             .usingConnection(db).fetch();
           things =
             {
               code: 'OK',
               data: {
-                inventories:inv,
-                inventories_consolidados: invC
+                inventories:inventory,
+                consolidatedIventory: inventoryConsolidated
               },
               error: null,
               propio: false,
@@ -284,7 +284,7 @@ module.exports = {
       try {
         inventory = await inventories.findOne({id: inventario_id})
           .populate(products);
-        async.each(inventory.productos_zona, async function(element, cb){
+        async.each(inventory.products, async function(element, cb){
           let producto = await Products.findOne({id:element.product});
           if(producto)
             element.product = producto;

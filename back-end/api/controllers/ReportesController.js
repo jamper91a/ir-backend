@@ -20,7 +20,7 @@ module.exports = {
       //Add the products of the first inventory to an var
       let productsFirstInventory= [];
       for(const inventory  of inventories)
-        productsFirstInventory = productsFirstInventory.concat(inventory.productos_zona);
+        productsFirstInventory = productsFirstInventory.concat(inventory.products);
 
       //Find all inventories of the second consolidated inventory
       inventories = await inventories.find({
@@ -30,7 +30,7 @@ module.exports = {
       //Add the products of the first inventory to an var
       let productsSecondInventory= [];
       for(const inventory  of inventories)
-        productsSecondInventory = productsSecondInventory.concat(inventory.productos_zona);
+        productsSecondInventory = productsSecondInventory.concat(inventory.products);
       let notFoundProducts = [];
       //Search for the products of the first inventory in the second inventory
       async.forEach(productsFirstInventory,
