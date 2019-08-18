@@ -10,8 +10,8 @@ module.exports = {
     let zonas, things;
     try {
       console.log(req.employee);
-      zonas = await  Zonas.find({
-        where:{locales_id: req.employee.locales_id.id}
+      zonas = await  Zones.find({
+        where:{shop: req.employee.shop.id}
       });
       things = {code: '', data: zonas, error: null, propio: false, bd: false};
       return res.generalAnswer(things);

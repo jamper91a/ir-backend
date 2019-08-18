@@ -15,9 +15,9 @@ module.exports.routes = {
   '/logout': 'Users.logout',
 
   //Mercancia
-  'POST /productos/addMercancia': 'ProductosZona.addMercancia',
+  'POST /productos/addMercancia': 'ProductsHasZones.addCommodity',
   'POST /productos/findOne': 'Products.findOne',
-  'POST /productos/findProductInLocalByEanPlu': 'ProductosZona.findProductInLocalByEanPlu',
+  'POST /productos/findProductInLocalByEanPlu': 'ProductsHasZones.findProductInLocalByEanPlu',
 
   //Usuarios
   'POST /users':'Users.crearEmpleado',

@@ -12,7 +12,7 @@ module.exports = {
   crearEmpleado: function (req, res) {
     console.log("crearEmpleado");
     try {
-      if (!req.body.usuario.username || !req.body.usuario.password || !req.body.usuario.groups_id || !req.body.empleado.company || !req.body.empleado.locales_id) {
+      if (!req.body.usuario.username || !req.body.usuario.password || !req.body.usuario.groups_id || !req.body.empleado.company || !req.body.empleado.shop) {
         console.log("no parameter");
         let things = {code: 'error_G01', req: req, res: res, data: [], error: null};
         return res.generalAnswer(things);
@@ -104,9 +104,9 @@ module.exports = {
 
       try {
         //Obtengo las zonas
-        zonas = await Zonas.find({
+        zonas = await Zones.find({
           where: {
-            locales_id: req.employee.locales_id.id
+            shop: req.employee.shop.id
           }
         });
         // Obtengo los productos_zona de la compania por zona
@@ -116,7 +116,7 @@ module.exports = {
             updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
           }
         })
-          .populate('productos_id')
+          .populate('product')
           .populate('zone')
           .populate('devolution')
           .populate('epc');
@@ -125,7 +125,7 @@ module.exports = {
       }
 
       // Obtengo los locales de la compania
-      locales = await Locales.find({
+      locales = await Shops.find({
         where: {
           company: req.employee.company.id,
           updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
@@ -145,7 +145,7 @@ module.exports = {
         code: '',
         data:
           {
-            epcs: epcs,
+            epc: epcs,
             productos: productos,
             products: products,
             zonas: zonas,

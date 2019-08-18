@@ -239,7 +239,7 @@ module.exports = {
           //Find the zona where the product must go
           let transferencia = await Transferencias.findOne({id: pht.transferencias_id});
           if(transferencia){
-            let locales_destino = await Locales.findOne({id:transferencia.local_destino_id})
+            let locales_destino = await Shops.findOne({id:transferencia.local_destino_id})
               .populate("zonas",{limit:1});
             console.log(pht.productos_zona_id);
             await ProductsHasZones.updateOne({id:pht.productos_zona_id}, {zone: locales_destino.zonas[0].id}).usingConnection(db)

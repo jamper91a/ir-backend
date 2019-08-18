@@ -6,33 +6,35 @@
  */
 module.exports = {
 
-    addMercancia:function (req, res) {
+    addCommodity:function (req, res) {
       //Validate data
       if(!req.body.products || !req.body.product){
         let things={code: 'error_G01', req:req, res:res, data:[], error:new Error("error_G01")};
         return res.generalAnswer(things);
       }
 
-      let products = JSON.parse(req.body.products);
+      // let products = JSON.parse(req.body.products);
+      // let products = req.body.products;
 
       sails.getDatastore()
         .transaction(async (db,proceed)=>{
 
-          async.each(products,
-            async function (producto_zona, cb) {
+          async.each(req.body.products,
+            async function (product, cb) {
             //Busco el epc id de ese epc
             try {
-              let aux = await Epcs.findOne({epc: producto_zona.epc});
-              if(aux){
-                producto_zona.epc=aux.id;
-                ProductsHasZones.create(producto_zona).usingConnection(db).fetch().then(function () {
+              let epc = await Epcs.findOne({epc: product.epc});
+              if(epc){
+                product.epc=epc.id;
+                try {
+                  await ProductsHasZones.create(product).usingConnection(db);
                   cb();
-                }).catch(function (err) {
+                } catch (err) {
                   let things={code: err.number, req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
                   cb(things);
-                });
+                }
               }else{
-                let things={code: 'error_G01', req:req, res:res, data:[], error:new Error("Epc no valid: "+ producto_zona.epc)};
+                let things={code: 'error_G01', req:req, res:res, data:[], error:new Error("Epc no valid: "+ product.epc)};
                 cb(things);
               }
             } catch (e) {
@@ -41,29 +43,44 @@ module.exports = {
             }
 
           },
-            function (error) {
+            async function (error) {
+            //Por alguna extrana razon la variable req.body.products se modifica
+              let product, epcs;
             if(error)
             {
               return proceed(null,error);
             }else{
-              let product = Products.find({
-                  id: req.body.product
-              }).limit(1).usingConnection(db).then(function (product) {
-                return product;
-              }).catch(function (err) {
+              try {
+                product = await Products.find({id: req.body.product}).limit(1).usingConnection(db);
+              } catch (err) {
                 let things={code: 'error_P01', req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
                 return proceed(null,things);
-              });
+              }
+              // let product = Products.find({
+              //     id: req.body.product
+              // }).limit(1).usingConnection(db).then(function (product) {
+              //   return product;
+              // }).catch(function (err) {
+              //   let things={code: 'error_P01', req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
+              //   return proceed(null,things);
+              // });
               //Actualizo los devices
-              let epcs = Epcs.update(_.map(products, 'epc'), {state: 1}).usingConnection(db).fetch().then(function (devices) {
-                if(devices)
-                  return devices;
-                else
-                  return [];
-              }).catch(function (err) {
+              try {
+                epcs = Epcs.update(_.map(req.body.products, 'epc_id'), {state: 1}).usingConnection(db).fetch();
+              } catch (err) {
                 let things={code: 'error_EPC02', req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
                 return proceed(null,things);
-              });
+              }
+
+              // let epcs = Epcs.update(_.map(req.body.products, 'epc'), {state: 1}).usingConnection(db).fetch().then(function (devices) {
+              //   if(devices)
+              //     return devices;
+              //   else
+              //     return [];
+              // }).catch(function (err) {
+              //   let things={code: 'error_EPC02', req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
+              //   return proceed(null,things);
+              // });
 
               Promise.all([
                 product,
@@ -71,8 +88,8 @@ module.exports = {
               ]).then(function (values) {
                 if(values){
                   let data={
-                    producto: values[0][0],
-                    epcs: values[1]
+                    product: values[0][0],
+                    epc: values[1]
                   };
                   let things={code: '', req:req, res:res, data:data, error:null};
                   return proceed(null,things);
@@ -105,31 +122,31 @@ module.exports = {
         }
 
         //Find all locals from the company of the empleado
-        let locales = await Locales.find({
+        let shops = await Shops.find({
           where: {company: req.employee.company.id},
           select: ['id']
         });
-        locales = locales.map(l => l.id);
+        shops = shops.map(l => l.id);
         //Find all zones of the company of the empleado
-        let zonas = await Zonas.find({
+        let zones = await Zones.find({
           where: {
-            locales_id: locales
+            shop: shops
           },
           select: ['id']
         });
-        zonas = zonas.map(z => z.id);
-        //Find productos where productoid and zonas match
-        let productos = await ProductsHasZones.find({
+        zones = zones.map(z => z.id);
+        //Find productos where productoid and zone match
+        let products = await ProductsHasZones.find({
           where: {
-            productos_id: req.body.product,
-            zone: zonas
+            product: req.body.product,
+            zone: zones
           }
         })
-          .populate('productos_id')
+          .populate('product')
           .populate('zone')
           .populate('epc');
 
-        let things = {code: '', data: productos, error: null, propio: false, bd: false};
+        let things = {code: '', data: products, error: null, propio: false, bd: false};
         return res.generalAnswer(things);
       } catch (e) {
         let things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
