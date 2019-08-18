@@ -198,33 +198,33 @@ module.exports = {
    * @param res
    * @returns {Promise<void>}
    */
-  finalizarTransferencia: async function(req, res){
+  finishTransfer: async function(req, res){
     if(!req.body.products){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:new Error('error_G01')};
       return res.generalAnswer(things);
     }
 
-    let products;
-    try {
-      products=JSON.parse(req.body.products);
-    } catch (e) {
-      // console.error(e);
-    }
-
-
-    console.log(products);
+    let products=req.body.products;
+    // try {
+    //   products=JSON.parse(req.body.products);
+    // } catch (e) {
+    //   // console.error(e);
+    // }
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
-        await TransfersHasZonesProducts.update(_.map(products, 'id'), {estado: 1}).usingConnection(db);
+        await TransfersHasZonesProducts.update(_.map(products, 'id'), {state: 1}).usingConnection(db);
         await products.forEach(async function (pht) {
           //Find the zona where the product must go
-          let transferencia = await Transfers.findOne({id: pht.transfer});
-          if(transferencia){
-            let locales_destino = await Shops.findOne({id:transferencia.shopDestination})
-              .populate("zonas",{limit:1});
-            console.log(pht.product);
-            await ProductsHasZones.updateOne({id:pht.product}, {zone: locales_destino.zonas[0].id}).usingConnection(db)
+          let tranfer = await Transfers.findOne({id: pht.transfer});
+          if(tranfer){
+            try {
+              let shopDestination = await Shops.findOne({id: tranfer.shopDestination})
+                .populate("zone", {limit: 1});
+              await ProductsHasZones.updateOne({id: pht.product}, {zone: shopDestination.zone[0].id}).usingConnection(db);
+            } catch (e) {
+              proceed(e);
+            }
           }
         });
         return proceed(null, {});
