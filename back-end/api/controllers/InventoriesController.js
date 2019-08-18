@@ -140,19 +140,19 @@ module.exports = {
      * @param tipo: no_consolidado inventories sin consolidar (inventories_consilidados_id=0)
      * @param colaborativo: boolean, determia si se listan parciales o colaborativos
     */
-  listar: async function(req,res){
-      let empleados, inventories, things;
+  list: async function(req,res){
+      let employees, inventories, things;
       try {
-         empleados = await  Employees.find({
+         employees = await  Employees.find({
            where:{company: req.employee.company.id}
          })
            .populate('inventories',{
              where:{
                consolidatedInventory:
-               /** Si es consolidado, busque aquellos con consolidatedInventory mayor a 0,
-                *  Si es no_consolidado busque aquellos con consolidatedInventory igual a 0 o 1
+               /** Si es consolidado, busque aquellos con consolidatedInventory mayor a 1,
+                *  Si es no_consolidado busque aquellos con consolidatedInventory igual 1
                 *  Si es all busque todos*/
-                 (req.body.tipo == 'consolidado' ? {'>': 1} : req.body.tipo == "no_consolidado" ? {'<=':1} : {'>=':0 }),
+                 (req.body.tipo == 'consolidado' ? {'>': 1} : req.body.tipo == "no_consolidado" ? {'=':1} : {'>=':1 }),
                collaborative: req.body.collaborative
              }
            });
