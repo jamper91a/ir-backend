@@ -69,38 +69,42 @@ module.exports = {
   /**
   Este servicio web se encarga de adjuntar productos a un inventario colaborativo ya existente
   */
-  adjuntar: async function(req, res){
-    let inv, things, u_i,i_p;
+  attach: async function(req, res){
+    let inventory, things, employessInventory,inventoriesProducts;
     //Validate data
     if(!req.body.inventory || !req.body.products){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
 
-    req.body.products =JSON.parse(req.body.products);
-    req.body.inventory =JSON.parse(req.body.inventory);
+    // try {
+    //   req.body.products = JSON.parse(req.body.products);
+    //   req.body.inventory = JSON.parse(req.body.inventory);
+    // } catch (e) {
+    //   things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+    //   return res.generalAnswer(things);
+    // }
     let products = req.body.products;
     try {
-      inv = await inventories.findOne({id: req.body.inventory.id});
-      if(inv.colaborativo){
+      inventory = await Inventories.findOne({id: req.body.inventory.id});
+      if(inventory.collaborative){
         sails.getDatastore()
           .transaction(async (db,proceed)=> {
 
             //Una vez creado el inventario, le asocio el usuari
             try {
-              u_i = await Usersinventories.create({inventory:inv.id,employee:req.employee.id}).usingConnection(db).fetch();
-              //await inventories.addToCollection(inv.id, 'users', [req.employee.id]).usingConnection(db);
+              employessInventory = await EmployeesInventories.create({inventory:inventory.id,employee:req.employee.id}).usingConnection(db).fetch();
             } catch (err) {
               things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
               return proceed(things);
             }
             try {
-              products.forEach(ip => ip.inventory = inv.id);
-              i_p = await inventoriesProductos.createEach(products).usingConnection(db).fetch();
+              products.forEach(ip => ip.inventory = inventory.id);
+              inventoriesProducts = await InventoriesHasProducts.createEach(products).usingConnection(db).fetch();
               things = {code: '', data: {
-                  inventories:inv,
-                  users_inventories:u_i,
-                  products: i_p
+                  inventory:inventory,
+                  employeesInventory:employessInventory,
+                  products: inventoriesProducts
                 }, error: null, propio: false, bd: false};
               return proceed(null, things);
             } catch (err) {
@@ -149,7 +153,7 @@ module.exports = {
                 *  Si es no_consolidado busque aquellos con consolidatedInventory igual a 0 o 1
                 *  Si es all busque todos*/
                  (req.body.tipo == 'consolidado' ? {'>': 1} : req.body.tipo == "no_consolidado" ? {'<=':1} : {'>=':0 }),
-               colaborativo: req.body.colaborativo
+               collaborative: req.body.collaborative
              }
            });
          //Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado

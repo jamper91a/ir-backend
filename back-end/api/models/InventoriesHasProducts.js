@@ -38,6 +38,10 @@ module.exports = {
       this.zone = {
         id: this.zone
       };
+    if (typeof this.product == "number")
+      this.product = {
+        id: this.product
+      };
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
     }
