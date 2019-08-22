@@ -80,7 +80,7 @@ module.exports = {
   },
   sync: async function (req, res) {
     try {
-      let epcs, products, zones, shops, devolutions;
+      let epcs, products,productsHasZones, zones, shops, devolutions;
       //Obtengo los epcs
       epcs = await Epcs.find({
         where: {
@@ -106,7 +106,7 @@ module.exports = {
           }
         });
         // Obtengo los productos_zona de la compania por zona
-        products = await ProductsHasZones.find({
+        productsHasZones = await ProductsHasZones.find({
           where: {
             zone: _.map(zones, 'id'),
             updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
@@ -143,6 +143,7 @@ module.exports = {
           {
             epcs: epcs,
             products: products,
+            productsHasZones: productsHasZones,
             zones: zones,
             shops: shops,
             devolutions: devolutions

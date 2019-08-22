@@ -10,7 +10,7 @@ module.exports = {
 
     },
     //Relaciones
-    employee: {
+    employees: {
       collection: "employees",
       via: "company"
     },

@@ -13,18 +13,24 @@ module.exports = {
         return res.generalAnswer(things);
       }
 
-      // let products = JSON.parse(req.body.products);
+      let products=null;
+      try {
+        products = JSON.parse(req.body.products);
+      } catch (e) {
+        products = req.body.products;
+      }
       // let products = req.body.products;
 
       sails.getDatastore()
         .transaction(async (db,proceed)=>{
 
-          async.each(req.body.products,
+          async.each(products,
             async function (product, cb) {
             //Busco el epc id de ese epc
             try {
-              let epc = await Epcs.findOne({epc: product.epc});
+              let epc = await Epcs.find({ where: {epc: product.epc}}).limit(1);
               if(epc){
+                epc= epc[0];
                 product.epc=epc.id;
                 try {
                   await ProductsHasZones.create(product).usingConnection(db);
@@ -89,7 +95,7 @@ module.exports = {
                 if(values){
                   let data={
                     product: values[0][0],
-                    epc: values[1]
+                    epcs: values[1]
                   };
                   let things={code: '', req:req, res:res, data:data, error:null};
                   return proceed(null,things);
