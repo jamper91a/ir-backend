@@ -77,13 +77,13 @@ module.exports = {
       return res.generalAnswer(things);
     }
 
-    // try {
-    //   req.body.products = JSON.parse(req.body.products);
-    //   req.body.inventory = JSON.parse(req.body.inventory);
-    // } catch (e) {
-    //   things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
-    //   return res.generalAnswer(things);
-    // }
+    try {
+      req.body.products = JSON.parse(req.body.products);
+      req.body.inventory = JSON.parse(req.body.inventory);
+    } catch (e) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
     let products = req.body.products;
     try {
       inventory = await Inventories.findOne({id: req.body.inventory.id});
@@ -184,10 +184,10 @@ module.exports = {
   consolidate:function (req, res) {
     let inventoryConsolidated,things,inventory,inventories;
 
-    // try {
-    //   req.body.inventory = JSON.parse(req.body.inventory);
-    // } catch (e) {
-    // }
+    try {
+      req.body.inventories = JSON.parse(req.body.inventories);
+    } catch (e) {
+    }
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {

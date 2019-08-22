@@ -171,8 +171,8 @@ module.exports = {
           }
           let consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
           things.data = {
-            productosZona: zonesHasProducts,
-            inventoriesConsolidados: consolidatedInventories
+            products: zonesHasProducts,
+            consolidatedInventories: consolidatedInventories
           };
           return res.generalAnswer(things);
         });
