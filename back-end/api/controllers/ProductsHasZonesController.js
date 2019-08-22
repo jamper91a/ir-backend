@@ -13,18 +13,18 @@ module.exports = {
         return res.generalAnswer(things);
       }
 
-      let products=null;
+      let newProducts=null;
       try {
-        products = JSON.parse(req.body.products);
+        newProducts = JSON.parse(req.body.products);
       } catch (e) {
-        products = req.body.products;
+        newProducts = req.body.products;
       }
       // let products = req.body.products;
 
       sails.getDatastore()
         .transaction(async (db,proceed)=>{
 
-          async.each(products,
+          async.each(newProducts,
             async function (product, cb) {
             //Busco el epc id de ese epc
             try {
@@ -72,7 +72,7 @@ module.exports = {
               // });
               //Actualizo los devices
               try {
-                epcs = Epcs.update(_.map(req.body.products, 'epc_id'), {state: 1}).usingConnection(db).fetch();
+                epcs = Epcs.update(_.map(newProducts, 'epc_id'), {state: 1}).usingConnection(db).fetch();
               } catch (err) {
                 let things={code: 'error_EPC02', req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
                 return proceed(null,things);
