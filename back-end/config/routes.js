@@ -55,5 +55,8 @@ module.exports.routes = {
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',
 
+  //Sells
+  'POST /sells/create':'Sells.createSell'
+
 
 };
