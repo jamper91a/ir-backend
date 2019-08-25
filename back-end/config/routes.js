@@ -46,7 +46,7 @@ module.exports.routes = {
   'POST /transferencias/finishTransfer':'Transfers.finishTransfer',
   
   //Devoluciones
-  'POST /devoluciones/devolverProductos':'Devolutions.devolverProductos',
+  'POST /devoluciones/devolverProductos':'Devolutions.returnProducts',
   
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',

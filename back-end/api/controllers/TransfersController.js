@@ -17,13 +17,20 @@ module.exports = {
     }
 
     let products=req.body.products;
+    let transfer=req.body.products;
+    try {
+      products = JSON.parse(req.body.products);
+      transfer = JSON.parse(req.body.transfer);
+    } catch (e) {
+
+    }
 
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
 
         //Primero creo la transferencia
-        req.body.transfer.employee=req.employee.id;
+        transfer.employee=req.employee.id;
         //Generate Manifest
         //0 -> First Letter Company
         //1 -> First number from Id Company
@@ -31,18 +38,18 @@ module.exports = {
         //3 -> First number from Id Local Dest
         //4 -> Amount of product
         //5,6,7,8 -> Random text
-        req.body.transfer.manifest=
+        transfer.manifest=
           req.employee.company.name.substr(0,1)+
           (req.employee.company.id+"").substr(0,1)+
-          (req.body.transfer.shopSource+"").substr(0,1)+
-          (req.body.transfer.shopDestination+"").substr(0,1)+
-          req.body.products.length+
+          (transfer.shopSource+"").substr(0,1)+
+          (transfer.shopDestination+"").substr(0,1)+
+          products.length+
           sails.helpers.randomString(5);
-        req.body.transfer.state=0;
-        req.body.employee = req.employee.id;
+        transfer.state=0;
+        transfer.employee = req.employee.id;
         let newTransfer,productsFromTransfer, things;
         try {
-          newTransfer = await Transfers.create(req.body.transfer).usingConnection(db).fetch();
+          newTransfer = await Transfers.create(transfer).usingConnection(db).fetch();
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
           return proceed(things);
@@ -205,11 +212,11 @@ module.exports = {
     }
 
     let products=req.body.products;
-    // try {
-    //   products=JSON.parse(req.body.products);
-    // } catch (e) {
-    //   // console.error(e);
-    // }
+    try {
+      products=JSON.parse(req.body.products);
+    } catch (e) {
+      // console.error(e);
+    }
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {

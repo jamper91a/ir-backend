@@ -87,11 +87,11 @@ module.exports = {
   },
 
   lastInventory: async function(req, res){
-    let consolidatedInventories, things;
+    let consolidatedInventory, things;
     try {
 
       //Busco el ultimo invnetario consolidado de este empleado
-      consolidatedInventories = await
+      consolidatedInventory = await
         ConsolidatedInventories.find({
             where:{
               employee:req.employee.id
@@ -100,10 +100,10 @@ module.exports = {
           .sort('createdAt desc')
           .limit(1)
           .populate('inventories');
-      if(consolidatedInventories && consolidatedInventories.length>0){
-        consolidatedInventories = consolidatedInventories[0];
-        if(consolidatedInventories.inventories){
-          async.each(consolidatedInventories.inventories, async function(inventory, cb){
+      if(consolidatedInventory && consolidatedInventory.length>0){
+        consolidatedInventory = consolidatedInventory[0];
+        if(consolidatedInventory.inventories){
+          async.each(consolidatedInventory.inventories, async function(inventory, cb){
             try {
               let inv = await Inventories.findOne({where: {id: inventory.id}}).populate('products');
               if (inv)
@@ -117,7 +117,7 @@ module.exports = {
             if(error){
               things.error=error;
             }
-            things.data = consolidatedInventories;
+            things.data = consolidatedInventory;
             return res.generalAnswer(things);
           });
         }else{

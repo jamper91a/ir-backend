@@ -98,11 +98,22 @@ module.exports = {
       })
         .populate("company");
 
+      // Obtengo los locales de la compania
+      shops = await Shops.find({
+        where: {
+          company: req.employee.company.id,
+          updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
+        }
+      })
+        .populate("company");
+
       try {
+
+
         //Obtengo las zonas
         zones = await Zones.find({
           where: {
-            shop: req.employee.shop.id
+            shop: _.map(shops, 'id')
           }
         });
         // Obtengo los productos_zona de la compania por zona
@@ -120,14 +131,7 @@ module.exports = {
         console.error(e);
       }
 
-      // Obtengo los locales de la compania
-      shops = await Shops.find({
-        where: {
-          company: req.employee.company.id,
-          updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
-        }
-      })
-        .populate("company");
+
 
       // Obtengo los tipos de devoluciones
       devolutions = await Devolutions.find({
