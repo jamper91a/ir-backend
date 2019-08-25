@@ -126,5 +126,58 @@ module.exports = {
     }
 
   },
+  beforeUpdate: async function (valuesToSet, proceed) {
+    //region Sells validation
+    //If the sell is going to be updated, the product could not have been sold
+    if(valuesToSet.sell>1){
+      try {
+        let product = await ProductsHasZones.findOne({
+          id: valuesToSet.id
+        });
+        if (product && product.sell > 1) {
+          let err = new Error('error_SELL01');
+          err.bd = true;
+          err.propio = true;
+          err.number = 'error_SELL01';
+          return proceed(err);
+        }
+      } catch (e) {
+        let err = new Error('error_SELL02');
+        err.bd = true;
+        err.propio = true;
+        err.number = 'error_SELL02';
+        return proceed(err);
+      }
+    }
+
+    //endregion
+    try {
+      Epcs.find({
+        id: valuesToSet.epc,
+        state: 0
+      }).then(function (epc) {
+        if (epc && epc.length > 0) {
+          //Everything is ok
+        } else {
+          let err = new Error('error_EPC01');
+          err.bd = true;
+          err.propio = true;
+          err.number = 'error_EPC01';
+          return proceed(err);
+        }
+      }).catch(function (err) {
+        err.bd = true;
+        err.propio = false;
+        return proceed(err)
+      });
+    } catch (err) {
+      err.bd = false;
+      err.propio = false;
+      return proceed(err)
+    }
+
+    return proceed();
+
+  },
   tableName: 'products_has_zones'
 };
