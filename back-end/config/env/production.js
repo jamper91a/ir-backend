@@ -39,7 +39,7 @@ module.exports = {
     ***************************nodemon a************************************************/
     default: {
       adapter: 'sails-mysql',
-      url: 'mysql://jorge:aIR2019**@localhost:3306/inventarioRealen',
+      url: 'mysql://jorge:aIR2019**@localhost:3306/inventarioRealEn',
 
     },
 
