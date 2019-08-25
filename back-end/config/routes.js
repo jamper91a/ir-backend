@@ -10,50 +10,47 @@
 
 module.exports.routes = {
 
-  'GET /':{
-    view: 'pages/homepage'
-  },
 
   'POST /login': 'Users.login',
   '/logout': 'Users.logout',
 
   //Mercancia
-  'POST /productos/addMercancia': 'ProductosZona.addMercancia',
-  'POST /productos': 'Productos.get',
-  'POST /productos/findProductInLocalByEanPlu': 'ProductosZona.findProductInLocalByEanPlu',
+  'POST /productos/addMercancia': 'ProductsHasZones.addCommodity',
+  'POST /productos/findOne': 'Products.findOne',
+  'POST /productos/findProductInLocalByEanPlu': 'ProductsHasZones.findProductInLocalByEanPlu',
 
   //Usuarios
   'POST /users':'Users.crearEmpleado',
   'POST /sync':'Users.sync',
 
   //Inventarios
-  'POST /inventarios/crear':'Inventarios.crear',
-  'POST /inventarios/consolidar':'Inventarios.consolidar',
-  'POST /inventarios/listarInventarios':'Inventarios.listar',
-  'POST /inventarios/listarProductosInventario':'Inventarios.listarProductos',
-  'POST /inventarios/listarProductosInventariosColaborativos':'Inventarios.listarProductosInventariosColaborativos',
-  'POST /inventarios/adjuntar':'Inventarios.adjuntar',
+  'POST /inventarios/crear':'Inventories.create',
+  'POST /inventarios/consolidar':'Inventories.consolidate',
+  'POST /inventarios/listarInventarios':'Inventories.list',
+  'POST /inventarios/listarProductosInventario':'Inventories.listProducts',
+  // 'POST /inventarios/listarProductosInventariosColaborativos':'Inventories.listarProductosInventariosColaborativos',
+  'POST /inventarios/adjuntar':'Inventories.attach',
 
   //InventariosConsolidados
-  'POST /inventariosConsolidados/listar':'InventariosConsolidados.listar',
-  'POST /inventariosConsolidados/listarTodos':'InventariosConsolidados.listarTodos',
-  'POST /inventariosConsolidados/listarProductos':'InventariosConsolidados.listarProductos',
-  'POST /inventariosConsolidados/ultimoInventario':'InventariosConsolidados.ultimoInventario',
+  'POST /inventariosConsolidados/listar':'ConsolidatedInventories.list',
+  'POST /inventariosConsolidados/listarTodos':'ConsolidatedInventories.listAll',
+  'POST /inventariosConsolidados/listarProductos':'ConsolidatedInventories.listProducts',
+  'POST /inventariosConsolidados/ultimoInventario':'ConsolidatedInventories.lastInventory',
 
 
   //Transferencias
-  'POST /transferencias/crear':'Transferencias.crear',
-  'POST /transferencias/buscar':'Transferencias.buscar',
-  'POST /transferencias/obtenerTransferencia':'Transferencias.obtenerTransferencia',
-  'POST /transferencias/obtenerTransferencias':'Transferencias.obtenerTransferencias',
-  'POST /transferencias/finalizarTransferencia':'Transferencias.finalizarTransferencia',
+  'POST /transferencias/crear':'Transfers.create',
+  'POST /transferencias/buscar':'Transfers.find',
+  'POST /transferencias/listTransfersByType':'Transfers.listTransfersByType',
+  'POST /transferencias/listTransfersByShop':'Transfers.listTransfersByShop',
+  'POST /transferencias/finishTransfer':'Transfers.finishTransfer',
   
   //Devoluciones
-  'POST /devoluciones/devolverProductos':'Devoluciones.devolverProductos',
+  'POST /devoluciones/devolverProductos':'Devolutions.returnProducts',
   
-  //Reportes
-  'POST /reportes/diferenceBetweenInventories': 'Reportes.diferenceBetweenInventories',
-  'POST /reportes/guardarReporte': 'Reportes.guardarReporte',
+  //Report
+  'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
+  'POST /reportes/guardarReporte': 'Reports.saveReport',
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',

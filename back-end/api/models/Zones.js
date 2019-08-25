@@ -5,24 +5,21 @@
 var moment = require('moment');
 module.exports = {
   attributes: {
-    state: {
-      type: "number",
-    },
-    company: {
-      model: 'companies',
-      columnName: "company_id",
-      required: true
-    },
-    epc: {
+    name: {
       type: "string",
-      unique: true
+    },
+    shop: {
+      model: "shops",
+      columnName: "shop_id",
+      required: true
     }
+
   },
   customToJSON: function () {
     //Si no se obtiene algun producto asociado, se retorna un objecto
-    if (typeof this.company == "number")
-      this.company = {
-        id: this.company
+    if (typeof this.shop == "number")
+      this.shop = {
+        id: this.shop
       };
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
