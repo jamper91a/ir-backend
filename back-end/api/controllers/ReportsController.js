@@ -8,45 +8,44 @@ module.exports = {
 
   diferenceBetweenInventories: async function(req,res){
     try {
-      if (!req.body.inventario_inicial || !req.body.inventario_final) {
+      if (!req.body.firstInventory || !req.body.secondInventory) {
         let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
         return res.generalAnswer(things);
       }
       //Find all inventories of the first consolidated inventory
-      let inventories = await Inventarios.find({
-        where: {inventarios_consolidados_id: req.body.inventario_inicial}
+      let inventories = await Inventories.find({
+        where: {consolidatedInventory: req.body.firstInventory}
       })
-        .populate('productos_zona');
+        .populate('products');
       //Add the products of the first inventory to an var
-      let productsFirstInventory= new Array();
+      let productsFirstInventory= [];
       for(const inventory  of inventories)
-        productsFirstInventory = productsFirstInventory.concat(inventory.productos_zona);
+        productsFirstInventory = productsFirstInventory.concat(inventory.products);
 
       //Find all inventories of the second consolidated inventory
-      inventories = await Inventarios.find({
-        where: {inventarios_consolidados_id: req.body.inventario_final}
+      inventories = await Inventories.find({
+        where: {consolidatedInventory: req.body.secondInventory}
       })
-        .populate('productos_zona');
+        .populate('products');
       //Add the products of the first inventory to an var
-      let productsSecondInventory= new Array();
+      let productsSecondInventory= [];
       for(const inventory  of inventories)
-        productsSecondInventory = productsSecondInventory.concat(inventory.productos_zona);
-      let notFoundProducts = new Array();
+        productsSecondInventory = productsSecondInventory.concat(inventory.products);
+      let notFoundProducts = [];
       //Search for the products of the first inventory in the second inventory
       async.forEach(productsFirstInventory,
         async function (firstProduct, cb) {
-          let found = productsSecondInventory.find(product => product.id == firstProduct.id);
+          let found = productsSecondInventory.find(product => product.id === firstProduct.id);
           //If the product was not found I will check if it was sold or transfer
           if(!found){
-            if(firstProduct.ventas_id<=1){
+            if(firstProduct.sell<=1){
               notFoundProducts.push(firstProduct);
               cb();
             }else{
               //Search for the product in the transfer table
-              let transfer = await Transferencias.find({where: {productos_zonas_id: firstProduct.id}});
+              let transfer = await Transfers.find({where: {products: firstProduct.id}});
               if(!transfer){
                 notFoundProducts.push(firstProduct);
-
               }
               cb();
             }
@@ -70,24 +69,23 @@ module.exports = {
     }
   },
 
-  guardarReporte: async function (req, res) {
+  saveReport: async function (req, res) {
     try {
       sails.getDatastore()
         .transaction(async (db,proceed)=> {
 
           try {
-            if (!req.body.productos || !req.body.reporte.inventario_inicial_id || !req.body.reporte.inventario_final_id || !req.body.reporte.tipo_inventario) {
+            if (!req.body.products || !req.body.report.firstInventory || !req.body.report.secondInventory || !req.body.report.type) {
               let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
               return res.generalAnswer(things);
             }
-            let empleado_id= req.empleado.id;
-            req.body.reporte.empleados_id=empleado_id;
-            let productos= req.body.productos;
+            req.body.report.employee=req.employee.id;
+            let products= req.body.products;
             //Creo el reporte
-            let reporte= await Reportes.create(req.body.reporte).usingConnection(db).fetch();
+            let reporte= await Reports.create(req.body.report).usingConnection(db).fetch();
             //Asocios los productos al reporte reciente creado
-            productos.forEach(pz => pz.reportes_id = reporte.id);
-            await ReportesHasProductosZonas.createEach(productos).usingConnection(db);
+            products.forEach(pz => pz.report = reporte.id);
+            await ReportsHasProductsZones.createEach(products).usingConnection(db);
             things = {
               code: 'ok', data: {}, error: null, propio: false, bd: false};
             return proceed(null, things);

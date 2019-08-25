@@ -5,24 +5,29 @@
 var moment = require('moment');
 module.exports = {
   attributes: {
-    state: {
-      type: "number",
-    },
-    company: {
-      model: 'companies',
-      columnName: "company_id",
-      required: true
+    name: {
+      type: "string",
     },
     epc: {
-      type: "string",
-      unique: true
+      model: "epcs",
+      columnName: "epc_id",
+      required: true
+    },
+    zone: {
+      model: "zones",
+      columnName: "zone_id",
+      required: true
     }
   },
   customToJSON: function () {
     //Si no se obtiene algun producto asociado, se retorna un objecto
-    if (typeof this.company == "number")
-      this.company = {
-        id: this.company
+    if (typeof this.epc == "number")
+      this.epc = {
+        id: this.epc
+      };
+    if (typeof this.zone == "number")
+      this.zone = {
+        id: this.zone
       };
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
@@ -31,5 +36,5 @@ module.exports = {
       this.updatedAt = moment(this.updatedAt).format("YYYY-MM-DDTHH:mm:ss");
     }
     return this;
-  }
+  },
 };

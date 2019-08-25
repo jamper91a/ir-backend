@@ -5,16 +5,15 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 module.exports = {
-  devolverProductos: function (req, res) {
-    productos_zona = JSON.parse(req.body.productos_zona);
-    console.log(productos_zona);
+  returnProducts: function (req, res) {
+    let products = JSON.parse(req.body.products);
     sails.getDatastore()
       .transaction(async (db, proceed) => {
         //actualizacion de cada producto zona
         let prd, things;
-        productos_zona.forEach(async element => {
+        products.forEach(async element => {
           try {
-            prd = await ProductosZona.update({ epcs_id: element.epcs_id }).set({ devoluciones_id: element.devoluciones_id, devolucion_observaciones:element.devolucion_observaciones }).fetch();
+            prd = await ProductsHasZones.update({ epc: element.epc }).set({ devolution: element.devolution, notes_return:element.notes_return }).fetch();
           } catch (err) {
             things = { code: err.number, data: [], error: err, propio: err.propio, bd: err.bd };
             return proceed(things);

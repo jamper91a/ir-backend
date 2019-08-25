@@ -6,24 +6,24 @@
  */
 module.exports = {
 
-  get: async function(req,res){
-    let producto, things;
-    if(!req.body.codigo){
+  findOne: async function(req,res){
+    let product, things;
+    if(!req.body.code){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
     }
     try {
-      producto = await  Productos.findOne({
+      product = await  Products.findOne({
         where:{
           or:[
-            {ean: req.body.codigo},
-            {plu: req.body.codigo},
+            {ean: req.body.code},
+            {plu: req.body.code},
 
           ]
         }
-      }).populate('companias_id');
-      if(producto)
-        things = {code: '', data: producto, error: null, propio: false, bd: false};
+      }).populate('company');
+      if(product)
+        things = {code: '', data: product, error: null, propio: false, bd: false};
       else
         things = {code: 'error_G06', data: [], error:true};
 
