@@ -39,13 +39,15 @@ module.exports = {
           //If the product was not found I will check if it was sold or transfer
           if(!found){
             if(firstProduct.sell<=1){
-              notFoundProducts.push(firstProduct);
+              if(!sails.helpers.existInArray(notFoundProducts, firstProduct))
+                notFoundProducts.push(firstProduct);
               cb();
             }else{
               //Search for the product in the transfer table
-              let transfer = await Transfers.find({where: {products: firstProduct.id}});
+              let transfer = await TransfersHasZonesProducts.find({where: {product: firstProduct.id}});
               if(!transfer){
-                notFoundProducts.push(firstProduct);
+                if(!sails.helpers.existInArray(notFoundProducts, firstProduct))
+                  notFoundProducts.push(firstProduct);
               }
               cb();
             }
@@ -68,6 +70,7 @@ module.exports = {
       return res.generalAnswer(things);
     }
   },
+
 
   saveReport: async function (req, res) {
     try {
