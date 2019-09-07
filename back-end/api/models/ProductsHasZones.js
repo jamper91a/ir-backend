@@ -151,6 +151,39 @@ module.exports = {
     }
 
     //endregion
+    //region Devolution validation
+    //If the product is going to be returned, it shuould has been sold before and not returned
+    sails.log.info(valuesToSet);
+    if(valuesToSet.devolution>1){
+      try {
+        let product = await ProductsHasZones.findOne({
+          id: valuesToSet.id
+        });
+        if (product && product.sell <= 1) {
+          let err = new Error('error_DEV01');
+          err.bd = true;
+          err.propio = true;
+          err.number = 'error_DEV01';
+          return proceed(err);
+        }
+        if (product && product.devolution >1){
+          let err = new Error('error_DEV02');
+          err.bd = true;
+          err.propio = true;
+          err.number = 'error_DEV02';
+          return proceed(err);
+        }
+      } catch (e) {
+        sails.log.error(e);
+        let err = new Error('error_DEV03');
+        err.bd = true;
+        err.propio = true;
+        err.number = 'error_DEV03';
+        return proceed(err);
+      }
+    }
+
+    //endregion
     try {
       Epcs.find({
         id: valuesToSet.epc,

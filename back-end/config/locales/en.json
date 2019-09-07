@@ -41,5 +41,7 @@
 	"ok": "ok",
 	"Invalid criteria.\nDetails:\n  Could not use the provided `where` clause.  Could not filter by `estado`: `estado` is not a recognized attribute for this model (`transfershaszonesproducts`).  And since the model declares `schema: true`, this is not allowed.\n": "Invalid criteria.\nDetails:\n  Could not use the provided `where` clause.  Could not filter by `estado`: `estado` is not a recognized attribute for this model (`transfershaszonesproducts`).  And since the model declares `schema: true`, this is not allowed.\n",
 	"More than one matching record found for `.findOne()`:\n···\n1,2\n···\n\nCriteria used:\n···\n{ where: { and: [ { products_has_zone_id: 1 }, { state: false } ] },\n  limit: 2,\n  skip: 0,\n  sort: [],\n  select:\n   [ 'createdAt',\n     'updatedAt',\n     'id',\n     'products_has_zone_id',\n     'transfer_id',\n     'state' ] }\n···": "More than one matching record found for `.findOne()`:\n···\n1,2\n···\n\nCriteria used:\n···\n{ where: { and: [ { products_has_zone_id: 1 }, { state: false } ] },\n  limit: 2,\n  skip: 0,\n  sort: [],\n  select:\n   [ 'createdAt',\n     'updatedAt',\n     'id',\n     'products_has_zone_id',\n     'transfer_id',\n     'state' ] }\n···",
-	"error_SELL01": "error_SELL01"
+	"error_SELL01": "error_SELL01",
+	"error_DEV03": "error_DEV03",
+	"error_DEV01": "error_DEV01"
 }

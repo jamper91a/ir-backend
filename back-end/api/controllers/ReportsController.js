@@ -76,6 +76,13 @@ module.exports = {
     try {
       sails.getDatastore()
         .transaction(async (db,proceed)=> {
+          //CONVERT TO JSON
+          try {
+            req.body.products = JSON.parse(req.body.products);
+            req.body.report = JSON.parse(req.body.report);
+          }catch (e) {
+
+          }
 
           try {
             if (!req.body.products || !req.body.report.firstInventory || !req.body.report.secondInventory || !req.body.report.type) {
