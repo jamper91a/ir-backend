@@ -17,7 +17,7 @@ module.exports = {
     }
 
     let products=req.body.products;
-    let transfer=req.body.products;
+    let transfer=req.body.transfer;
     try {
       products = JSON.parse(req.body.products);
       transfer = JSON.parse(req.body.transfer);
@@ -143,16 +143,22 @@ module.exports = {
       )
         .populate('products')
         .populate('shopSource')
+        .populate('employee')
         .populate('shopDestination');
 
       //Lleno la informacion de cada produco_zona_has_transferencias
       for (let i = 0; i < transfers.length; i++) {
         let transfer = transfers[i];
+        //Busco la informacion del usuario generador de la transferencia
+        let user = await Users.findOne({id: transfer.employee.user});
+        transfer.employee.user = user;
         for (let j = 0; j < transfer.products.length; j++) {
           let product = transfer.products[j];
           let productZone = product.product;
           //Busco la informacion de dichos elementos
-          transfers[i].products[j].product = await ProductsHasZones.findOne({id: productZone});
+          transfers[i].products[j].product = await ProductsHasZones.findOne({id: productZone})
+            .populate('product')
+            .populate('epc');
         }
       }
       things = {code: 'Ok', data: transfers};
