@@ -39,13 +39,15 @@ module.exports = {
           //If the product was not found I will check if it was sold or transfer
           if(!found){
             if(firstProduct.sell<=1){
-              notFoundProducts.push(firstProduct);
+              if(!sails.helpers.existInArray(notFoundProducts, firstProduct))
+                notFoundProducts.push(firstProduct);
               cb();
             }else{
               //Search for the product in the transfer table
-              let transfer = await Transfers.find({where: {products: firstProduct.id}});
+              let transfer = await TransfersHasZonesProducts.find({where: {product: firstProduct.id}});
               if(!transfer){
-                notFoundProducts.push(firstProduct);
+                if(!sails.helpers.existInArray(notFoundProducts, firstProduct))
+                  notFoundProducts.push(firstProduct);
               }
               cb();
             }
@@ -69,10 +71,18 @@ module.exports = {
     }
   },
 
+
   saveReport: async function (req, res) {
     try {
       sails.getDatastore()
         .transaction(async (db,proceed)=> {
+          //CONVERT TO JSON
+          try {
+            req.body.products = JSON.parse(req.body.products);
+            req.body.report = JSON.parse(req.body.report);
+          }catch (e) {
+
+          }
 
           try {
             if (!req.body.products || !req.body.report.firstInventory || !req.body.report.secondInventory || !req.body.report.type) {

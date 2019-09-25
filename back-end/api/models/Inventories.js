@@ -14,6 +14,9 @@ module.exports = {
     collaborative: {
       type: "number",
     },
+    message: {
+      type: "string",
+    },
     zone: {
       model: "zones",
       columnName: "zone_id",

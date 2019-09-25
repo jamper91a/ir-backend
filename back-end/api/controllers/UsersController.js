@@ -80,7 +80,7 @@ module.exports = {
   },
   sync: async function (req, res) {
     try {
-      let epcs, products,productsHasZones, zones, shops, devolutions;
+      let epcs, products,productsHasZones, zones, shops, devolutions, transfers;
       //Obtengo los epcs
       epcs = await Epcs.find({
         where: {
@@ -110,16 +110,23 @@ module.exports = {
       try {
 
 
-        //Obtengo las zonas
+        //Obtengo todas las zonas
         zones = await Zones.find({
           where: {
             shop: _.map(shops, 'id')
           }
         });
+
+        //Obtengo las zonas del local de este usuario
+        zonesThisUser = await Zones.find({
+          where: {
+            shop: req.employee.shop.id
+          }
+        });
         // Obtengo los productos_zona de la compania por zona
         productsHasZones = await ProductsHasZones.find({
           where: {
-            zone: _.map(zones, 'id'),
+            zone: _.map(zonesThisUser, 'id'),
             updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
           }
         })
@@ -130,6 +137,34 @@ module.exports = {
       } catch (e) {
         console.error(e);
       }
+
+      //Obtengo las transferencias que van a este local
+      transfers = await Transfers.find({
+        where:{
+          shopDestination: req.employee.shop.id,
+          updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
+        }
+      })
+        .populate('products');
+      for(const transfer  of transfers){
+        //Obtengo los productos de esta transferencia
+          const products = await ProductsHasZones.find({
+            where: {
+              id:_.map(transfer.products, 'product')
+            }
+          })
+            .populate('product')
+            .populate('zone')
+            .populate('devolution')
+            .populate('epc');
+          if(products){
+            productsHasZones = productsHasZones.concat(products);
+          }
+
+
+      }
+
+
 
 
 

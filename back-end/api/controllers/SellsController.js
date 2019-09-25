@@ -52,7 +52,7 @@ module.exports = {
             async function (error) {
               if(error)
               {
-                return proceed(null,error);
+                return proceed(error);
               }else{
                 let things={code: '', req:req, res:res, data:products, error:null};
                 return proceed(null,things);

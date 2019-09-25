@@ -46,7 +46,8 @@ module.exports = {
     epc: {
       model: "epcs",
       columnName: "epc_id",
-      required: true
+      required: true,
+      unique: true
     },
 
     //Relaciones muchos a muchos
@@ -151,30 +152,38 @@ module.exports = {
     }
 
     //endregion
-    try {
-      Epcs.find({
-        id: valuesToSet.epc,
-        state: 0
-      }).then(function (epc) {
-        if (epc && epc.length > 0) {
-          //Everything is ok
-        } else {
-          let err = new Error('error_EPC01');
+    //region Devolution validation
+    //If the product is going to be returned, it shuould has been sold before and not returned
+    if(valuesToSet.devolution>1){
+      try {
+        let product = await ProductsHasZones.findOne({
+          id: valuesToSet.id
+        });
+        if (product && product.sell <= 1) {
+          let err = new Error('error_DEV01');
           err.bd = true;
           err.propio = true;
-          err.number = 'error_EPC01';
+          err.number = 'error_DEV01';
           return proceed(err);
         }
-      }).catch(function (err) {
+        if (product && product.devolution >1){
+          let err = new Error('error_DEV02');
+          err.bd = true;
+          err.propio = true;
+          err.number = 'error_DEV02';
+          return proceed(err);
+        }
+      } catch (e) {
+        sails.log.error(e);
+        let err = new Error('error_DEV03');
         err.bd = true;
-        err.propio = false;
-        return proceed(err)
-      });
-    } catch (err) {
-      err.bd = false;
-      err.propio = false;
-      return proceed(err)
+        err.propio = true;
+        err.number = 'error_DEV03';
+        return proceed(err);
+      }
     }
+
+    //endregion
 
     return proceed();
 

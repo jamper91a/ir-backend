@@ -28,7 +28,7 @@ module.exports = {
             async function (product, cb) {
             //Busco el epc id de ese epc
             try {
-              let epc = await Epcs.find({ where: {epc: product.epc}}).limit(1);
+              let epc = await Epcs.find({ where: {epc: product.epc}}).limit(1).usingConnection(db);
               if(epc){
                 epc= epc[0];
                 product.epc=epc.id;

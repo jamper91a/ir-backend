@@ -91,6 +91,9 @@ module.exports = {
         sails.getDatastore()
           .transaction(async (db,proceed)=> {
 
+            //Actualizo el mensaje
+            let newMessage =  inventory.message + "." + req.employee.id + ": " + req.body.inventory.message;
+            await Inventories.updateOne({id: req.body.inventory.id}, {message: newMessage }).usingConnection(db);
             //Una vez creado el inventario, le asocio el usuari
             try {
               employessInventory = await EmployeesInventories.create({inventory:inventory.id,employee:req.employee.id}).usingConnection(db).fetch();
@@ -144,7 +147,7 @@ module.exports = {
       let employees, inventories, things;
       try {
          employees = await  Employees.find({
-           where:{company: req.employee.company.id}
+           where:{company: req.employee.id}
          })
            .populate('inventories',{
              where:{
