@@ -218,6 +218,7 @@ module.exports = {
     }
 
     let products=req.body.products;
+    let newProducts = new Array();
     try {
       products=JSON.parse(req.body.products);
     } catch (e) {
@@ -227,20 +228,21 @@ module.exports = {
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
         await TransfersHasZonesProducts.update(_.map(products, 'id'), {state: 1}).usingConnection(db);
-        await products.forEach(async function (pht) {
+        for(const pht of products){
           //Find the zona where the product must go
           let tranfer = await Transfers.findOne({id: pht.transfer});
           if(tranfer){
             try {
               let shopDestination = await Shops.findOne({id: tranfer.shopDestination})
                 .populate("zone", {limit: 1});
-              await ProductsHasZones.updateOne({id: pht.product}, {zone: shopDestination.zone[0].id}).usingConnection(db);
+              let pz = await ProductsHasZones.updateOne({id: pht.product}, {zone: shopDestination.zone[0].id})                                                                 .usingConnection(db);
+              newProducts.push(pz);
             } catch (e) {
               proceed(e);
             }
           }
-        });
-        return proceed(null, {});
+        }
+        return proceed(null, {code: 'Ok', data: newProducts});
         // try {
         //   productos_has_transferencias.forEach(ip => ip.transferencias_id = tra.id);
         //   return proceed(null, {});
