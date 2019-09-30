@@ -118,6 +118,113 @@ module.exports = {
       return res.generalAnswer(things);
 
     }
+  },
+
+  getReportsByType: async function(req, res){
+    let things = {};
+    if (!req.body.type) {
+      let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+      return res.generalAnswer(things);
+    }
+    try {
+      switch (req.body.type) {
+        case "diferenceBetweenInventories":
+          let reports = await Reports.find({
+            where: {
+              type: 1
+            }
+          });
+          things = {
+            code: 'ok', data: reports, error: null, propio: false, bd: false
+          };
+          break;
+      }
+      return res.generalAnswer(things);
+    } catch (e) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+
+  },
+
+  getReportById: async function(req, res){
+    let things = {};
+    if (!req.body.id) {
+      things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+      return res.generalAnswer(things);
+    }
+    try {
+        let report = await Reports.findOne({
+          where: { id: req.body.id }
+        })
+          .populate('products',{
+            where:{
+              homologatorEmployee: 0
+            }
+          });
+        //Get the products zone
+      if(report){
+        let productsZones = [];
+        for(const product of report.products){
+          //Check the productZone
+          const productsZone = await ProductsHasZones.findOne({
+            where:{
+              id: product.product
+            }
+          })
+            .populate('zone')
+            .populate('epc')
+            .populate('product');
+          if(productsZone){
+            productsZones.push(productsZone);
+          }
+        }
+        let data = {
+          report: report,
+          productsHasZones: productsZones
+        }
+        things = {
+          code: 'ok', data: data, error: null, propio: false, bd: false
+        };
+
+      }else{
+        things = {code: 'error_G06', req: req, res: res, data: [], error: new Error("error_G06")};
+      }
+      return res.generalAnswer(things);
+    } catch (e) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+
+  },
+
+  homologateUnits: async function(req, res){
+    let things = {};
+    if (!req.body.products) {
+      let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+      return res.generalAnswer(things);
+    }
+    try {
+      //CONVERT TO JSON
+      let products, homologator_employee_id;
+      try {
+        products = JSON.parse(req.body.products);
+      }catch (e) {
+        products = req.body.products;
+      }
+      homologator_employee_id = req.employee.id;
+      sails.log.info(products);
+      sails.log.info(homologator_employee_id);
+      await ReportsHasProductsZones.update(_.map(products, 'id'), {homologatorEmployee: homologator_employee_id});
+      things = {
+        code: 'ok', data: {}, error: null, propio: false, bd: false
+      };
+      return res.generalAnswer(things);
+    } catch (e) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+
   }
 
 };
