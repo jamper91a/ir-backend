@@ -31,6 +31,10 @@ module.exports = {
       this.report = {
         id: this.report
       };
+    if (typeof this.homologatorEmployee == "number")
+      this.homologatorEmployee = {
+        id: this.homologatorEmployee
+      };
 
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");

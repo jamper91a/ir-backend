@@ -51,6 +51,9 @@ module.exports.routes = {
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
   'POST /reportes/guardarReporte': 'Reports.saveReport',
+  'POST /reportes/getReportsByType': 'Reports.getReportsByType',
+  'POST /reportes/homologateUnits': 'Reports.homologateUnits',
+  'POST /reportes/getReportById': 'Reports.getReportById',
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',
