@@ -136,7 +136,7 @@ module.exports = {
         //Find all zones of the company of the empleado
         let zones = await Zones.find({
           where: {
-            shop: shops
+            shop: req.employee.shop.id
           },
           select: ['id']
         });
