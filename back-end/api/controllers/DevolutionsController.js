@@ -15,17 +15,24 @@ module.exports = {
       .transaction(async (db, proceed) => {
         //actualizacion de cada producto zona
         let prd, things;
-        products.forEach(async element => {
 
-        });
 
         async.each(products,
           async function (element, cb) {
             try {
-              prd = await ProductsHasZones.update({ epc: element.epc }).set({ id: element.id, devolution: element.devolution, notes_return:element.notes_return }).fetch();
+              let devolutionHistory = {
+                user:req.employee.user.id,
+                product: element.product,
+                productsHasZone: element.id
+              };
+              await DevolutionsHistory.create(devolutionHistory).usingConnection(db);
+              prd = await ProductsHasZones.update({ epc: element.epc }).set({ id: element.id, devolution: element.devolution, notes_return:element.notes_return, sell: 1 }).fetch().usingConnection(db);
+
+
+              cb();
             } catch (err) {
               things = { code: err.number, data: [], error: err, propio: err.propio, bd: err.bd };
-              return proceed(things);
+              return cb(things);
             }
 
           },

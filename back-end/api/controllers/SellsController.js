@@ -27,21 +27,27 @@ module.exports = {
       .transaction(async (db,proceed)=> {
 
         //Primero creo la venta
-        sell.employee = req.employee.id;
-        let newSell,productsFromTransfer, things;
+        sell.user = req.employee.user.id;
+        let newSell,things;
         try {
           newSell = await Sells.create(sell).usingConnection(db).fetch();
         } catch (err) {
           things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
           return proceed(things);
         }
-        //Una vez creado la transferencia, le asocio los productos
         try {
           products.forEach(p => p.sell = {id: newSell.id});
           async.each(products,
             async function (product, cb) {
               try {
-                await ProductsHasZones.updateOne({id: product.id}, {id: product.id, sell: newSell.id}).usingConnection(db);
+                await ProductsHasZones.updateOne({id: product.id}, {id: product.id, sell: newSell.id, devolution: 1}).usingConnection(db);
+                //Create a record in the history
+                let saleHistory = {
+                  user:req.employee.user.id,
+                  product: product.product_id,
+                  productsHasZone: product.id
+                };
+                await SalesHistory.create(saleHistory).usingConnection(db);
                 cb();
               } catch (err) {
                 let things={code: err.number, req:req, res:res, data:[], error:err, propio:err.propio, bd:err.bd};
@@ -54,11 +60,14 @@ module.exports = {
               {
                 return proceed(error);
               }else{
+
                 let things={code: '', req:req, res:res, data:products, error:null};
                 return proceed(null,things);
               }
 
             });
+
+
         } catch (err) {
           things = {code: err.message, error: err};
           return proceed(things);
