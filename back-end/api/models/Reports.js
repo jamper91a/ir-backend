@@ -9,6 +9,8 @@ module.exports = {
     amount: {type: "number"},
     units_sell: {type: "number"},
     units_returned: {type: "number"},
+    firstDate: {type: 'ref', columnType: 'datetime'},
+    secondDate: { type: 'ref', columnType: 'datetime'},
     employee: {
       model: "employees",
       columnName: "employee_id",
@@ -17,12 +19,12 @@ module.exports = {
     firstInventory: {
       model: "consolidatedInventories",
       columnName: "inventory_first_id",
-      required: true
+      required: false
     },
     secondInventory: {
       model: "consolidatedInventories",
       columnName: "inventory_second_id",
-      required: true
+      required: false
     },
     //   //region Relaciones
     products: {

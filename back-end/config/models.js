@@ -119,67 +119,6 @@ module.exports.models = {
   ***************************************************************************/
 
   cascadeOnDestroy: true,
-  // customToJSON: function() {
-  //   //Si no se obtiene algun producto asociado, se retorna un objecto
-  //
-  //
-  //   if (this.fecha) {
-  //
-  //     var date = new Date(Date.parse(this.fecha)),
-  //       y = date.getFullYear(),
-  //       m = date.getMonth(),
-  //       d = date.getDate(),
-  //       h = date.getHours(),
-  //       M = date.getMinutes(),
-  //       newDate = new Date();
-  //
-  //     newDate.setUTCFullYear(y);
-  //     newDate.setUTCMonth(m);
-  //     newDate.setUTCDate(d);
-  //     newDate.setUTCHours(h);
-  //     newDate.setUTCMinutes(M);
-  //
-  //     this.fecha= newDate.toISOString().slice(0,-8);
-  //   }
-  //   if (this.createdAt) {
-  //
-  //     var date = new Date(Date.parse(this.createdAt)),
-  //       y = date.getFullYear(),
-  //       m = date.getMonth(),
-  //       d = date.getDate(),
-  //       h = date.getHours(),
-  //       M = date.getMinutes(),
-  //       newDate = new Date();
-  //
-  //     newDate.setUTCFullYear(y);
-  //     newDate.setUTCMonth(m);
-  //     newDate.setUTCDate(d);
-  //     newDate.setUTCHours(h);
-  //     newDate.setUTCMinutes(M);
-  //
-  //     this.createdAt= newDate.toISOString().slice(0,-8);
-  //   }
-  //   if (this.updatedAt) {
-  //
-  //     var date = new Date(Date.parse(this.updatedAt)),
-  //       y = date.getFullYear(),
-  //       m = date.getMonth(),
-  //       d = date.getDate(),
-  //       h = date.getHours(),
-  //       M = date.getMinutes(),
-  //       newDate = new Date();
-  //
-  //     newDate.setUTCFullYear(y);
-  //     newDate.setUTCMonth(m);
-  //     newDate.setUTCDate(d);
-  //     newDate.setUTCHours(h);
-  //     newDate.setUTCMinutes(M);
-  //
-  //     this.updatedAt= newDate.toISOString().slice(0,-8);
-  //   }
-  //
-  //   return this;
-  // }
   customToJSON: function() {
     if(this.createdAt){
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
