@@ -159,7 +159,7 @@ module.exports = {
         })
           .populate('products',{
             where:{
-              homologatorEmployee: 0
+              homologatorEmployee: null
             }
           });
         //Get the products zone
