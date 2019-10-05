@@ -9,12 +9,6 @@ module.exports = {
     admission_date: {
       type: 'ref', columnType: 'datetime', autoCreatedAt: true
     },
-    sell_date: {
-      type: 'ref', columnType: 'datetime',
-    },
-    return_date: {
-      type: 'ref', columnType: 'datetime',
-    },
     notes_return: {
       type: "string",
       allowNull: true
@@ -22,6 +16,11 @@ module.exports = {
     logs_users: {
       type: "string",
       allowNull: true
+    },
+    wasTransfered: {
+      type: "boolean",
+      allowNull: true,
+      defaultsTo: false
     },
     product: {
       model: "Products",
