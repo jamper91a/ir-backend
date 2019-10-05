@@ -71,7 +71,6 @@ module.exports = {
     }
   },
 
-
   saveReport: async function (req, res) {
     try {
       sails.getDatastore()
@@ -225,6 +224,73 @@ module.exports = {
       return res.generalAnswer(things);
     }
 
-  }
+  },
+
+  saleUnits: async function(req,res){
+    try {
+      if (!req.body.firstInventory || !req.body.secondInventory) {
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+        return res.generalAnswer(things);
+      }
+      //Find all inventories of the first consolidated inventory
+      let inventories = await Inventories.find({
+        where: {consolidatedInventory: req.body.firstInventory}
+      })
+        .populate('products');
+      //Add the products of the first inventory to an var
+      let productsFirstInventory= [];
+      for(const inventory  of inventories)
+        productsFirstInventory = productsFirstInventory.concat(inventory.products);
+
+      //Find all inventories of the second consolidated inventory
+      inventories = await Inventories.find({
+        where: {consolidatedInventory: req.body.secondInventory}
+      })
+        .populate('products');
+      //Add the products of the second inventory to an var
+      let productsSecondInventory= [];
+      for(const inventory  of inventories)
+        productsSecondInventory = productsSecondInventory.concat(inventory.products);
+      let saleUnits = [];
+      let returnedUnits = [];
+      //Search for the products of the first inventory in the second inventory
+      async.forEach(productsFirstInventory,
+        async function (firstProduct, cb) {
+          let found = productsSecondInventory.find(product => product.id === firstProduct.id);
+          //If the product was not found I will check if it was sold or transfer
+          if(!found){
+            if(firstProduct.sell>1){
+              if(!sails.helpers.existInArray(saleUnits, firstProduct))
+                saleUnits.push(firstProduct);
+              cb();
+            }else{
+              if(firstProduct.devolution>1){
+                if(!sails.helpers.existInArray(returnedUnits, firstProduct))
+                  returnedUnits.push(firstProduct);
+              }
+              cb();
+            }
+          }else{
+            cb();
+          }
+        },
+        function(error){
+          let things={code: '', data:[], error:null};
+          if(error){
+            things.error=error;
+          }
+          things.data = {
+            saleUnits: saleUnits,
+            returnedUnits: returnedUnits
+          };
+          return res.generalAnswer(things);
+        }
+      );
+
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  },
 
 };
