@@ -95,7 +95,6 @@ module.exports = {
             let reporte= await Reports.create(req.body.report).usingConnection(db).fetch();
             //Asocios los productos al reporte reciente creado
             products.forEach(pz => pz.report = reporte.id);
-            products.forEach(pz => pz.homologatorEmployee = 0);
             await ReportsHasProductsZones.createEach(products).usingConnection(db);
             things = {
               code: 'ok', data: {}, error: null, propio: false, bd: false};
@@ -160,7 +159,7 @@ module.exports = {
         })
           .populate('products',{
             where:{
-              homologatorEmployee: 0
+              homologatorEmployee: null
             }
           });
         //Get the products zone
