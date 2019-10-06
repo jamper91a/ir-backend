@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing Transferencias
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+var moment = require('moment');
 module.exports = {
 
   /**
@@ -232,10 +233,12 @@ module.exports = {
           //Find the zona where the product must go
           let tranfer = await Transfers.findOne({id: pht.transfer});
           if(tranfer){
+            var transferDate = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss");
+            sails.log.info("transferDate: ",transferDate);
             try {
               let shopDestination = await Shops.findOne({id: tranfer.shopDestination})
                 .populate("zone", {limit: 1});
-              let pz = await ProductsHasZones.updateOne({id: pht.product}, {zone: shopDestination.zone[0].id, wasTransfered: 1})                                                                 .usingConnection(db);
+              let pz = await ProductsHasZones.updateOne({id: pht.product}, {zone: shopDestination.zone[0].id, wasTransfered: 1, transfer_date: transferDate})                                                                 .usingConnection(db);
               newProducts.push(pz);
             } catch (e) {
               proceed(e);

@@ -251,7 +251,7 @@ module.exports = {
             //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
             {or:[{wasTransfered: null}, {wasTransfered:0}], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate }},
             //Search all the products that were transfer and belongs to the loca and the updated date is in the range
-            {wasTransfered: 1, zone: zones, updatedAt: {'>=': firstDate, '<=': secondDate }},
+            {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate }},
           ]
         }
       });
@@ -322,13 +322,89 @@ module.exports = {
             //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
             {or:[{wasTransfered: null}, {wasTransfered:0}], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate }},
             //Search all the products that were transfer and belongs to the loca and the updated date is in the range
-            {wasTransfered: 1, zone: zones, updatedAt: {'>=': firstDate, '<=': secondDate }},
+            {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate }},
           ]
         }
       });
       let things={code: '', data:[], error:null};
       things.data = products;
       return res.generalAnswer(things);
+
+
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  },
+
+  devolutionsByType: async function(req,res){
+    try {
+      if (!req.body.firstDate || !req.body.secondDate || !req.body.type) {
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+        return res.generalAnswer(things);
+      }
+
+      let firstDate =req.body.firstDate;
+      let secondDate =req.body.secondDate;
+      let type =req.body.type;
+
+      //Check all the zones of the local
+      //Find all zones from the employee's company
+      let zones = await Zones.find({
+        where: {
+          shop: req.employee.shop.id
+        },
+        select: ['id']
+      });
+      zones = zones.map(z => z.id);
+
+      //Find all devolutions by type
+      let devolutions = await Devolutions.find({
+        where: {
+          type: type
+        },
+        select: ['id']
+      });
+      devolutions = devolutions.map(d => d.id);
+      let products = await ProductsHasZones.find({
+        where:{
+          or:[
+            //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
+            {or:[{wasTransfered: null}, {wasTransfered:0}], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate }},
+            //Search all the products that were transfer and belongs to the loca and the updated date is in the range
+            {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate }},
+          ],
+          devolution: devolutions
+        }
+      })
+        .populate('product');
+
+      //Find the information of the supplier
+      async.forEach(products,
+        async function (product, cb) {
+          try {
+            let infoProduct = await Products.findOne({
+              where: {id: product.product.id}
+            })
+              .populate('supplier');
+            if (infoProduct) {
+              product.product = infoProduct;
+            }
+            cb();
+          } catch (e) {
+            cb(e)
+          }
+        },
+        function(error){
+          let things={code: '', data:[], error:null};
+          if(error){
+            things.error=error;
+          }
+          things.data = products;
+          return res.generalAnswer(things);
+        }
+      );
+
 
 
     } catch (err) {
