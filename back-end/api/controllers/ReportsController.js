@@ -297,4 +297,44 @@ module.exports = {
     }
   },
 
+  rotationUnits: async function(req,res){
+    try {
+      if (!req.body.firstDate || !req.body.secondDate) {
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+        return res.generalAnswer(things);
+      }
+
+      let firstDate =req.body.firstDate;
+      let secondDate =req.body.secondDate;
+
+      //Check all the zones of the local
+      //Find all zones from the employee's company
+      let zones = await Zones.find({
+        where: {
+          shop: req.employee.shop.id
+        },
+        select: ['id']
+      });
+      zones = zones.map(z => z.id);
+      let products = await ProductsHasZones.find({
+        where:{
+          or:[
+            //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
+            {or:[{wasTransfered: null}, {wasTransfered:0}], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate }},
+            //Search all the products that were transfer and belongs to the loca and the updated date is in the range
+            {wasTransfered: 1, zone: zones, updatedAt: {'>=': firstDate, '<=': secondDate }},
+          ]
+        }
+      });
+      let things={code: '', data:[], error:null};
+      things.data = products;
+      return res.generalAnswer(things);
+
+
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  },
+
 };
