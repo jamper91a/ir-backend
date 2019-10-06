@@ -10,6 +10,7 @@ module.exports = {
     },
     type: {
       type: "number",
+      allowNull: true
     }
   },
   customToJSON: function () {

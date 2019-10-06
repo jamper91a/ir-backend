@@ -9,8 +9,14 @@ module.exports = {
     amount: {type: "number"},
     units_sell: {type: "number"},
     units_returned: {type: "number"},
-    firstDate: {type: 'ref', columnType: 'datetime'},
-    secondDate: { type: 'ref', columnType: 'datetime'},
+    firstDate: {
+      type: 'ref',
+      columnType: 'datetime'
+    },
+    secondDate: {
+      type: 'ref',
+      columnType: 'datetime'
+    },
     employee: {
       model: "employees",
       columnName: "employee_id",

@@ -55,6 +55,7 @@ module.exports.routes = {
   'POST /reportes/homologateUnits': 'Reports.homologateUnits',
   'POST /reportes/getReportById': 'Reports.getReportById',
   'POST /reportes/saleUnits': 'Reports.saleUnits',
+  'POST /reportes/rotationUnits': 'Reports.rotationUnits',
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',
