@@ -356,6 +356,7 @@ module.exports = {
         },
         select: ['id']
       });
+      zones = zones.map(z => z.id);
 
       //Find all devolutions by type
       let devolutions = await Devolutions.find({
@@ -376,9 +377,34 @@ module.exports = {
           devolution: devolutions
         }
       })
-      let things={code: '', data:[], error:null};
-      things.data = products;
-      return res.generalAnswer(things);
+        .populate('product');
+
+      //Find the information of the supplier
+      async.forEach(products,
+        async function (product, cb) {
+          try {
+            let infoProduct = await Products.findOne({
+              where: {id: product.product.id}
+            })
+              .populate('supplier');
+            if (infoProduct) {
+              product.product = infoProduct;
+            }
+            cb();
+          } catch (e) {
+            cb(e)
+          }
+        },
+        function(error){
+          let things={code: '', data:[], error:null};
+          if(error){
+            things.error=error;
+          }
+          things.data = products;
+          return res.generalAnswer(things);
+        }
+      );
+
 
 
     } catch (err) {
