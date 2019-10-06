@@ -235,7 +235,7 @@ module.exports = {
             try {
               let shopDestination = await Shops.findOne({id: tranfer.shopDestination})
                 .populate("zone", {limit: 1});
-              let pz = await ProductsHasZones.updateOne({id: pht.product}, {zone: shopDestination.zone[0].id})                                                                 .usingConnection(db);
+              let pz = await ProductsHasZones.updateOne({id: pht.product}, {zone: shopDestination.zone[0].id, wasTransfered: 1})                                                                 .usingConnection(db);
               newProducts.push(pz);
             } catch (e) {
               proceed(e);

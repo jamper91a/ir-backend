@@ -84,7 +84,7 @@ module.exports = {
           }
 
           try {
-            if (!req.body.products || !req.body.report.firstInventory || !req.body.report.secondInventory || !req.body.report.type) {
+            if (!req.body.products || !req.body.report.type) {
               let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
               return res.generalAnswer(things);
             }
@@ -228,51 +228,52 @@ module.exports = {
 
   saleUnits: async function(req,res){
     try {
-      if (!req.body.firstInventory || !req.body.secondInventory) {
+      if (!req.body.firstDate || !req.body.secondDate) {
         let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
         return res.generalAnswer(things);
       }
-      //Find all inventories of the first consolidated inventory
-      let inventories = await Inventories.find({
-        where: {consolidatedInventory: req.body.firstInventory}
-      })
-        .populate('products');
-      //Add the products of the first inventory to an var
-      let productsFirstInventory= [];
-      for(const inventory  of inventories)
-        productsFirstInventory = productsFirstInventory.concat(inventory.products);
 
-      //Find all inventories of the second consolidated inventory
-      inventories = await Inventories.find({
-        where: {consolidatedInventory: req.body.secondInventory}
-      })
-        .populate('products');
-      //Add the products of the second inventory to an var
-      let productsSecondInventory= [];
-      for(const inventory  of inventories)
-        productsSecondInventory = productsSecondInventory.concat(inventory.products);
+      let firstDate =req.body.firstDate;
+      let secondDate =req.body.secondDate;
+
+      //Check all the zones of the local
+      //Find all zones from the employee's company
+      let zones = await Zones.find({
+        where: {
+          shop: req.employee.shop.id
+        },
+        select: ['id']
+      });
+      zones = zones.map(z => z.id);
+      let products = await ProductsHasZones.find({
+        where:{
+          or:[
+            //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
+            {or:[{wasTransfered: null}, {wasTransfered:0}], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate }},
+            //Search all the products that were transfer and belongs to the loca and the updated date is in the range
+            {wasTransfered: 1, zone: zones, updatedAt: {'>=': firstDate, '<=': secondDate }},
+          ]
+        }
+      });
+
+
       let saleUnits = [];
       let returnedUnits = [];
       //Search for the products of the first inventory in the second inventory
-      async.forEach(productsFirstInventory,
-        async function (firstProduct, cb) {
-          let found = productsSecondInventory.find(product => product.id === firstProduct.id);
-          //If the product was not found I will check if it was sold or transfer
-          if(!found){
-            if(firstProduct.sell>1){
-              if(!sails.helpers.existInArray(saleUnits, firstProduct))
-                saleUnits.push(firstProduct);
-              cb();
-            }else{
-              if(firstProduct.devolution>1){
-                if(!sails.helpers.existInArray(returnedUnits, firstProduct))
-                  returnedUnits.push(firstProduct);
-              }
-              cb();
-            }
+      async.forEach(products,
+        async function (product, cb) {
+          if(product.sell>1){
+            if(!sails.helpers.existInArray(saleUnits, product))
+              saleUnits.push(product);
+            cb();
           }else{
+            if(product.devolution>1){
+              if(!sails.helpers.existInArray(returnedUnits, product))
+                returnedUnits.push(product);
+            }
             cb();
           }
+
         },
         function(error){
           let things={code: '', data:[], error:null};
@@ -286,6 +287,9 @@ module.exports = {
           return res.generalAnswer(things);
         }
       );
+
+
+
 
     } catch (err) {
       things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
