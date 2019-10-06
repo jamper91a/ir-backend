@@ -9,6 +9,9 @@ module.exports = {
     admission_date: {
       type: 'ref', columnType: 'datetime', autoCreatedAt: true
     },
+    transfer_date: {
+      type: 'ref', columnType: 'datetime'
+    },
     notes_return: {
       type: "string",
       allowNull: true
@@ -82,6 +85,10 @@ module.exports = {
       };
     if (this.admission_date) {
       this.admission_date = moment(this.admission_date).format("YYYY-MM-DDTHH:mm:ss");
+
+    }
+    if (this.transfer_date) {
+      this.transfer_date = moment(this.transfer_date).format("YYYY-MM-DDTHH:mm:ss");
     }
     if (this.sell_date) {
       this.sell_date = moment(this.sell_date).format("YYYY-MM-DDTHH:mm:ss");
