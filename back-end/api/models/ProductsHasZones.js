@@ -12,7 +12,7 @@ module.exports = {
     transfer_date: {
       type: 'ref', columnType: 'datetime'
     },
-    sale_date: {
+    sell_date: {
       type: 'ref', columnType: 'datetime'
     },
     notes_return: {
@@ -96,9 +96,6 @@ module.exports = {
     if (this.sell_date) {
       this.sell_date = moment(this.sell_date).format("YYYY-MM-DDTHH:mm:ss");
     }
-    if (this.return_date) {
-      this.return_date = moment(this.return_date).format("YYYY-MM-DDTHH:mm:ss");
-    }
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
     }
@@ -139,7 +136,7 @@ module.exports = {
   beforeUpdate: async function (valuesToSet, proceed) {
     //region Sells validation
     //If the sell is going to be updated, the product could not have been sold
-    if(valuesToSet.sell>1){
+    if(valuesToSet.sale>1){
       try {
         let product = await ProductsHasZones.findOne({
           id: valuesToSet.id
