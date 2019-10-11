@@ -136,7 +136,7 @@ module.exports = {
   beforeUpdate: async function (valuesToSet, proceed) {
     //region Sells validation
     //If the sell is going to be updated, the product could not have been sold
-    if(valuesToSet.sale>1){
+    if(valuesToSet.sell>1){
       try {
         let product = await ProductsHasZones.findOne({
           id: valuesToSet.id
