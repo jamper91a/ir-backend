@@ -12,6 +12,9 @@ module.exports = {
     transfer_date: {
       type: 'ref', columnType: 'datetime'
     },
+    sell_date: {
+      type: 'ref', columnType: 'datetime'
+    },
     notes_return: {
       type: "string",
       allowNull: true
@@ -92,9 +95,6 @@ module.exports = {
     }
     if (this.sell_date) {
       this.sell_date = moment(this.sell_date).format("YYYY-MM-DDTHH:mm:ss");
-    }
-    if (this.return_date) {
-      this.return_date = moment(this.return_date).format("YYYY-MM-DDTHH:mm:ss");
     }
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");

@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing Zonas
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+var moment = require('moment');
 module.exports = {
 
   diferenceBetweenInventories: async function(req,res){
@@ -412,5 +413,45 @@ module.exports = {
       return res.generalAnswer(things);
     }
   },
+
+  rotationProyectedByEanPlu: async function (req, res){
+    try {
+      if (!req.body.days || !req.body.product_id ) {
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+        return res.generalAnswer(things);
+      }
+
+      let days =req.body.days;
+      let product_id =req.body.product_id;
+
+      let firstDate =new Date();
+      let secondDate =new Date();
+      firstDate = firstDate.setDate(firstDate.getDate()-days);
+
+      firstDate = moment(firstDate).format("YYYY-MM-DDTHH:mm:ss");
+      secondDate = moment(secondDate).format("YYYY-MM-DDTHH:mm:ss");
+
+      sails.log.info(firstDate);
+      sails.log.info(secondDate);
+
+      //Find all products that were sold in those days
+      let products  = await ProductsHasZones.find({
+          where:{
+            sell: {'>':1 },
+            product: product_id,
+            sell_date: {'>=': firstDate, '<=': secondDate }
+          }
+      })
+        .populate('sell')
+        .populate('product');
+
+      let things={code: '', data:products, error:null};
+      res.generalAnswer(things);
+
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  }
 
 };
