@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing Ventas
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+var moment = require('moment');
 module.exports = {
 
   createSell: async function (req, res){
@@ -40,7 +41,8 @@ module.exports = {
           async.each(products,
             async function (product, cb) {
               try {
-                await ProductsHasZones.updateOne({id: product.id}, {id: product.id, sell: newSell.id, devolution: 1}).usingConnection(db);
+                var sellDate = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss");
+                await ProductsHasZones.updateOne({id: product.id}, {id: product.id, sell: newSell.id, devolution: 1, sell_date: sellDate}).usingConnection(db);
                 //Create a record in the history
                 let saleHistory = {
                   user:req.employee.user.id,

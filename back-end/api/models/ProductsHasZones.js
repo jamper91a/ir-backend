@@ -12,6 +12,9 @@ module.exports = {
     transfer_date: {
       type: 'ref', columnType: 'datetime'
     },
+    sale_date: {
+      type: 'ref', columnType: 'datetime'
+    },
     notes_return: {
       type: "string",
       allowNull: true
