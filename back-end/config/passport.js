@@ -66,36 +66,6 @@ const _onLocalStrategyAuth = async (req, username, password, next) => {
     next(e);
   }
 
-  // Users
-  //   .findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: username})
-  //   .then(user => {
-  //     if (!user)
-  //       return next(null, false, {code: 'error_G03',message: sails.__('error_G03')});
-  //
-  //     bcrypt.compare(password, user.password, function(err, res) {
-  //       if(res) {
-  //         //console.log(user.id);
-  //         Employees.findOne({
-  //           user: user.id
-  //         })
-  //           .populate("company")
-  //           .populate("shop")
-  //           .then(function (employee) {
-  //             employee.user = user;
-  //             return next(null, employee, {message: ''});
-  //           })
-  //           .catch(function (err) {
-  //             return next(err);
-  //           });
-  //       }
-  //       else
-  //         return next(null, null, {code: 'error_G04',message: sails.__('error_G04')});
-  //
-  //     });
-  //
-  //
-  //   })
-  //   .catch(next);
 };
 
 /**
@@ -106,7 +76,6 @@ const _onLocalStrategyAuth = async (req, username, password, next) => {
  * @private
  */
 const _onJwtStrategyAuth = (req, payload, next) => {
-  //console.log(payload.empleado_id);
   Employees
     .findOne({id: payload.employee_id})
     .populate("user")

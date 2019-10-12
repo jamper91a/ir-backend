@@ -28,7 +28,6 @@ module.exports.routes = {
   'POST /inventarios/consolidar':'Inventories.consolidate',
   'POST /inventarios/listarInventarios':'Inventories.list',
   'POST /inventarios/listarProductosInventario':'Inventories.listProducts',
-  // 'POST /inventarios/listarProductosInventariosColaborativos':'Inventories.listarProductosInventariosColaborativos',
   'POST /inventarios/adjuntar':'Inventories.attach',
 
   //InventariosConsolidados
@@ -37,6 +36,8 @@ module.exports.routes = {
   'POST /inventariosConsolidados/listarProductos':'ConsolidatedInventories.listProducts',
   'POST /inventariosConsolidados/ultimoInventario':'ConsolidatedInventories.lastInventory',
 
+  //Inventory Erp
+  'POST /inventoryErp/create':'InventoriesErp.create',
 
   //Transferencias
   'POST /transferencias/crear':'Transfers.create',
@@ -58,6 +59,7 @@ module.exports.routes = {
   'POST /reportes/rotationUnits': 'Reports.rotationUnits',
   'POST /reportes/devolutionsByType': 'Reports.devolutionsByType',
   'POST /reportes/rotationProyectedByEanPlu': 'Reports.rotationProyectedByEanPlu',
+  'POST /reportes/diferenceWithInventoryErp': 'Reports.diferenceWithInventoryErp',
 
   //Usuarios
   'GET /zonas/listar':'Zonas.listar',
