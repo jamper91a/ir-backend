@@ -452,6 +452,53 @@ module.exports = {
       things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
       return res.generalAnswer(things);
     }
+  },
+
+  diferenceWithInventoryErp: async function (req, res){
+    try {
+
+      let shop =req.employee.shop.id;
+      let company =req.employee.company.id;
+      let total_products_query = `
+        SELECT COUNT(1) as total, p.id,p.size, ean, plu, plu2, plu3, description, imagen
+        FROM products_has_zones phz, products p, zones z
+        WHERE p.company_id = $1 AND phz.product_id = p.id AND phz.zone_id =z.id AND z.shop_id = $2
+        GROUP BY p.id, p.size, p.ean, p.plu, p.plu2, p.plu3, description, imagen;`;
+      //Get total of every products that has not been sold or transfer
+      let allProducts = await sails.sendNativeQuery(total_products_query, [ company, shop ]);
+      let lastInventoryErp = await InventoryErp.find({
+        where:{
+          shop:shop
+        },
+        limit: 1,
+        sort: 'id DESC'
+      });
+      if(allProducts && lastInventoryErp){
+        allProducts = allProducts.rows;
+        if(lastInventoryErp && lastInventoryErp.length>0)
+          lastInventoryErp = lastInventoryErp[0].products;
+        for(let product of allProducts){
+          product.erp = 0;
+          for(let erpProduct of lastInventoryErp){
+            if(product.ean === erpProduct.ean ||
+              product.plu === erpProduct.plu ||
+              product.plu2 === erpProduct.plu2 ||
+              product.plu3 === erpProduct.plu3
+            ){
+              product.erp = erpProduct.total
+            }
+          }
+        }
+      }
+
+
+      let things={code: '', data:allProducts, error:null};
+      res.generalAnswer(things);
+
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
   }
 
 };
