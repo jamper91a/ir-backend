@@ -127,12 +127,6 @@ module.exports = {
           return res.generalAnswer(things);
         }
 
-        //Find all locals from the company of the empleado
-        let shops = await Shops.find({
-          where: {company: req.employee.company.id},
-          select: ['id']
-        });
-        shops = shops.map(l => l.id);
         //Find all zones of the company of the empleado
         let zones = await Zones.find({
           where: {
@@ -145,7 +139,8 @@ module.exports = {
         let products = await ProductsHasZones.find({
           where: {
             product: req.body.product,
-            zone: zones
+            zone: zones,
+            sell: {'<': 2}
           }
         })
           .populate('product')
