@@ -17,7 +17,9 @@ module.exports.routes = {
   //Mercancia
   'POST /productos/addMercancia': 'ProductsHasZones.addCommodity',
   'POST /productos/findOne': 'Products.findOne',
+  'POST /productos/findOneByEpc': 'Products.findOneByEpc',
   'POST /productos/findProductInLocalByEanPlu': 'ProductsHasZones.findProductInLocalByEanPlu',
+  'POST /productos/findProductInLocalByEpc': 'ProductsHasZones.findProductInLocalByEpc',
 
   //Usuarios
   'POST /users':'Users.crearEmpleado',

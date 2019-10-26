@@ -127,12 +127,6 @@ module.exports = {
           return res.generalAnswer(things);
         }
 
-        //Find all locals from the company of the empleado
-        let shops = await Shops.find({
-          where: {company: req.employee.company.id},
-          select: ['id']
-        });
-        shops = shops.map(l => l.id);
         //Find all zones of the company of the empleado
         let zones = await Zones.find({
           where: {
@@ -145,7 +139,8 @@ module.exports = {
         let products = await ProductsHasZones.find({
           where: {
             product: req.body.product,
-            zone: zones
+            zone: zones,
+            sell: {'<': 2}
           }
         })
           .populate('product')
@@ -159,5 +154,56 @@ module.exports = {
         return res.generalAnswer(things);
       }
 
+    },
+
+    findProductInLocalByEpc: async function(req,res){
+    try {
+      if (!req.body.epc) {
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+        return res.generalAnswer(things);
+      }
+
+      //Find the epc
+      let epc = await Epcs.findOne({
+        where:{
+          epc: req.body.epc
+        }
+      });
+
+      if(epc){
+        //Find all zones of the company of the empleado
+        let zones = await Zones.find({
+          where: {
+            shop: req.employee.shop.id
+          },
+          select: ['id']
+        });
+        zones = zones.map(z => z.id);
+        //Find productos where productoid and zone match
+        let products = await ProductsHasZones.find({
+          where: {
+            zone: zones,
+            sell: {'<': 2},
+            epc: epc.id
+          }
+        })
+          .populate('product')
+          .populate('zone')
+          .populate('epc');
+
+        let things = {code: '', data: products, error: null, propio: false, bd: false};
+        return res.generalAnswer(things);
+      }else{
+        let things = {code: 'error_E01', req: req, res: res, data: [], error: new Error("error_E01")};
+        return res.generalAnswer(things);
+      }
+
+
+    } catch (e) {
+      sails.log.error(e);
+      let things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
     }
+
+  }
 };
