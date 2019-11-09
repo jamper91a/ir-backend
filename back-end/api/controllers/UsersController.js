@@ -201,6 +201,55 @@ module.exports = {
       return res.generalAnswer(things);
     }
 
+  },
+  findEmployeeByUsername: async function (req, res){
+    let body = null;
+    try {
+      body = JSON.parse(req.body);
+    } catch (e) {
+      body = req.body;
+    }
+    console.log('findEmployeeByUsername');
+    const user = await Users.findOne({
+      where:{
+        username: body.user.username
+      }
+    });
+    if(user){
+      let things={code: '', req:req, res:res, data:user, error:null};
+      return res.generalAnswer(things);
+    }else{
+      let things = {code: 'error_U01', req: req, res: res, data: [], error: null};
+      return res.generalAnswer(things);
+    }
+  },
+  modifyEmployeeByUsername: async function (req, res){
+    let body = null;
+    try {
+      body = JSON.parse(req.body);
+    } catch (e) {
+      body = req.body;
+    }
+    const user = await Users.findOne({
+      where:{
+        username: body.user.username
+      }
+    });
+    if(user){
+      try{
+        await Users.updateOne({id: user.id},body.user);
+        await Employees.updateOne({user: user.id}, body.employee);
+        let things={code: '', req:req, res:res, data:{}, error:null};
+      return res.generalAnswer(things);
+      }catch(e){
+        let things = {code: '', req: req, res: res, data: [], error: e};
+        return res.generalAnswer(things);
+      }
+      
+    }else{
+      let things = {code: 'error_U01', req: req, res: res, data: [], error: null};
+      return res.generalAnswer(things);
+    }
   }
 
 
