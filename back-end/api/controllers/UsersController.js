@@ -250,6 +250,36 @@ module.exports = {
       let things = {code: 'error_U01', req: req, res: res, data: [], error: null};
       return res.generalAnswer(things);
     }
+  },
+  listEmployeesByCompany: async function(req, res){
+    let things = {};
+    const company = req.employee.company.id;
+    const employees = await Employees.find({
+      where:{
+        company: company
+      }
+    }).populate('user');
+
+    if(employees){
+      things={code: '', req:req, res:res, data:employees, error:null};
+    }else{
+      things={code: 'error_U02', req:req, res:res, data:{}, error:null};
+    }
+    return res.generalAnswer(things);
+  },
+  changeEmployeeState: async function(req, res){
+    let things = {}
+    try {
+      const userId = req.body.userId;
+      const active = req.body.active;
+      await Users.updateOne({id: userId},{active: active});
+      things={code: '', req:req, res:res, data:{}, error:null};
+    } catch (e) {
+      things = {code: '', req: req, res: res, data: [], error: e};
+    }
+  
+    return res.generalAnswer(things);
+    
   }
 
 

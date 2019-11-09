@@ -25,6 +25,8 @@ module.exports.routes = {
   'POST /users':'Users.crearEmpleado',
   'POST /users/findEmployeeByUsername':'Users.findEmployeeByUsername',
   'POST /users/modifyEmployeeByUsername':'Users.modifyEmployeeByUsername',
+  'POST /users/listEmployeesByCompany':'Users.listEmployeesByCompany',
+  'POST /users/changeEmployeeState':'Users.changeEmployeeState',
   'POST /sync':'Users.sync',
 
   //Inventarios
