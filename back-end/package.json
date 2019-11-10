@@ -19,6 +19,7 @@
     "passport-local": "^1.0.0",
     "push.js": "^1.0.9",
     "sails": "^1.2.3",
+    "sails-hook-deep-orm": "^1.0.2",
     "sails-hook-grunt": "^3.0.2",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^1.4.0",

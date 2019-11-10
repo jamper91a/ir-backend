@@ -276,7 +276,7 @@ module.exports = {
       }
     })
     .populate('shop')
-    .populate('user');
+    .populate('user.group');
 
     if(employees){
       things={code: '', req:req, res:res, data:employees, error:null};
