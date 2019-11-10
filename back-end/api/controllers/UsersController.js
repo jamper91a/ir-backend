@@ -11,8 +11,15 @@ module.exports = {
 
   crearEmpleado: function (req, res) {
     try {
-      if (!req.body.user.username || !req.body.user.password || !req.body.user.group || !req.body.user.company || !req.body.user.shop) {
-        let things = {code: 'error_G01', req: req, res: res, data: [], error: null};
+      req.body.user = JSON.parse(req.body.user);
+      req.body.employee = JSON.parse(req.body.employee);
+    } catch (error) {
+      
+    }
+
+    try {
+      if (!req.body.user.username || !req.body.user.password || !req.body.user.group || !req.body.employee.company || !req.body.employee.shop) {
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
         return res.generalAnswer(things);
 
       }
@@ -20,10 +27,12 @@ module.exports = {
       console.error(e);
     }
     //Creo usuario
+    req.body.active = 1;
     Users.create(req.body.user).fetch().then(function (user) {
       req.body.employee.user = user.id;
       Employees.create(req.body.employee).fetch().then(function (employee) {
-        res.ok(employee);
+        let things={code: 'OK', req:req, res:res, data:employee, error:null};
+        return res.generalAnswer(things);
       }).catch(function (err) {
         let things={code: err.code, req:req, res:res, data:[], error:err, model:"Empleado"};
         return res.generalAnswer(things);
@@ -203,16 +212,11 @@ module.exports = {
 
   },
   findEmployeeByUsername: async function (req, res){
-    let body = null;
-    try {
-      body = JSON.parse(req.body);
-    } catch (e) {
-      body = req.body;
-    }
+
     console.log('findEmployeeByUsername');
     const user = await Users.findOne({
       where:{
-        username: body.user.username
+        username: req.body.username
       }
     });
     if(user){
@@ -247,7 +251,7 @@ module.exports = {
       }
       
     }else{
-      let things = {code: 'error_U01', req: req, res: res, data: [], error: null};
+      let things = {code: 'error_U01', req: req, res: res, data: [], error: new Error("error_U01")};
       return res.generalAnswer(things);
     }
   },
@@ -263,7 +267,7 @@ module.exports = {
     if(employees){
       things={code: '', req:req, res:res, data:employees, error:null};
     }else{
-      things={code: 'error_U02', req:req, res:res, data:{}, error:null};
+      things={code: 'error_U02', req:req, res:res, data:{}, error:new Error("error_U02")};
     }
     return res.generalAnswer(things);
   },
