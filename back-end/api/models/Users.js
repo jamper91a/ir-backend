@@ -9,6 +9,10 @@ var moment = require('moment');
 module.exports = {
   attributes: {
 
+    name: {
+      type: "string",
+      unique: true
+    },
     username: {
       type: "string",
       unique: true
