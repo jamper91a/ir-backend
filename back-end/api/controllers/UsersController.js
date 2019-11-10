@@ -27,7 +27,7 @@ module.exports = {
       console.error(e);
     }
     //Creo usuario
-    req.body.active = 1;
+    req.body.user.active = 1;
     Users.create(req.body.user).fetch().then(function (user) {
       req.body.employee.user = user.id;
       Employees.create(req.body.employee).fetch().then(function (employee) {
@@ -212,37 +212,49 @@ module.exports = {
 
   },
   findEmployeeByUsername: async function (req, res){
-
+    let things={};
     console.log('findEmployeeByUsername');
     const user = await Users.findOne({
       where:{
         username: req.body.username
       }
-    });
-    if(user){
-      let things={code: '', req:req, res:res, data:user, error:null};
+    })
+    .populate('group');
+    if(!user){
+      things = {code: 'error_U01', req: req, res: res, data: [], error: new Error("error_U01")};
+      return res.generalAnswer(things);
+    }
+    const employee = await Employees.findOne({
+      where:{
+        user: user.id
+      }
+    })
+    .populate('shop');
+    if(employee){
+      employee.user = user;
+      things={code: '', req:req, res:res, data:employee, error:null};
       return res.generalAnswer(things);
     }else{
-      let things = {code: 'error_U01', req: req, res: res, data: [], error: null};
+      things = {code: 'error_E01', req: req, res: res, data: [], error: new Error("error_E01")};
       return res.generalAnswer(things);
     }
   },
   modifyEmployeeByUsername: async function (req, res){
-    let body = null;
     try {
-      body = JSON.parse(req.body);
-    } catch (e) {
-      body = req.body;
+      req.body.user = JSON.parse(req.body.user);
+      req.body.employee = JSON.parse(req.body.employee);
+    } catch (error) {
+      
     }
     const user = await Users.findOne({
       where:{
-        username: body.user.username
+        username: req.body.user.username
       }
     });
     if(user){
       try{
-        await Users.updateOne({id: user.id},body.user);
-        await Employees.updateOne({user: user.id}, body.employee);
+        await Users.updateOne({id: user.id},req.body.user);
+        await Employees.updateOne({user: user.id}, req.body.employee);
         let things={code: '', req:req, res:res, data:{}, error:null};
       return res.generalAnswer(things);
       }catch(e){
@@ -262,7 +274,9 @@ module.exports = {
       where:{
         company: company
       }
-    }).populate('user');
+    })
+    .populate('shop')
+    .populate('user');
 
     if(employees){
       things={code: '', req:req, res:res, data:employees, error:null};
@@ -274,9 +288,9 @@ module.exports = {
   changeEmployeeState: async function(req, res){
     let things = {}
     try {
-      const userId = req.body.userId;
+      const username = req.body.username;
       const active = req.body.active;
-      await Users.updateOne({id: userId},{active: active});
+      await Users.updateOne({username: username},{active: active});
       things={code: '', req:req, res:res, data:{}, error:null};
     } catch (e) {
       things = {code: '', req: req, res: res, data: [], error: e};

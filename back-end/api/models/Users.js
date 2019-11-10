@@ -24,6 +24,9 @@ module.exports = {
       type: "string",
       allowNull: true
     },
+    active: {
+      type: "boolean"
+    },
     group: {
       model: "groups",
       columnName: "group_id",
