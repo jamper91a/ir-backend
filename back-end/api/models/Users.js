@@ -9,6 +9,10 @@ var moment = require('moment');
 module.exports = {
   attributes: {
 
+    name: {
+      type: "string",
+      unique: true
+    },
     username: {
       type: "string",
       unique: true
@@ -23,6 +27,9 @@ module.exports = {
     password_rfdi: {
       type: "string",
       allowNull: true
+    },
+    active: {
+      type: "boolean"
     },
     group: {
       model: "groups",
@@ -52,6 +59,15 @@ module.exports = {
     return _.omit(this, ['password'])
   },
   beforeCreate: function (user, cb) {
+    bcrypt.genSalt(10, function (err, salt) {
+      bcrypt.hash(user.password, salt, null, function (err, hash) {
+        if (err) return cb(err);
+        user.password = hash;
+        return cb();
+      });
+    });
+  },
+  beforeUpdate: function (user, cb) {
     bcrypt.genSalt(10, function (err, salt) {
       bcrypt.hash(user.password, salt, null, function (err, hash) {
         if (err) return cb(err);
