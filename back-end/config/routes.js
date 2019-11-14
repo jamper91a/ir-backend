@@ -45,6 +45,12 @@ module.exports.routes = {
   //Inventory Erp
   'POST /inventoryErp/create':'InventoriesErp.create',
 
+  //Dealers
+  'POST /dealers/getAllDealers':'Dealers.getAllDealers',
+  'POST /dealers/create':'Dealers.create',
+  'POST /dealers/update':'Dealers.update',
+  'POST /dealers/getAllActiveDealers':'Dealers.getAllActiveDealers',
+
   //Transferencias
   'POST /transferencias/crear':'Transfers.create',
   'POST /transferencias/buscar':'Transfers.find',
