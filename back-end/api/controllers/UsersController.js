@@ -44,7 +44,7 @@ module.exports = {
       });
   },
   login: function (req, res) {
-    passport.authenticate('local', function (err, employee, info) {
+    passport.authenticate('local', function (err, employee, user, info) {
       if (err || !employee) {
         return res.badRequest(info);
       }
@@ -79,6 +79,59 @@ module.exports = {
 
         }
       });
+
+
+    })(req, res);
+  },
+  loginWeb: function (req, res) {
+    passport.authenticate('local', function (err, employee, user, info) {
+      if (err) {
+        return res.badRequest(info);
+      }
+      if(user == null && employee != null){
+        user = employee.user;
+      }
+
+      if(!user){
+        return res.forbidden();
+      }
+        req.login(user, {session: false}, async (err) => {
+          if (err) {
+            res.badRequest(err);
+          }
+          if (user) {
+            /**
+             * Populate info depending of the group
+             * Just groups 1, 2 and 5 are allow (sAdmin, admin and dealer)
+             */
+            console.log(user.group);
+            if(user.group == 1 || user.group == 2 || user.group == 5){
+              const dealer = await Dealers.findOne({user: user.id});
+              try {
+                const token = jwt.sign(
+                  {
+                    user_id: user.id
+                  },
+                  'k{B^um3fzwP-68cN');
+                let data={
+                  user: user,
+                  dealer: dealer,
+                  employee: employee,
+                  token: token
+                };
+
+                let things={code: '', req:req, res:res, data:data, error:null};
+                return res.generalAnswer(things);
+              } catch (e) {
+                let things={code: '', req:req, res:res, data:null, error:e};
+                return res.generalAnswer(things);
+              }
+            }
+          }else{
+            return res.forbidden();
+          }
+        });
+
 
 
     })(req, res);

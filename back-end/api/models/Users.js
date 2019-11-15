@@ -43,6 +43,12 @@ module.exports = {
     employee: {
       collection: 'employees',
       via: 'user'
+    },
+
+    //El empleado asociado a este usuario
+    dealer: {
+      collection: 'dealers',
+      via: 'user'
     }
   },
   customToJSON: function () {

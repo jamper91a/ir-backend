@@ -12,6 +12,7 @@ module.exports.routes = {
 
 
   'POST /login': 'Users.login',
+  'POST /loginWeb': 'Users.loginWeb',
   '/logout': 'Users.logout',
 
   //Mercancia
