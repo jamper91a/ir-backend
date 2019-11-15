@@ -53,7 +53,7 @@ module.exports = {
     }
 
     try {
-      if (!req.body.user.username || !req.body.user.password || !req.body.user.group || !req.body.employee.company.name) {
+      if (!req.body.user.username || !req.body.user.password || !req.body.employee.company.name) {
         let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
         return res.generalAnswer(things);
 
@@ -69,7 +69,7 @@ module.exports = {
             const dealer = await Dealers.findOne({user: req.user.id});
             //Creo usuario
             req.body.user.active = 1;
-            req.body.user.group = 4;
+            req.body.user.group = 2;
             const user = await Users.create(req.body.user).fetch().usingConnection(db);
             req.body.employee.company.dealer = dealer.id;
             const company = await Companies.create(req.body.employee.company).fetch().usingConnection(db);
