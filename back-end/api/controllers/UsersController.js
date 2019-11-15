@@ -43,6 +43,60 @@ module.exports = {
         return res.generalAnswer(things);
       });
   },
+  createAdmin: async function (req, res) {
+    //Get the dealer
+    try {
+      req.body.user = JSON.parse(req.body.user);
+      req.body.employee = JSON.parse(req.body.employee);
+    } catch (error) {
+
+    }
+
+    try {
+      if (!req.body.user.username || !req.body.user.password || !req.body.user.group || !req.body.employee.company.name) {
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+        return res.generalAnswer(things);
+
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+      sails.getDatastore()
+        .transaction(async (db,proceed)=> {
+          // await TransfersHasZonesProducts.update(_.map(products, 'id'), {state: 1}).usingConnection(db);
+          try {
+            const dealer = await Dealers.findOne({user: req.user.id});
+            //Creo usuario
+            req.body.user.active = 1;
+            req.body.user.group = 4;
+            const user = await Users.create(req.body.user).fetch().usingConnection(db);
+            req.body.employee.company.dealer = dealer.id;
+            const company = await Companies.create(req.body.employee.company).fetch().usingConnection(db);
+            const shop = await Shops.create({name: company.name, company: company.id}).fetch().usingConnection(db);
+            req.body.employee.user = user.id;
+            req.body.employee.company = company.id;
+            req.body.employee.shop = shop.id;
+            const employee = await Employees.create(req.body.employee).fetch().usingConnection(db);
+            employee.user = user;
+            employee.company = company;
+            let things = {code: 'OK', req: req, res: res, data: employee, error: null};
+            // return res.generalAnswer(things);
+            return proceed(null, things);
+          } catch (e) {
+            let things={code: e.code, req:req, res:res, data:[], error:e, model:"Users"};
+            return proceed(e, things);
+          }
+        })
+        .then(function (operation) {
+          return res.generalAnswer(operation);
+        })
+        .catch(function (error) {
+          console.error(error);
+          error = error.raw;
+          return res.generalAnswer(error);
+        });
+  },
   login: function (req, res) {
     passport.authenticate('local', function (err, employee, user, info) {
       if (err || !employee) {

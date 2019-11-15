@@ -24,6 +24,7 @@ module.exports.routes = {
 
   //Usuarios
   'POST /users':'Users.crearEmpleado',
+  'POST /createAdmin':'Users.createAdmin',
   'POST /users/findEmployeeByUsername':'Users.findEmployeeByUsername',
   'POST /users/modifyEmployeeByUsername':'Users.modifyEmployeeByUsername',
   'POST /users/listEmployeesByCompany':'Users.listEmployeesByCompany',
