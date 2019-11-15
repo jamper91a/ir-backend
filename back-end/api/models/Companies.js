@@ -31,6 +31,11 @@ module.exports = {
       columnName: "dealer_id",
       required: true
     },
+    user: {
+      model: "users",
+      columnName: "user_id",
+      required: true
+    },
   },
   customToJSON: function () {
     if (this.createdAt) {

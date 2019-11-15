@@ -72,6 +72,7 @@ module.exports = {
             req.body.user.group = 2;
             const user = await Users.create(req.body.user).fetch().usingConnection(db);
             req.body.employee.company.dealer = dealer.id;
+            req.body.employee.company.user= user.id;
             const company = await Companies.create(req.body.employee.company).fetch().usingConnection(db);
             const shop = await Shops.create({name: company.name, company: company.id}).fetch().usingConnection(db);
             req.body.employee.user = user.id;

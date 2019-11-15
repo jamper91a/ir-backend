@@ -11,25 +11,18 @@
 module.exports.routes = {
 
 
-  'POST /login': 'Users.login',
-  'POST /loginWeb': 'Users.loginWeb',
-  '/logout': 'Users.logout',
+  //Companies
+  'POST /companies/getCompaniesByDealer':'Companies.getCompaniesByDealer',
 
-  //Mercancia
-  'POST /productos/addMercancia': 'ProductsHasZones.addCommodity',
-  'POST /productos/findOne': 'Products.findOne',
-  'POST /productos/findOneByEpc': 'Products.findOneByEpc',
-  'POST /productos/findProductInLocalByEanPlu': 'ProductsHasZones.findProductInLocalByEanPlu',
-  'POST /productos/findProductInLocalByEpc': 'ProductsHasZones.findProductInLocalByEpc',
+  //Dealers
+  'POST /dealers/getAllDealers':'Dealers.getAllDealers',
+  'POST /dealers/create':'Dealers.create',
+  'POST /dealers/update':'Dealers.update',
+  'POST /dealers/getAllActiveDealers':'Dealers.getAllActiveDealers',
 
-  //Usuarios
-  'POST /users':'Users.crearEmpleado',
-  'POST /createAdmin':'Users.createAdmin',
-  'POST /users/findEmployeeByUsername':'Users.findEmployeeByUsername',
-  'POST /users/modifyEmployeeByUsername':'Users.modifyEmployeeByUsername',
-  'POST /users/listEmployeesByCompany':'Users.listEmployeesByCompany',
-  'POST /users/changeEmployeeState':'Users.changeEmployeeState',
-  'POST /sync':'Users.sync',
+  
+  //Devoluciones
+  'POST /devoluciones/devolverProductos':'Devolutions.returnProducts',
 
   //Inventarios
   'POST /inventarios/crear':'Inventories.create',
@@ -37,6 +30,7 @@ module.exports.routes = {
   'POST /inventarios/listarInventarios':'Inventories.list',
   'POST /inventarios/listarProductosInventario':'Inventories.listProducts',
   'POST /inventarios/adjuntar':'Inventories.attach',
+
 
   //InventariosConsolidados
   'POST /inventariosConsolidados/listar':'ConsolidatedInventories.list',
@@ -47,21 +41,17 @@ module.exports.routes = {
   //Inventory Erp
   'POST /inventoryErp/create':'InventoriesErp.create',
 
-  //Dealers
-  'POST /dealers/getAllDealers':'Dealers.getAllDealers',
-  'POST /dealers/create':'Dealers.create',
-  'POST /dealers/update':'Dealers.update',
-  'POST /dealers/getAllActiveDealers':'Dealers.getAllActiveDealers',
+  //Login
+  'POST /login': 'Users.login',
+  'POST /loginWeb': 'Users.loginWeb',
+  '/logout': 'Users.logout',
 
-  //Transferencias
-  'POST /transferencias/crear':'Transfers.create',
-  'POST /transferencias/buscar':'Transfers.find',
-  'POST /transferencias/listTransfersByType':'Transfers.listTransfersByType',
-  'POST /transferencias/listTransfersByShop':'Transfers.listTransfersByShop',
-  'POST /transferencias/finishTransfer':'Transfers.finishTransfer',
-  
-  //Devoluciones
-  'POST /devoluciones/devolverProductos':'Devolutions.returnProducts',
+  //Productos
+  'POST /productos/addMercancia': 'ProductsHasZones.addCommodity',
+  'POST /productos/findOne': 'Products.findOne',
+  'POST /productos/findOneByEpc': 'Products.findOneByEpc',
+  'POST /productos/findProductInLocalByEanPlu': 'ProductsHasZones.findProductInLocalByEanPlu',
+  'POST /productos/findProductInLocalByEpc': 'ProductsHasZones.findProductInLocalByEpc',
   
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
@@ -75,11 +65,24 @@ module.exports.routes = {
   'POST /reportes/rotationProyectedByEanPlu': 'Reports.rotationProyectedByEanPlu',
   'POST /reportes/diferenceWithInventoryErp': 'Reports.diferenceWithInventoryErp',
 
-  //Usuarios
-  'GET /zonas/listar':'Zonas.listar',
 
   //Sells
-  'POST /sells/create':'Sells.createSell'
+  'POST /sells/create':'Sells.createSell',
 
+  //Transferencias
+  'POST /transferencias/crear':'Transfers.create',
+  'POST /transferencias/buscar':'Transfers.find',
+  'POST /transferencias/listTransfersByType':'Transfers.listTransfersByType',
+  'POST /transferencias/listTransfersByShop':'Transfers.listTransfersByShop',
+  'POST /transferencias/finishTransfer':'Transfers.finishTransfer',
+
+  //Usuarios
+  'POST /users':'Users.crearEmpleado',
+  'POST /createAdmin':'Users.createAdmin',
+  'POST /users/findEmployeeByUsername':'Users.findEmployeeByUsername',
+  'POST /users/modifyEmployeeByUsername':'Users.modifyEmployeeByUsername',
+  'POST /users/listEmployeesByCompany':'Users.listEmployeesByCompany',
+  'POST /users/changeEmployeeState':'Users.changeEmployeeState',
+  'POST /sync':'Users.sync',
 
 };

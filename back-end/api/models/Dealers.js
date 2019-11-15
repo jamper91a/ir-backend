@@ -13,6 +13,10 @@ module.exports = {
       columnName: "user_id",
       required: true
     },
+    companies: {
+      collection: "companies",
+      via: "dealer"
+    },
   },
   customToJSON: function () {
     if (this.createdAt) {
