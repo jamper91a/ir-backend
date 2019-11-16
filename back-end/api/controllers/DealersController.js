@@ -96,7 +96,6 @@ module.exports = {
     }
     //Find the user
     try {
-      console.log(req.body.user);
       const user = await Users.updateOne({username: req.body.user.username}, req.body.user);
       await Dealers.updateOne({user: user.id}, req.body.dealer);
       let things = {code: 'OK', req: req, res: res, data: {}, error: null};

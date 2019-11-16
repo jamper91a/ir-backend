@@ -98,6 +98,48 @@ module.exports = {
           return res.generalAnswer(error);
         });
   },
+  updateAdmin: async function (req, res) {
+    //Get the dealer
+    try {
+      req.body.user = JSON.parse(req.body.user);
+      req.body.employee = JSON.parse(req.body.employee);
+    } catch (error) {
+
+    }
+
+    try {
+      if (!req.body.user.username) {
+        let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
+        return res.generalAnswer(things);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    sails.getDatastore()
+      .transaction(async (db,proceed)=> {
+
+        try {
+          const user = await Users.updateOne({username: req.body.user.username}, req.body.user).usingConnection(db);
+          const company = await Companies.updateOne({user: user.id}, req.body.employee.company).usingConnection(db);
+
+          let things = {code: 'OK', req: req, res: res, data: {}, error: null};
+          // return res.generalAnswer(things);
+          return proceed(null, things);
+        } catch (e) {
+          let things={code: e.code, req:req, res:res, data:[], error:e, model:"Users"};
+          return proceed(e);
+        }
+      })
+      .then(function (operation) {
+        return res.generalAnswer(operation);
+      })
+      .catch(function (error) {
+        console.error(error);
+        error = error.raw;
+        return res.generalAnswer(error);
+      });
+  },
   login: function (req, res) {
     passport.authenticate('local', function (err, employee, user, info) {
       if (err || !employee) {

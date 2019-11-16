@@ -29,4 +29,15 @@ module.exports = {
       return res.generalAnswer(things);
     }
   },
+  getCompaniesById: async function(req,res){
+    let company, things;
+    try {
+      company = await Companies.findOne({id: req.body.id}).populate('user');
+      things = {code: '', data: company, error: null, propio: false, bd: false};
+      return res.generalAnswer(things);
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  },
 };

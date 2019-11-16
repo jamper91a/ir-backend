@@ -13,6 +13,7 @@ module.exports.routes = {
 
   //Companies
   'POST /companies/getCompaniesByDealer':'Companies.getCompaniesByDealer',
+  'POST /companies/getCompaniesById':'Companies.getCompaniesById',
 
   //Dealers
   'POST /dealers/getAllDealers':'Dealers.getAllDealers',
@@ -23,6 +24,9 @@ module.exports.routes = {
   
   //Devoluciones
   'POST /devoluciones/devolverProductos':'Devolutions.returnProducts',
+
+  //Epc
+  'POST /epcs/create':'Epcs.create',
 
   //Inventarios
   'POST /inventarios/crear':'Inventories.create',
@@ -79,6 +83,7 @@ module.exports.routes = {
   //Usuarios
   'POST /users':'Users.crearEmpleado',
   'POST /createAdmin':'Users.createAdmin',
+  'POST /updateAdmin':'Users.updateAdmin',
   'POST /users/findEmployeeByUsername':'Users.findEmployeeByUsername',
   'POST /users/modifyEmployeeByUsername':'Users.modifyEmployeeByUsername',
   'POST /users/listEmployeesByCompany':'Users.listEmployeesByCompany',
