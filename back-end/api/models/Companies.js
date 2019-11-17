@@ -9,6 +9,11 @@ module.exports = {
       type: "string",
 
     },
+    photo: {
+      type: "string",
+      allowNull: true
+
+    },
     //Relaciones
     employees: {
       collection: "employees",
