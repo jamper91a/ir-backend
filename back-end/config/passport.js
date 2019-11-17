@@ -86,7 +86,7 @@ const _onLocalStrategyAuth = async (req, username, password, next) => {
  * @param {Function} next Callback
  * @private
  */
-const _onJwtStrategyAuth = (req, payload, next) => {
+const _onJwtStrategyAuth = async (req, payload, next) => {
   if(payload.employee_id){
     Employees
       .findOne({id: payload.employee_id})
@@ -100,15 +100,18 @@ const _onJwtStrategyAuth = (req, payload, next) => {
       })
       .catch(next);
   }else if(payload.user_id) {
-    Users
-      .findOne({id: payload.user_id})
-      .then(user => {
-        if (!user)
-          return next(null, null, sails.config.errors.USER_NOT_FOUND);
+    try {
+      const user = await Users.findOne({id: payload.user_id});
+      if(user){
         return next(null, user, {});
-      })
-      .catch(next);
+      }else{
+        return next(null, null, sails.config.errors.USER_NOT_FOUND);
+      }
+    } catch (e) {
+      return next(null, null, e);
+    }
   }
+
 
 
 };
