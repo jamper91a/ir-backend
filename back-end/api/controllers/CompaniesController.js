@@ -30,9 +30,14 @@ module.exports = {
     }
   },
   getCompaniesById: async function(req,res){
-    let company, things;
+    let company, things, companyId;
     try {
-      company = await Companies.findOne({id: req.body.id}).populate('user');
+      if(req.body.id){
+        company = await Companies.findOne({id: req.body.id}).populate('user');
+      }else{
+        company = await Companies.findOne({user: req.user.id}).populate('user');
+      }
+
       things = {code: '', data: company, error: null, propio: false, bd: false};
       return res.generalAnswer(things);
     } catch (err) {
