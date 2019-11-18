@@ -419,6 +419,14 @@ module.exports = {
   },
   listEmployeesByCompany: async function(req, res){
     let things = {};
+    if(!req.employee.company){
+      const employee = await Employees
+        .findOne({user: req.user.id})
+        .populate("user")
+        .populate("company")
+        .populate("shop");
+      req.employee = employee;
+    }
     const company = req.employee.company.id;
     const employees = await Employees.find({
       where:{

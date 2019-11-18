@@ -19,5 +19,18 @@ module.exports = {
       return res.generalAnswer(things);
     }
   },
+  find: async function(req, res){
+    let things;
+
+    try {
+      const zones = await Zones.find({shop: req.body.id});
+      things = {code: '', data: zones, error: null, propio: false, bd: false};
+      return res.generalAnswer(things);
+    } catch (e) {
+      console.error(e);
+      things = {code: '', data: [], error: e};
+      return res.generalAnswer(things);
+    }
+  }
 
 };
