@@ -55,6 +55,7 @@ module.exports.routes = {
 
   //Productos
   'POST /productos/addMercancia': 'ProductsHasZones.addCommodity',
+  'POST /productos/import': 'Products.import',
   'POST /productos/findOne': 'Products.findOne',
   'POST /productos/findOneByEpc': 'Products.findOneByEpc',
   'POST /productos/findProductInLocalByEanPlu': 'ProductsHasZones.findProductInLocalByEanPlu',
