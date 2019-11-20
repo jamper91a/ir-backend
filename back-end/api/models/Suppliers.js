@@ -7,9 +7,19 @@ module.exports = {
   attributes: {
     name: {
       type: "string",
-    }
+    },
+    company: {
+      model: "companies",
+      required: true,
+      columnName: "company_id",
+    },
   },
   customToJSON: function () {
+    //Si no se obtiene algun producto asociado, se retorna un objecto
+    if (typeof this.company == "number")
+      this.company = {
+        id: this.company
+      };
     if (this.createdAt) {
       this.createdAt = moment(this.createdAt).format("YYYY-MM-DDTHH:mm:ss");
     }
