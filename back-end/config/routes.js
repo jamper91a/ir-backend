@@ -60,7 +60,8 @@ module.exports.routes = {
   'POST /productos/findOneByEpc': 'Products.findOneByEpc',
   'POST /productos/findProductInLocalByEanPlu': 'ProductsHasZones.findProductInLocalByEanPlu',
   'POST /productos/findProductInLocalByEpc': 'ProductsHasZones.findProductInLocalByEpc',
-  
+  'POST /productos/update': 'Products.update',
+
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
   'POST /reportes/guardarReporte': 'Reports.saveReport',
