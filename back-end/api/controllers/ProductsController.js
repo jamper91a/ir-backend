@@ -6,6 +6,31 @@
  */
 module.exports = {
 
+  create : async function(req, res){
+    let things;
+    const company = await Companies.findOne({user: req.user.id});
+    try {
+      const url_photo = await sails.helpers.uploadFile(req, company, 'product');
+      if (url_photo) {
+        req.body.imagen = url_photo;
+        req.body.company = company.id;
+        req.body.supplier = 1;
+        try {
+          await Products.create(req.body);
+          things = {code: '', data: {}, error: null, propio: false, bd: false};
+          return res.generalAnswer(things);
+        } catch (e) {
+          things = {code: e.number, data: [], error: e, propio: e.propio, bd: e.bd};
+          return res.generalAnswer(things);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+      things = {code: '', data: [], error: e};
+      return res.generalAnswer(things);
+    }
+  },
+
   findOne: async function(req,res){
     let product, things;
     if(!req.body.code){
