@@ -16,7 +16,12 @@ module.exports = {
     epc: {
       type: "string",
       unique: true
-    }
+    },
+    dealer: {
+      model: "dealers",
+      columnName: "dealer_id",
+      required: true
+    },
   },
   customToJSON: function () {
     //Si no se obtiene algun producto asociado, se retorna un objecto

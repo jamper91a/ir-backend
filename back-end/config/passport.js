@@ -41,21 +41,32 @@ const _onLocalStrategyAuth = async (req, username, password, next) => {
     if (!user)
       return next(null, false, {code: 'error_G03',message: sails.__('error_G03')});
 
-    bcrypt.compare(password, user.password, function(err, res) {
+    bcrypt.compare(password, user.password, async function(err, res) {
       if(res) {
         //console.log(user.id);
-        Employees.findOne({
-          user: user.id
-        })
-          .populate("company")
-          .populate("shop")
-          .then(function (employee) {
+        try {
+          const employee = await Employees.findOne({user: user.id}).populate("company").populate("shop");
+          if (employee) {
             employee.user = user;
-            return next(null, employee, {message: ''});
-          })
-          .catch(function (err) {
-            return next(err);
-          });
+            return next(null, employee, null, {message: ''});
+          } else {
+            return next(null, null, user, {message: ''});
+          }
+        } catch (e) {
+          return next(err);
+        }
+        // Employees.findOne({
+        //   user: user.id
+        // })
+        //   .populate("company")
+        //   .populate("shop")
+        //   .then(function (employee) {
+        //     employee.user = user;
+        //     return next(null, employee, {message: ''});
+        //   })
+        //   .catch(function (err) {
+        //     return next(err);
+        //   });
       }
       else
         return next(null, null, {code: 'error_G04',message: sails.__('error_G04')});
@@ -75,18 +86,34 @@ const _onLocalStrategyAuth = async (req, username, password, next) => {
  * @param {Function} next Callback
  * @private
  */
-const _onJwtStrategyAuth = (req, payload, next) => {
-  Employees
-    .findOne({id: payload.employee_id})
-    .populate("user")
-    .populate("company")
-    .populate("shop")
-    .then(employee => {
-      if (!employee)
+const _onJwtStrategyAuth = async (req, payload, next) => {
+  if(payload.employee_id){
+    Employees
+      .findOne({id: payload.employee_id})
+      .populate("user")
+      .populate("company")
+      .populate("shop")
+      .then(employee => {
+        if (!employee)
+          return next(null, null, sails.config.errors.USER_NOT_FOUND);
+        return next(null, employee, {});
+      })
+      .catch(next);
+  }else if(payload.user_id) {
+    try {
+      const user = await Users.findOne({id: payload.user_id});
+      if(user){
+        return next(null, user, {});
+      }else{
         return next(null, null, sails.config.errors.USER_NOT_FOUND);
-      return next(null, employee, {});
-    })
-    .catch(next);
+      }
+    } catch (e) {
+      return next(null, null, e);
+    }
+  }
+
+
+
 };
 
 module.exports = {

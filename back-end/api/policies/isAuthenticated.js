@@ -16,6 +16,7 @@ module.exports = (req, res, next) => {
       if (error || !user) return res.serverError(error || info);
 
       req.employee = user;
+      req.user = user;
 
       next();
     } catch (e) {

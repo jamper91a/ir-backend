@@ -13,7 +13,8 @@ module.exports.policies = {
   // '*': true,
 
   UsersController: {
-    'login': true
+    'login': true,
+    'loginWeb': true
   }
 
 };
