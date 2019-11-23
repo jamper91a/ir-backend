@@ -53,6 +53,9 @@ module.exports.routes = {
   'POST /loginWeb': 'Users.loginWeb',
   '/logout': 'Users.logout',
 
+  //Pdf
+  'POST /pdf/create': 'Pdf.create',
+
   //Productos
   'POST /productos/addMercancia': 'ProductsHasZones.addCommodity',
   'POST /productos/import': 'Products.import',
