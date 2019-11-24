@@ -122,6 +122,10 @@ module.exports = {
 
     findProductInLocalByEanPlu: async function(req,res){
       try {
+        if(!req.employee.shop){
+
+        }
+
         if (!req.body.product) {
           let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
           return res.generalAnswer(things);

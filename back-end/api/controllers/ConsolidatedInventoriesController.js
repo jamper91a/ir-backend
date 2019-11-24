@@ -105,9 +105,15 @@ module.exports = {
         if(consolidatedInventory.inventories){
           async.each(consolidatedInventory.inventories, async function(inventory, cb){
             try {
-              let inv = await Inventories.findOne({where: {id: inventory.id}}).populate('products');
+              let inv = await Inventories.findOne({where: {id: inventory.id}})
+                .populate('products.zone')
+                .populate('products.product')
+                .populate('products.epc');
               if (inv)
                 inventory.products = inv.products;
+              // for(const pz of inventory.products){
+              //
+              // }
             } catch (e) {
               cb(e);
             }
