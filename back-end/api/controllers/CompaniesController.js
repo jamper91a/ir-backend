@@ -35,7 +35,7 @@ module.exports = {
       if(req.body.id){
         company = await Companies.findOne({id: req.body.id}).populate('user');
       }else{
-        company = await Companies.findOne({user: req.user.id}).populate('user');
+        company = await Companies.findOne({user: req.employee.user.id}).populate('user');
       }
 
       things = {code: '', data: company, error: null, propio: false, bd: false};
@@ -48,7 +48,7 @@ module.exports = {
 
   update : async function(req, res){
     let things;
-    const company = await Companies.findOne({user: req.user.id});
+    const company = await Companies.findOne({user: req.employee.user.id});
     try {
       if(req.body.withPhoto === 'true'){
         const url_photo = await sails.helpers.uploadFile(req, company, 'logo');
@@ -57,7 +57,7 @@ module.exports = {
         }
       }
         try {
-          await Companies.updateOne({user: req.user.id}, req.body);
+          await Companies.updateOne({user: req.employee.user.id}, req.body);
           things = {code: '', data: {}, error: null, propio: false, bd: false};
           return res.generalAnswer(things);
         } catch (e) {

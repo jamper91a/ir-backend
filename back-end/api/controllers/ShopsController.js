@@ -8,7 +8,7 @@ module.exports = {
 
   create: async function (req, res) {
     let things;
-    const company = await Companies.findOne({user: req.user.id});
+    const company = await Companies.findOne({user: req.employee.user.id});
     try {
       req.body.company = company.id;
       await Shops.create(req.body);
@@ -23,7 +23,7 @@ module.exports = {
 
   find: async function(req, res){
     let things;
-    const company = await Companies.findOne({user: req.user.id});
+    const company = await Companies.findOne({user: req.employee.user.id});
     try {
       const shops = await Shops.find({company: company.id});
       things = {code: '', data: shops, error: null, propio: false, bd: false};
