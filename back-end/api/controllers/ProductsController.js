@@ -8,11 +8,18 @@ module.exports = {
 
   create : async function(req, res){
     let things;
-    const company = await Companies.findOne({user: req.user.id});
+    const company = await Companies.findOne({user: req.employee.user.id});
     try {
-      const url_photo = await sails.helpers.uploadFile(req, company, 'product');
-      if (url_photo) {
-        req.body.imagen = url_photo;
+      req.body.photo = '';
+      if(req.body.withPhoto === 'true'){
+        const url_photo = await sails.helpers.uploadFile(req, company, 'logo');
+        if (url_photo) {
+          req.body.photo = url_photo;
+        }
+      }
+      // const url_photo = await sails.helpers.uploadFile(req, company, 'product');
+      // if (url_photo) {
+      //   req.body.imagen = url_photo;
         req.body.company = company.id;
         try {
           await Products.create(req.body);
@@ -22,7 +29,7 @@ module.exports = {
           things = {code: e.number, data: [], error: e, propio: e.propio, bd: e.bd};
           return res.generalAnswer(things);
         }
-      }
+      // }
     } catch (e) {
       console.error(e);
       things = {code: '', data: [], error: e};
@@ -32,7 +39,7 @@ module.exports = {
 
   import : async function(req, res){
     let things;
-    const company = await Companies.findOne({user: req.user.id});
+    const company = await Companies.findOne({user: req.employee.user.id});
     try {
       req.body.products = req.body.products.map((product) => { product.company = company.id; return product});
       sails.getDatastore()
@@ -89,7 +96,7 @@ module.exports = {
 
   update : async function(req, res){
     let things;
-    const company = await Companies.findOne({user: req.user.id});
+    const company = await Companies.findOne({user: req.employee.user.id});
     try {
       if(req.body.withPhoto === 'true'){
         const url_photo = await sails.helpers.uploadFile(req, company, 'product');
@@ -118,7 +125,7 @@ module.exports = {
   find: async function(req,res){
     let products, things;
     try {
-      const company = await Companies.findOne({user: req.user.id});
+      const company = await Companies.findOne({user: req.employee.user.id});
       products = await  Products.find({
         where:{ company: company.id}
       })

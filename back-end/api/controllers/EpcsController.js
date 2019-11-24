@@ -9,9 +9,15 @@ module.exports = {
   create: async function(req,res){
     let epcs, things;
     epcs = req.body.epcs;
-    // for(const epc of epcs){
-    //   epc.state = 0;
-    // }
+    let pos = 0;
+    for(let epc of epcs){
+      epc.state = 0;
+      epc.epc = epc.epc.replace(/[^A-Za-z0-9]/gi, '');
+      if(!epc.epc){
+        epcs.splice(pos, 1);
+      }
+      pos++;
+    }
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
 
