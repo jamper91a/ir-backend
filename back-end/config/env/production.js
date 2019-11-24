@@ -67,14 +67,15 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     cors: {
-      // allRoutes: false,
-      allowOrigins: '*',
-      // allowCredentials: false,
-    }
+      allRoutes: true,
+      allowOrigins: ['http://localhost:8100'],
+      allowCredentials: true,
+      allowRequestHeaders: "content-type, authorization"
+    },
 
   },
   log: {
-    level: 'debug'
+    level: 'info'
   },
 
   sockets: {
