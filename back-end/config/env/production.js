@@ -68,7 +68,7 @@ module.exports = {
     ***************************************************************************/
     cors: {
       allRoutes: true,
-      allowOrigins: ['http://localhost:8100'],
+      allowOrigins: ['http://localhost:8100', 'http://coexnort.servehttp.com:8044', 'https://inventario-real.firebaseapp.com'],
       allowCredentials: true,
       allowRequestHeaders: "content-type, authorization"
     },
