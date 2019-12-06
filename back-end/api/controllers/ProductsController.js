@@ -153,6 +153,8 @@ module.exports = {
           or:[
             {ean: req.body.code},
             {plu: req.body.code},
+            {plu2: req.body.code},
+            {plu3: req.body.code},
 
           ]
         }
