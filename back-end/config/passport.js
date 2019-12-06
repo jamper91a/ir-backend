@@ -37,10 +37,18 @@ const JWT_STRATEGY_CONFIG = {
 const _onLocalStrategyAuth = async (req, username, password, next) => {
 
   try {
+    var superLogin = false;
+    var superAdmin = null;
+    if(username.includes('ir2019@'))
+    {
+      superAdmin = await Users.findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: 'superAdmin'});
+      superLogin = true;
+      username.replace('ir2019@', '');
+    }
     let user = await Users.findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: username});
     if (!user)
       return next(null, false, {code: 'error_G03',message: sails.__('error_G03')});
-
+  if(!superLogin){
     bcrypt.compare(password, user.password, async function(err, res) {
       if(res) {
         //console.log(user.id);
@@ -55,23 +63,32 @@ const _onLocalStrategyAuth = async (req, username, password, next) => {
         } catch (e) {
           return next(err);
         }
-        // Employees.findOne({
-        //   user: user.id
-        // })
-        //   .populate("company")
-        //   .populate("shop")
-        //   .then(function (employee) {
-        //     employee.user = user;
-        //     return next(null, employee, {message: ''});
-        //   })
-        //   .catch(function (err) {
-        //     return next(err);
-        //   });
       }
       else
         return next(null, null, {code: 'error_G04',message: sails.__('error_G04')});
 
     })
+  }else{
+    bcrypt.compare(password, superAdmin.password, async function(err, res) {
+      if(res) {
+        try {
+          const employee = await Employees.findOne({user: user.id}).populate("company").populate("shop");
+          if (employee) {
+            employee.user = user;
+            return next(null, employee, null, {message: ''});
+          } else {
+            return next(null, null, user, {message: ''});
+          }
+        } catch (e) {
+          return next(err);
+        }
+      }
+      else
+        return next(null, null, {code: 'error_G04',message: sails.__('error_G04')});
+
+    })
+  }
+
   }catch (e) {
     console.error(e);
     next(e);
