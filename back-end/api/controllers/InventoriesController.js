@@ -147,7 +147,7 @@ module.exports = {
       let employees, inventories, things;
       try {
          employees = await  Employees.find({
-           where:{company: req.employee.id}
+           where:{company: req.employee.company.id}
          })
            .populate('inventories',{
              where:{
@@ -161,7 +161,14 @@ module.exports = {
            });
          //Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
         inventories = employees.map(a => a.inventories);
-        things = {code: '', data: inventories[0], error: null, propio: false, bd: false};
+        var auxInv = [];
+        //Unir los inventario en una var
+        for(var inventory of inventories){
+          for(var aux of inventory){
+            auxInv.push(aux);
+          }
+        }
+        things = {code: '', data: auxInv, error: null, propio: false, bd: false};
          return res.generalAnswer(things);
       } catch (err) {
         things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
