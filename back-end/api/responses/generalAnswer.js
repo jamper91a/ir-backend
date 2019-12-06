@@ -9,7 +9,7 @@ module.exports = function generalAnswer(inputs) {
   let code = inputs.code ? inputs.code: error ? error.code ? error.code:'':' ';
   let data = inputs.data;
   // //Respuesta a enviar al usuario
-  // console.log("Code:"+code);
+  // sails.log.info("Code:"+code);
   var answer={
     message: sails.__(code),
     code: code,
@@ -24,8 +24,8 @@ module.exports = function generalAnswer(inputs) {
     res.status(200);
   }
   if(error){
-    console.log(location);
-    console.log(error);
+    sails.log.info(location);
+    sails.log.info(error);
   }else{
     answer.code='OK';
   }

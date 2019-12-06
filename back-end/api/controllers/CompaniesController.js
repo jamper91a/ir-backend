@@ -66,7 +66,7 @@ module.exports = {
         }
 
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
       things = {code: '', data: [], error: e};
       return res.generalAnswer(things);
     }

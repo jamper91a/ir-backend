@@ -18,11 +18,11 @@ module.exports = {
       req.body.products = JSON.parse(req.body.products);
       req.body.inventory = JSON.parse(req.body.inventory);
     } catch (e) {
-      // console.error(e);
+      // sails.log.error(e);
     }
 
     let products = req.body.products;
-    // console.log(req.body);
+    // sails.log.info(req.body);
 
     sails.getDatastore()
       .transaction(async (db,proceed)=> {
@@ -128,7 +128,7 @@ module.exports = {
       return res.generalAnswer(things);
     }
 
-    // console.log(req.body);
+    // sails.log.info(req.body);
 
 
   },

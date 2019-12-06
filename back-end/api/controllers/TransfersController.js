@@ -223,7 +223,7 @@ module.exports = {
     try {
       products=JSON.parse(req.body.products);
     } catch (e) {
-      // console.error(e);
+      // sails.log.error(e);
     }
 
     sails.getDatastore()
@@ -258,7 +258,7 @@ module.exports = {
         return res.generalAnswer(operation);
       })
       .catch(function (error) {
-        console.error(error);
+        sails.log.error(error);
         error = error.raw;
         return res.generalAnswer(error);
       });

@@ -34,7 +34,7 @@ module.exports = {
         return res.generalAnswer(operation);
       })
       .catch(function (error) {
-        console.error(error.error);
+        sails.log.error(error.error);
         error = error.raw;
         return res.generalAnswer(error);
       });
