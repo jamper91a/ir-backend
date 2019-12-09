@@ -78,6 +78,9 @@ module.exports = {
       things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
       return res.generalAnswer(things);
     }
+  },
+  epcByEanPlu: async function(req, res){
+
   }
 
 };
