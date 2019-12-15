@@ -24,7 +24,7 @@ module.exports = {
 
       }
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
     }
     //Creo usuario
     req.body.user.active = 1;
@@ -59,7 +59,7 @@ module.exports = {
 
       }
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
     }
 
       sails.getDatastore()
@@ -93,7 +93,7 @@ module.exports = {
           return res.generalAnswer(operation);
         })
         .catch(function (error) {
-          console.error(error);
+          sails.log.error(error);
           error = error.raw;
           return res.generalAnswer(error);
         });
@@ -113,7 +113,7 @@ module.exports = {
         return res.generalAnswer(things);
       }
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
     }
 
     sails.getDatastore()
@@ -135,7 +135,7 @@ module.exports = {
         return res.generalAnswer(operation);
       })
       .catch(function (error) {
-        console.error(error);
+        sails.log.error(error);
         error = error.raw;
         return res.generalAnswer(error);
       });
@@ -201,7 +201,7 @@ module.exports = {
              * Populate info depending of the group
              * Just groups 1, 2 and 5 are allow (sAdmin, admin and dealer)
              */
-            console.log(user.group);
+            sails.log.info(user.group);
             if(user.group == 1 || user.group == 2 || user.group == 5){
               const dealer = await Dealers.findOne({user: user.id});
               try {
@@ -294,7 +294,7 @@ module.exports = {
           .populate('devolution')
           .populate('epc');
       } catch (e) {
-        console.error(e);
+        sails.log.error(e);
       }
 
       //Obtengo las transferencias que van a este local
@@ -363,7 +363,7 @@ module.exports = {
   },
   findEmployeeByUsername: async function (req, res){
     let things={};
-    console.log('findEmployeeByUsername');
+    sails.log.info('findEmployeeByUsername');
     const user = await Users.findOne({
       where:{
         username: req.body.username

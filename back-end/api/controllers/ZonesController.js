@@ -27,7 +27,7 @@ module.exports = {
       things = {code: '', data: zones, error: null, propio: false, bd: false};
       return res.generalAnswer(things);
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
       things = {code: '', data: [], error: e};
       return res.generalAnswer(things);
     }

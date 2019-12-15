@@ -34,7 +34,7 @@ module.exports = {
         return res.generalAnswer(operation);
       })
       .catch(function (error) {
-        console.error(error.error);
+        sails.log.error(error.error);
         error = error.raw;
         return res.generalAnswer(error);
       });
@@ -78,6 +78,9 @@ module.exports = {
       things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
       return res.generalAnswer(things);
     }
+  },
+  epcByEanPlu: async function(req, res){
+
   }
 
 };

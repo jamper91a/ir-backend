@@ -15,7 +15,7 @@ module.exports = {
       things = {code: '', data: {}, error: null, propio: false, bd: false};
       return res.generalAnswer(things);
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
       things = {code: '', data: [], error: e};
       return res.generalAnswer(things);
     }
@@ -29,7 +29,7 @@ module.exports = {
       things = {code: '', data: shops, error: null, propio: false, bd: false};
       return res.generalAnswer(things);
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
       things = {code: '', data: [], error: e};
       return res.generalAnswer(things);
     }

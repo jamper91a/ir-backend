@@ -31,7 +31,7 @@ module.exports = {
         }
       // }
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
       things = {code: '', data: [], error: e};
       return res.generalAnswer(things);
     }
@@ -83,12 +83,12 @@ module.exports = {
           return res.generalAnswer(operation);
         })
         .catch(function (error) {
-          console.error(error.error);
+          sails.log.error(error.error);
           error = error.raw;
           return res.generalAnswer(error);
         });
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
       things = {code: '', data: [], error: e};
       return res.generalAnswer(things);
     }
@@ -116,7 +116,7 @@ module.exports = {
 
 
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
       things = {code: '', data: [], error: e};
       return res.generalAnswer(things);
     }
@@ -153,6 +153,8 @@ module.exports = {
           or:[
             {ean: req.body.code},
             {plu: req.body.code},
+            {plu2: req.body.code},
+            {plu3: req.body.code},
 
           ]
         }

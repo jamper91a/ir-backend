@@ -57,7 +57,7 @@ module.exports = {
 
       }
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
     }
     //Creo usuario
     req.body.user.active = 1;
@@ -92,7 +92,7 @@ module.exports = {
 
       }
     } catch (e) {
-      console.error(e);
+      sails.log.error(e);
     }
     //Find the user
     try {

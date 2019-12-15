@@ -106,14 +106,23 @@ module.exports = {
           async.each(consolidatedInventory.inventories, async function(inventory, cb){
             try {
               let inv = await Inventories.findOne({where: {id: inventory.id}})
-                .populate('products.zone')
-                .populate('products.product')
-                .populate('products.epc');
+                .populate('products.zone&product&epc');
+              for(const pz of inv.products){
+                if(pz.product){
+                  pz.product.company = { id: pz.product.company};
+                  pz.product.supplier = { id: pz.product.supplier};
+                }
+                if(pz.zone){
+                  pz.zone.shop = { id: pz.zone.shop};
+                }
+                if(pz.epc){
+                  pz.epc.company = { id: pz.epc.company};
+                  pz.epc.dealer = { id: pz.epc.dealer};
+                }
+              }
               if (inv)
                 inventory.products = inv.products;
-              // for(const pz of inventory.products){
-              //
-              // }
+
             } catch (e) {
               cb(e);
             }

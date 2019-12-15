@@ -58,7 +58,7 @@ module.exports = {
           }
         );
       } catch (e) {
-        console.error(e);
+        sails.log.error(e);
         exits.success('');
       }
     });

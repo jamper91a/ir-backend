@@ -36,7 +36,7 @@ module.exports = function(grunt) {
   //    ```
   //    $ npm install grunt-sync --save-dev --save-exact
   //    ```
-  //
+  //npm
   //
   // 2. Then uncomment the following code:
   //
