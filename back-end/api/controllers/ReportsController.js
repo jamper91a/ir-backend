@@ -234,8 +234,10 @@ module.exports = {
         return res.generalAnswer(things);
       }
 
-      let firstDate =req.body.firstDate;
-      let secondDate =req.body.secondDate;
+      let firstDate =req.body.firstDate + " 00:00:00";
+      let secondDate =req.body.secondDate + " 23:59:59";
+      sails.log.info(firstDate);
+      sails.log.info(secondDate);
 
       //Check all the zones of the local
       //Find all zones from the employee's company
@@ -250,7 +252,10 @@ module.exports = {
         where:{
           or:[
             //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
-            {or:[{wasTransfered: null}, {wasTransfered:0}], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate }},
+            {
+              or:[
+                {wasTransfered: null}, {wasTransfered:0}
+                ], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate }},
             //Search all the products that were transfer and belongs to the loca and the updated date is in the range
             {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate }},
           ]
@@ -305,8 +310,8 @@ module.exports = {
         return res.generalAnswer(things);
       }
 
-      let firstDate =req.body.firstDate;
-      let secondDate =req.body.secondDate;
+      let firstDate =req.body.firstDate + " 00:00:00";
+      let secondDate =req.body.secondDate + " 23:59:59";
 
       //Check all the zones of the local
       //Find all zones from the employee's company
@@ -345,8 +350,8 @@ module.exports = {
         return res.generalAnswer(things);
       }
 
-      let firstDate =req.body.firstDate;
-      let secondDate =req.body.secondDate;
+      let firstDate =req.body.firstDate + " 00:00:00";
+      let secondDate =req.body.secondDate + " 23:59:59";
       let type =req.body.type;
 
       //Check all the zones of the local
