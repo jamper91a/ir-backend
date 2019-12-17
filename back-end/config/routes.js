@@ -14,6 +14,7 @@ module.exports.routes = {
   //Companies
   'POST /companies/getCompaniesByDealer':'Companies.getCompaniesByDealer',
   'POST /companies/getCompaniesById':'Companies.getCompaniesById',
+  'POST /companies/getEmployeesByAdmin':'Companies.getEmployeesByAdmin',
   'POST /companies/update':'Companies.update',
 
   //Dealers
@@ -22,7 +23,7 @@ module.exports.routes = {
   'POST /dealers/update':'Dealers.update',
   'POST /dealers/getAllActiveDealers':'Dealers.getAllActiveDealers',
 
-  
+
   //Devoluciones
   'POST /devoluciones/devolverProductos':'Devolutions.returnProducts',
 
@@ -44,6 +45,7 @@ module.exports.routes = {
   'POST /inventariosConsolidados/listarTodos':'ConsolidatedInventories.listAll',
   'POST /inventariosConsolidados/listarProductos':'ConsolidatedInventories.listProducts',
   'POST /inventariosConsolidados/ultimoInventario':'ConsolidatedInventories.lastInventory',
+  'POST /inventariosConsolidados/ultimoInventarioAdmin':'ConsolidatedInventories.lastInventoryAdmin',
 
   //Inventory Erp
   'POST /inventoryErp/create':'InventoriesErp.create',

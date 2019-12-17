@@ -131,10 +131,16 @@ module.exports = {
           return res.generalAnswer(things);
         }
 
+        let auxEmployee;
+        if(req.body.employee)
+          auxEmployee = req.body.employee;
+        else
+          auxEmployee = req.employee;
+
         //Find all zones of the company of the empleado
         let zones = await Zones.find({
           where: {
-            shop: req.employee.shop.id
+            shop: auxEmployee.shop.id
           },
           select: ['id']
         });
