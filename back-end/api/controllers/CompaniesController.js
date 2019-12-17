@@ -45,6 +45,18 @@ module.exports = {
       return res.generalAnswer(things);
     }
   },
+  getEmployeesByAdmin: async function(req,res){
+    let employee, things, companyId;
+    try {
+      employee = await Employees.find({company: req.employee.company.id}).populate('user',{group: [3,4,6]}).populate('shop');
+
+      things = {code: '', data: employee, error: null, propio: false, bd: false};
+      return res.generalAnswer(things);
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  },
 
   update : async function(req, res){
     let things;

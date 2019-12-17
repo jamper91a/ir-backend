@@ -153,6 +153,74 @@ module.exports = {
       return res.generalAnswer(things);
     }
   },
+
+  lastInventoryAdmin: async function(req, res){
+    let consolidatedInventory, things;
+    try {
+
+      //Busco el ultimo invnetario consolidado de este empleado
+      consolidatedInventory = await
+        ConsolidatedInventories.find({
+          where:{
+            employee:req.body.id
+          }
+        })
+          .sort('createdAt desc')
+          .limit(1)
+          .populate('inventories');
+      if(consolidatedInventory && consolidatedInventory.length>0){
+        consolidatedInventory = consolidatedInventory[0];
+        if(consolidatedInventory.inventories){
+          async.each(consolidatedInventory.inventories, async function(inventory, cb){
+            try {
+              let inv = await Inventories.findOne({where: {id: inventory.id}})
+                .populate('products.zone&product&epc');
+              for(const pz of inv.products){
+                if(pz.product){
+                  pz.product.company = { id: pz.product.company};
+                  pz.product.supplier = { id: pz.product.supplier};
+                }
+                if(pz.zone){
+                  pz.zone.shop = { id: pz.zone.shop};
+                }
+                if(pz.epc){
+                  pz.epc.company = { id: pz.epc.company};
+                  pz.epc.dealer = { id: pz.epc.dealer};
+                }
+              }
+              if (inv)
+                inventory.products = inv.products;
+
+            } catch (e) {
+              cb(e);
+            }
+            cb();
+          }, function(error){
+            let things={code: '', data:[], error:null};
+            if(error){
+              things.error=error;
+            }
+            things.data = consolidatedInventory;
+            return res.generalAnswer(things);
+          });
+        }else{
+          things = {code: '', data: [], error: null};
+          return res.generalAnswer(things);
+        }
+      }
+      else{
+        things = {code: '', data: [], error: null};
+        return res.generalAnswer(things);
+      }
+
+
+
+
+    } catch (err) {
+      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return res.generalAnswer(things);
+    }
+  },
   /**
    * Esta funcion se encarga de buscar los inventories que pertenecen a un inventario consolidados, luego obtiene los
    * productos de dichos inventories y los retorna
