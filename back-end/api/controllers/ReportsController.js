@@ -17,7 +17,7 @@ module.exports = {
       let inventories = await Inventories.find({
         where: {consolidatedInventory: req.body.firstInventory}
       })
-        .populate('products');
+        .populate('products.zone&product&epc');
       //Add the products of the first inventory to an var
       let productsFirstInventory= [];
       for(const inventory  of inventories)
@@ -27,7 +27,7 @@ module.exports = {
       inventories = await Inventories.find({
         where: {consolidatedInventory: req.body.secondInventory}
       })
-        .populate('products');
+        .populate('products.zone&product&epc');
       //Add the products of the first inventory to an var
       let productsSecondInventory= [];
       for(const inventory  of inventories)
