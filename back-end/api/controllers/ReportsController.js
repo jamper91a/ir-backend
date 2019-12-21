@@ -236,8 +236,6 @@ module.exports = {
 
       let firstDate =req.body.firstDate + " 00:00:00";
       let secondDate =req.body.secondDate + " 23:59:59";
-      sails.log.info(firstDate);
-      sails.log.info(secondDate);
 
       //Check all the zones of the local
       //Find all zones from the employee's company
@@ -313,11 +311,16 @@ module.exports = {
       let firstDate =req.body.firstDate + " 00:00:00";
       let secondDate =req.body.secondDate + " 23:59:59";
 
+      let auxEmployee = null;
+      auxEmployee = req.body.employee ? req.body.employee : req.employee;
+      let shop = auxEmployee.shop.id;
+      let company = auxEmployee.company.id;
+
       //Check all the zones of the local
       //Find all zones from the employee's company
       let zones = await Zones.find({
         where: {
-          shop: req.employee.shop.id
+          shop: shop.id
         },
         select: ['id']
       });
@@ -331,7 +334,10 @@ module.exports = {
             {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate }},
           ]
         }
-      });
+      })
+        .populate('zone')
+        .populate('product')
+        .populate('epc');
       let things={code: '', data:[], error:null};
       things.data = products;
       return res.generalAnswer(things);
@@ -354,11 +360,16 @@ module.exports = {
       let secondDate =req.body.secondDate + " 23:59:59";
       let type =req.body.type;
 
+      let auxEmployee = null;
+      auxEmployee = req.body.employee ? req.body.employee : req.employee;
+      let shop = auxEmployee.shop.id;
+      let company = auxEmployee.company.id;
+
       //Check all the zones of the local
       //Find all zones from the employee's company
       let zones = await Zones.find({
         where: {
-          shop: req.employee.shop.id
+          shop: shop.id
         },
         select: ['id']
       });
@@ -383,7 +394,9 @@ module.exports = {
           devolution: devolutions
         }
       })
-        .populate('product');
+        .populate('zone')
+        .populate('product&supplier')
+        .populate('epc');
 
       //Find the information of the supplier
       async.forEach(products,
@@ -433,8 +446,8 @@ module.exports = {
       let secondDate =new Date();
       firstDate = firstDate.setDate(firstDate.getDate()-days);
 
-      firstDate = moment(firstDate).format("YYYY-MM-DDTHH:mm:ss");
-      secondDate = moment(secondDate).format("YYYY-MM-DDTHH:mm:ss");
+      firstDate = moment(firstDate).format("YYYY-MM-DD") + " 00:00:00";
+      secondDate = moment(secondDate).format("YYYY-MM-DD") + " 23:59:59";
 
       sails.log.info(firstDate);
       sails.log.info(secondDate);
@@ -461,9 +474,10 @@ module.exports = {
 
   diferenceWithInventoryErp: async function (req, res){
     try {
-
-      let shop =req.employee.shop.id;
-      let company =req.employee.company.id;
+      let auxEmployee = null;
+      auxEmployee = req.body.employee ? req.body.employee : req.employee;
+      let shop = auxEmployee.shop.id;
+      let company = auxEmployee.company.id;
       let total_products_query = `
         SELECT COUNT(1) as total, p.id,p.size, ean, plu, plu2, plu3, description, imagen
         FROM products_has_zones phz, products p, zones z
