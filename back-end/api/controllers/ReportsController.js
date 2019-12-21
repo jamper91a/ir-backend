@@ -446,8 +446,8 @@ module.exports = {
       let secondDate =new Date();
       firstDate = firstDate.setDate(firstDate.getDate()-days);
 
-      firstDate = moment(firstDate).format("YYYY-MM-DDTHH:mm:ss");
-      secondDate = moment(secondDate).format("YYYY-MM-DDTHH:mm:ss");
+      firstDate = moment(firstDate).format("YYYY-MM-DD") + " 00:00:00";
+      secondDate = moment(secondDate).format("YYYY-MM-DD") + " 23:59:59";
 
       sails.log.info(firstDate);
       sails.log.info(secondDate);
