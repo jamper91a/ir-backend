@@ -1,7 +1,7 @@
 module.exports.email = {
   service: "Mailtrap",
   host: "smtp.mailtrap.io",
-  port: 2525,
+  port: 25,
   auth: {
     user: "90812d7df14cff",
     pass: "4dc27609b7ee53"
