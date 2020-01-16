@@ -53,5 +53,8 @@
 	"POOL_CLOSED": "POOL_CLOSED",
 	"ERR_INVALID_ARG_TYPE": "ERR_INVALID_ARG_TYPE",
 	"ENOENT": "ENOENT",
-	"E_INVALID_ARGINS": "E_INVALID_ARGINS"
+	"E_INVALID_ARGINS": "E_INVALID_ARGINS",
+	"ESTREAM": "ESTREAM",
+	"Already exits": "Already exits",
+	"Already Exits": "Already Exits"
 }

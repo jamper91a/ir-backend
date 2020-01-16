@@ -148,7 +148,7 @@ module.exports = {
   },
 
   getReportById: async function(req, res){
-    let things = {};
+    let things;
     if (!req.body.id) {
       things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
       return res.generalAnswer(things);
@@ -182,7 +182,7 @@ module.exports = {
         let data = {
           report: report,
           productsHasZones: productsZones
-        }
+        };
         things = {
           code: 'ok', data: data, error: null, propio: false, bd: false
         };
@@ -311,10 +311,10 @@ module.exports = {
       let firstDate =req.body.firstDate + " 00:00:00";
       let secondDate =req.body.secondDate + " 23:59:59";
 
-      let auxEmployee = null;
+      let auxEmployee;
       auxEmployee = req.body.employee ? req.body.employee : req.employee;
       let shop = auxEmployee.shop.id;
-      let company = auxEmployee.company.id;
+      //let company = auxEmployee.company.id;
 
       //Check all the zones of the local
       //Find all zones from the employee's company
@@ -360,10 +360,10 @@ module.exports = {
       let secondDate =req.body.secondDate + " 23:59:59";
       let type =req.body.type;
 
-      let auxEmployee = null;
+      let auxEmployee;
       auxEmployee = req.body.employee ? req.body.employee : req.employee;
       let shop = auxEmployee.shop.id;
-      let company = auxEmployee.company.id;
+      //let company = auxEmployee.company.id;
 
       //Check all the zones of the local
       //Find all zones from the employee's company
@@ -474,7 +474,7 @@ module.exports = {
 
   diferenceWithInventoryErp: async function (req, res){
     try {
-      let auxEmployee = null;
+      let auxEmployee;
       auxEmployee = req.body.employee ? req.body.employee : req.employee;
       let shop = auxEmployee.shop.id;
       let company = auxEmployee.company.id;
@@ -518,6 +518,8 @@ module.exports = {
       things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
       return res.generalAnswer(things);
     }
-  }
+  },
+
+
 
 };

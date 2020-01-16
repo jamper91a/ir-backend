@@ -78,6 +78,7 @@ module.exports.routes = {
   'POST /reportes/devolutionsByType': 'Reports.devolutionsByType',
   'POST /reportes/rotationProyectedByEanPlu': 'Reports.rotationProyectedByEanPlu',
   'POST /reportes/diferenceWithInventoryErp': 'Reports.diferenceWithInventoryErp',
+  'POST /reportes/sendReport': 'Reports.sendReport',
 
 
   //Sells
