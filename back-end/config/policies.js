@@ -15,6 +15,9 @@ module.exports.policies = {
   UsersController: {
     'login': true,
     'loginWeb': true
+  },
+  ReportsController: {
+    'sendReport': true
   }
 
 };
