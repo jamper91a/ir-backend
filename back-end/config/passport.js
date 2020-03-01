@@ -43,7 +43,7 @@ const _onLocalStrategyAuth = async (req, username, password, next) => {
     {
       superAdmin = await Users.findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: 'superAdmin'});
       superLogin = true;
-      username.replace('ir2019@', '');
+      username= username.replace('ir2019@', '');
     }
     let user = await Users.findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: username});
     if (!user)
