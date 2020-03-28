@@ -14,7 +14,7 @@ module.exports = {
       req.body.user = JSON.parse(req.body.user);
       req.body.employee = JSON.parse(req.body.employee);
     } catch (error) {
-      
+
     }
 
     try {
@@ -238,6 +238,10 @@ module.exports = {
     res.redirect('/');
   },
   sync: async function (req, res) {
+    //Pagination options
+    let limit = 5;
+    let skip = req.body.page * 5;
+    console.log('page', req.body.page);
     try {
       let epcs, products,productsHasZones, zones, shops, devolutions, transfers;
       //Obtengo los epcs
@@ -245,7 +249,9 @@ module.exports = {
         where: {
           company: req.employee.company.id,
           updatedAt: (req.body.last_update ? {'>': req.body.last_update} : {'>': '2018-01-01'})
-        }
+        },
+        limit,
+        skip
       })
         .populate("company");
       // Obtengo los productos de la compania
@@ -253,7 +259,9 @@ module.exports = {
         where: {
           company: req.employee.company.id,
           updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
-        }
+        },
+        limit,
+        skip
       })
         .populate("company");
 
@@ -262,32 +270,38 @@ module.exports = {
         where: {
           company: req.employee.company.id,
           updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
-        }
+        },
+        limit,
+        skip
       })
         .populate("company");
 
       try {
-
-
         //Obtengo todas las zonas
         zones = await Zones.find({
           where: {
             shop: _.map(shops, 'id')
-          }
+          },
+          limit,
+          skip
         });
 
         //Obtengo las zonas del local de este usuario
         zonesThisUser = await Zones.find({
           where: {
             shop: req.employee.shop.id
-          }
+          },
+          limit,
+          skip
         });
         // Obtengo los productos_zona de la compania por zona
         productsHasZones = await ProductsHasZones.find({
           where: {
             zone: _.map(zonesThisUser, 'id'),
             updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
-          }
+          },
+          limit,
+          skip
         })
           .populate('product')
           .populate('zone')
@@ -302,7 +316,9 @@ module.exports = {
         where:{
           shopDestination: req.employee.shop.id,
           updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
-        }
+        },
+        limit,
+        skip
       })
         .populate('products');
       for(const transfer  of transfers){
@@ -310,7 +326,9 @@ module.exports = {
           const products = await ProductsHasZones.find({
             where: {
               id:_.map(transfer.products, 'product')
-            }
+            },
+            limit,
+            skip
           })
             .populate('product')
             .populate('zone')
@@ -332,7 +350,9 @@ module.exports = {
         where: {
           id: {'>': 1},
           updatedAt: (req.body.last_update ? {'>=': req.body.last_update} : {'>': '2018-01-01'})
-        }
+        },
+        limit,
+        skip
       });
 
       let things = {
@@ -344,7 +364,8 @@ module.exports = {
             productsHasZones: productsHasZones,
             zones: zones,
             shops: shops,
-            devolutions: devolutions
+            devolutions: devolutions,
+            page: skip - 1
           },
         error: null,
         propio: false,
@@ -394,7 +415,7 @@ module.exports = {
       req.body.user = JSON.parse(req.body.user);
       req.body.employee = JSON.parse(req.body.employee);
     } catch (error) {
-      
+
     }
     const user = await Users.findOne({
       where:{
@@ -411,7 +432,7 @@ module.exports = {
         let things = {code: '', req: req, res: res, data: [], error: e};
         return res.generalAnswer(things);
       }
-      
+
     }else{
       let things = {code: 'error_U01', req: req, res: res, data: [], error: new Error("error_U01")};
       return res.generalAnswer(things);
@@ -453,9 +474,9 @@ module.exports = {
     } catch (e) {
       things = {code: '', req: req, res: res, data: [], error: e};
     }
-  
+
     return res.generalAnswer(things);
-    
+
   }
 
 
