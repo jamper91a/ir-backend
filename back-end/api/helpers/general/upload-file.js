@@ -41,7 +41,7 @@ module.exports = {
             maxBytes: 100000000,
             dirname: require('path').resolve(sails.config.appPath, 'assets/'+inputs.path),
             saveAs:function(file, cb) {
-              cb(null, inputs.file);
+              cb(null, inputs.name);
             }
           },function whenDone(err, uploadedFiles)
           {
@@ -51,7 +51,7 @@ module.exports = {
             if (uploadedFiles.length === 0){
               reject(err);
             }
-            resolve(inputs.path+inputs.file);
+            resolve(inputs.path+inputs.name);
           }
         );
       } catch (e) {

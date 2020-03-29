@@ -1,19 +1,29 @@
 var request = require('supertest');
 request = request('http://localhost:1337'); //r
-describe('UserController.login', function() {
+describe('Company', function() {
 
-  describe('#login()', function() {
-    it('should return information', function (done) {
+  describe('#Update', function() {
+    it('Admin should update company', function (done) {
 
-      //Structure to compare
-
+      //Login as admin
+      let token = '';
       request
-        .post('/login')
-        .send({ username: 'cajero@ir.com', password: '12345' })
+        .post('/loginWeb')
+        .send({ username: 'gerente@ir.com', password: '12345' })
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
-          done();
+          token =res.body.data.token;
+          request
+            .post('/company/update')
+            .field('withPhoto','true')
+            .attach('photo', 'test/files/chat1.png')
+            .set({Authorization: "Bearer " + token})
+            .expect(200)
+            .end(function(err, res) {
+              if (err) return done(err);
+              done();
+            });
         });
     });
   });
