@@ -55,7 +55,7 @@ module.exports = {
       id: {in: employeeIventories}
     });
 
-    return consolidatedInventories;
+    return {code: '', data:consolidatedInventories , error: null, propio: false, bd: false};
 
   }
 

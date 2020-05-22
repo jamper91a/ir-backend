@@ -25,34 +25,26 @@ module.exports = {
 
 
   fn: async function ({consolidatedInventory}) {
-    let  things;
+    console.time('ListProducts');
+    let  things=[];
       try {
         let zonesHasProducts=[];
         let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory})
-          .populate('products');
-        async.each(inventories, async function(inventory, cb){
-          async.each(inventory.products, async function(product, cb){
-            let aux_product = await Products.findOne({id:product.product});
-            if(aux_product)
-              product.product = aux_product;
-            zonesHasProducts.push(product);
-            cb();
-          }, function(error){
-            cb(error);
-          });
+          .populate('products.product.company&supplier');
 
-        }, async function(error){
-          let things={code: '', data:[], error:null};
-          if(error){
-            things.error=error;
+        for(const inventory of inventories) {
+          for(const product of inventory.products) {
+            zonesHasProducts.push(product);
           }
-          let consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
-          things.data = {
-            products: zonesHasProducts,
-            consolidatedInventories: consolidatedInventories
-          };
-          return things;
-        });
+        }
+        let things={code: '', data:[], error:null};
+        let consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
+        things.data = {
+          products: zonesHasProducts,
+          consolidatedInventories: consolidatedInventories
+        };
+        console.timeEnd('ListProducts');
+        return things;
 
       } catch (e) {
         things = {code: e.number, data: [], error: e};

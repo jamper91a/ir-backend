@@ -19,7 +19,9 @@ module.exports = {
   },
 
 
-  fn: async function ({collaborative}) {
+  fn: async function () {
+    //LastInventory: 13790.415ms
+    console.time('LastInventory');
     let employee = null;
     try {
       employee = this.req.employee.id;
@@ -37,55 +39,38 @@ module.exports = {
         })
           .sort('createdAt desc')
           .limit(1)
-          .populate('inventories');
+          // .populate('inventories.products.zone&epc&product.company&supplier');
+          .populate('inventories.products.zone&epc&product');
       if(consolidatedInventory && consolidatedInventory.length>0){
         consolidatedInventory = consolidatedInventory[0];
         if(consolidatedInventory.inventories){
-          async.each(consolidatedInventory.inventories, async function(inventory, cb){
-            try {
-              let inv = await Inventories.findOne({where: {id: inventory.id}})
-                .populate('products.zone&product&epc');
-              for(const pz of inv.products){
-                if(pz.product){
-                  pz.product.company = { id: pz.product.company};
-                  pz.product.supplier = { id: pz.product.supplier};
-                }
-                if(pz.zone){
-                  pz.zone.shop = { id: pz.zone.shop};
-                }
-                if(pz.epc){
-                  pz.epc.company = { id: pz.epc.company};
-                  pz.epc.dealer = { id: pz.epc.dealer};
-                }
+          for(const inventory of consolidatedInventory.inventories) {
+            for(const pz of inventory.products) {
+              if(pz.product){
+                    pz.product.company = { id: pz.product.company};
+                    pz.product.supplier = { id: pz.product.supplier};
               }
-              if (inv)
-                inventory.products = inv.products;
-
-            } catch (e) {
-              cb(e);
+              if(pz.zone){
+                pz.zone.shop = { id: pz.zone.shop};
+              }
+              if(pz.epc){
+                pz.epc.company = { id: pz.epc.company};
+                pz.epc.dealer = { id: pz.epc.dealer};
+              }
             }
-            cb();
-          }, function(error){
-            let things={code: '', data:[], error:null};
-            if(error){
-              things.error=error;
-            }
-            things.data = consolidatedInventory;
-            return things;
-          });
+          }
+          let things={code: '', data:[], error:null};
+          things.data = consolidatedInventory;
+          console.timeEnd('LastInventory');
+          return things;
         }else{
           return  [];
         }
       }
-
       return  [];
-
-
-
-
     } catch (err) {
-      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
-      return res.generalAnswer(things);
+      let things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
+      return things;
     }
 
   }
