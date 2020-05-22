@@ -52,6 +52,9 @@ module.exports.routes = {
   'POST /inventariosConsolidados/ultimoInventario':'ConsolidatedInventories.lastInventory',
   'POST /inventariosConsolidados/ultimoInventarioAdmin':'ConsolidatedInventories.lastInventoryAdmin',
 
+  'POST /ci/listByCollaborative':'consolidated-inventory.list-by-collaborative',
+  'POST /ci/listAll':'consolidated-inventory.list-all',
+
   //Inventory Erp
   'POST /inventoryErp/create':'InventoriesErp.create',
 
