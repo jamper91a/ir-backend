@@ -19,5 +19,13 @@ module.exports.custom = {
   // mailgunSecret: 'key-testkeyb183848139913858e8abd9a3',
   // stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald',
   // …
+  USERS_GROUP: {
+    SuperAdministrador: 1,
+    AdministradorEmpresa: 2,
+    Cajero:3,
+    Bodega:4,
+    Distribuidor:5,
+    AdministradorLocal: 6
+  }
 
 };

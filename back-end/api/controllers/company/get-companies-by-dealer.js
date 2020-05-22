@@ -34,7 +34,7 @@ module.exports = {
       }
       return dealer;
     } else {
-      throw 'noDealer'
+      throw 'noDealer';
 ;    }
 
   }

@@ -16,6 +16,10 @@ module.exports.routes = {
   'POST /companies/getCompaniesById':'Companies.getCompaniesById',
   'POST /companies/getEmployeesByAdmin':'Companies.getEmployeesByAdmin',
   'POST /companies/update':'Companies.update',
+
+  'POST /company/getCompaniesByDealer':'Company.get-companies-by-dealer',
+  'POST /company/getCompaniesById':'Company.get-company-by-id',
+  'POST /company/getEmployeesByAdmin':'Company.get-employees-by-admin',
   'POST /company/update':'Company.update',
 
   //Dealers
