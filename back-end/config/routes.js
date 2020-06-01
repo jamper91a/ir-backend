@@ -28,6 +28,8 @@ module.exports.routes = {
   'POST /dealers/update':'Dealers.update',
   'POST /dealers/getAllActiveDealers':'Dealers.getAllActiveDealers',
 
+  'POST /dealer/getAllDealers':'dealer.get-all-dealers',
+
 
   //Devoluciones
   'POST /devoluciones/devolverProductos':'Devolutions.returnProducts',
