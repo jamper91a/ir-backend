@@ -29,6 +29,8 @@ module.exports.routes = {
   'POST /dealers/getAllActiveDealers':'Dealers.getAllActiveDealers',
 
   'POST /dealer/getAllDealers':'dealer.get-all-dealers',
+  'POST /dealer/getAllActiveDealers':'dealer.get-all-active-dealers',
+  'POST /dealer/create':'dealer.create-dealer',
 
 
   //Devoluciones
