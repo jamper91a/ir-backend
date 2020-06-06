@@ -10,8 +10,7 @@ module.exports = {
   inputs: {
     user:  {
       type: 'json',
-      required: false,
-      defaultsTo: false,
+      required: true,
       custom: function(value) {
         return _.isObject(value) &&
           _.isString(value.username)  &&
@@ -20,8 +19,7 @@ module.exports = {
     },
     dealer:  {
       type: 'json',
-      required: false,
-      defaultsTo: false,
+      required: true,
       custom: function(value) {
         return _.isObject(value) &&
           _.isString(value.name)

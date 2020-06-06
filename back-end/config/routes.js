@@ -37,6 +37,8 @@ module.exports.routes = {
   //Devoluciones
   'POST /devoluciones/devolverProductos':'Devolutions.returnProducts',
 
+  'POST /devolution/returnProducts':'Devolution.return-products',
+
   //Epc
   'POST /epcs/create':'Epcs.create',
   'POST /epcs/tagsByDealerByMonth':'Epcs.tagsByDealerByMonth',
