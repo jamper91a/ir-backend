@@ -13,6 +13,11 @@ module.exports = {
     },
     req: {
       type: 'ref'
+    },
+    data: {
+      type: 'ref',
+      required: false,
+      defaultsTo: {}
     }
   },
 
@@ -26,8 +31,9 @@ module.exports = {
   },
 
 
-  fn: async function ({error, req}) {
+  fn: async function ({error, req, data}) {
     let location= req.options.action;
+    sails.log.error(location, data);
     sails.log.error(location, JSON.stringify(error));
   }
 
