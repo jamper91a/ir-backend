@@ -35,17 +35,6 @@ module.exports = {
   },
   security: {
 
-    /***************************************************************************
-    *                                                                          *
-    * If this app has CORS enabled (see `config/security.js`) with the         *
-    * `allowCredentials` setting enabled, then you should uncomment the        *
-    * `allowOrigins` whitelist below.  This sets which "origins" are allowed   *
-    * to send cross-domain (CORS) requests to your Sails app.                  *
-    *                                                                          *
-    * > Replace "https://example.com" with the URL of your production server.  *
-    * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
-    *                                                                          *
-    ***************************************************************************/
     cors: {
       allRoutes: true,
       allowOrigins: ['http://localhost:8100', 'http://coexnort.servehttp.com:8044', 'https://inventario-real.firebaseapp.com'],
@@ -60,5 +49,10 @@ module.exports = {
 
   sockets: {
     onlyAllowOrigins: []
+  },
+  custom: {
+    tokens: {
+      employee: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJjYWplcm9AaXIuY29tIiwiY29tcGFueV9pZCI6MSwic2hvcF9pZCI6MSwiaWF0IjoxNTkxNDk2MjU1fQ.GS8H1dWtz1PhreNR6v-vyRcUSm3TJldWgkdVBhDsyro'
+    }
   }
 };

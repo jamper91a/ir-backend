@@ -8,7 +8,7 @@ before(function(done) {
   process.env.NODE_ENV = 'test';
   sails.lift({
     hooks: { grunt: false },
-    log: { level: 'warn' },
+    log: { level: 'info' },
 
   }, async function(err) {
     if (err) { return done(err); }

@@ -37,29 +37,38 @@ module.exports = {
 
   fn: async function (inputs) {
     const employee = this.req.employee;
-    const products = inputs.products;
-    await  sails.getDatastore()
-      .transaction(async (db) => {
-        //Update every productZone
-        for(const product of products) {
-          try {
-            //Save data for logs
-            let newDevolutionHistory = {
-              user: employee.user.id,
-              product: product.product,
-              productsHasZone: product.id
-            };
-            await DevolutionsHistory.create(newDevolutionHistory).usingConnection(db);
-            await ProductsHasZones
-              .update({ epc: product.epc })
-              .set({ id: product.id, devolution: product.devolution, notes_return:product.notes_return })
-              .usingConnection(db);
-          } catch (err) {
-            throw err;
+    let products = inputs.products;
+
+    let newDevolutionHistories = [];
+      await sails.getDatastore()
+        .transaction(async (db) => {
+          //Update every productZone
+          for (const product of products) {
+            try {
+              //Save data for logs
+              let newDevolutionHistory = {
+                user: employee.user.id,
+                product: product.product,
+                productsHasZone: product.id
+              };
+              newDevolutionHistories.push(newDevolutionHistory);
+              await ProductsHasZones
+                .update({epc: product.epc})
+                .set({id: product.id, devolution: product.devolution, notes_return: product.notes_return})
+                .usingConnection(db);
+            } catch (err) {
+              throw err;
+            }
           }
-        }
-        return {};
-      });
+          //Create all the devolution history
+          try {
+            await DevolutionsHistory.createEach(newDevolutionHistories).usingConnection(db);
+          } catch (e) {
+            await sails.helpers.printError({title: 'productsNoReturned', message: e.message}, this.req);
+            throw e;
+          }
+          return {};
+        });
 
   }
 
