@@ -57,6 +57,7 @@ module.exports = {
                 .set({id: product.id, devolution: product.devolution, notes_return: product.notes_return})
                 .usingConnection(db);
             } catch (err) {
+              await sails.helpers.printError({title: 'productsNoReturned', message: e.message}, this.req);
               throw err;
             }
           }

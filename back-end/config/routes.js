@@ -44,6 +44,8 @@ module.exports.routes = {
   'POST /epcs/tagsByDealerByMonth':'Epcs.tagsByDealerByMonth',
   'POST /epcs/tagsByCompanyByMonth':'Epcs.tagsByCompanyByMonth',
 
+  'POST /epc/create':'epc.create-epc',
+
   //Inventarios
   'POST /inventarios/crear':'Inventories.create',
   'POST /inventarios/consolidar':'Inventories.consolidate',

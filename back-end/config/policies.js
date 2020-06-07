@@ -18,6 +18,7 @@ module.exports.policies = {
   },
   ReportsController: {
     'sendReport': true
-  }
+  },
+  'epc/create-epc' : ['isAuthenticated','isDealer'],
 
 };

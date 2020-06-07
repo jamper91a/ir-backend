@@ -52,7 +52,8 @@ module.exports = {
   },
   custom: {
     tokens: {
-      employee: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJjYWplcm9AaXIuY29tIiwiY29tcGFueV9pZCI6MSwic2hvcF9pZCI6MSwiaWF0IjoxNTkxNDk2MjU1fQ.GS8H1dWtz1PhreNR6v-vyRcUSm3TJldWgkdVBhDsyro'
+      employee: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJjYWplcm9AaXIuY29tIiwiY29tcGFueV9pZCI6MSwic2hvcF9pZCI6MSwiaWF0IjoxNTkxNDk2MjU1fQ.GS8H1dWtz1PhreNR6v-vyRcUSm3TJldWgkdVBhDsyro',
+      dealer: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE1OTE0OTgzMTl9.-cc10pNEFx4sGciFIUbV9mwXtvwgcrE8kMFvGLgreC8'
     }
   }
 };
