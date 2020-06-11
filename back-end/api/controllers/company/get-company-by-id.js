@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Get company by id',
 
 
-  description: 'Get the company using the id',
+  description: 'Get the company using the id. It is used by the dealers or the company\'s manager',
 
 
   inputs: {
@@ -20,20 +20,32 @@ module.exports = {
     noCompany: {
       description: 'Company not found',
       responseType: 'badRequest'
+    },
+    notAllow: {
+      description: 'User not allow',
+      responseType: 'forbidden'
     }
   },
 
 
   fn: async function ({id}) {
-    if(!id){
-      id = this.req.employee.user.id;
-    }
-    let company = await Companies.findOne({id}).populate('user');
-    if(company) {
-      return company;
-    } else {
-      throw 'noDealer';
-    }
+      let filter = {};
+      if (!id) {
+        filter = {user: this.req.employee.user.id};
+      } else {
+        filter = {id};
+        //Must be a dealer or admin
+        if (this.req.user.group !== sails.config.custom.USERS_GROUP.dealer &&
+          this.req.user.group != sails.config.custom.USERS_GROUP.admin) {
+          throw 'notAllow';
+        }
+      }
+      let company = await Companies.findOne(filter).populate('user');
+      if (company) {
+        return company;
+      } else {
+        throw 'noCompany';
+      }
 
   }
 

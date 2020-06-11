@@ -19,6 +19,9 @@ module.exports.policies = {
   ReportsController: {
     'sendReport': true
   },
+  'company/get-company-by-id' : ['isAuthenticated'],
+  'company/get-companies-by-dealer' : ['isAuthenticated','isDealer'],
   'epc/create-epc' : ['isAuthenticated','isDealer'],
+  'epc/tags-by-dealer-monthly' : ['isAuthenticated','isDealer'],
 
 };

@@ -20,12 +20,12 @@ module.exports.custom = {
   // stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald',
   // …
   USERS_GROUP: {
-    SuperAdministrador: 1,
-    AdministradorEmpresa: 2,
-    Cajero:3,
-    Bodega:4,
-    Distribuidor:5,
-    AdministradorLocal: 6
+    sAdmin: 1,
+    admin: 2,
+    Cashier:3,
+    warehouse:4,
+    dealer:5,
+    manager: 6
   }
 
 };

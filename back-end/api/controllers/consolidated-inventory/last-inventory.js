@@ -20,8 +20,6 @@ module.exports = {
 
 
   fn: async function () {
-    //LastInventory: 13790.415ms
-    console.time('LastInventory');
     let employee = null;
     try {
       employee = this.req.employee.id;
@@ -39,7 +37,6 @@ module.exports = {
         })
           .sort('createdAt desc')
           .limit(1)
-          // .populate('inventories.products.zone&epc&product.company&supplier');
           .populate('inventories.products.zone&epc&product');
       if(consolidatedInventory && consolidatedInventory.length>0){
         consolidatedInventory = consolidatedInventory[0];
@@ -59,10 +56,7 @@ module.exports = {
               }
             }
           }
-          let things={code: '', data:[], error:null};
-          things.data = consolidatedInventory;
-          console.timeEnd('LastInventory');
-          return things;
+          return consolidatedInventory;
         }else{
           return  [];
         }

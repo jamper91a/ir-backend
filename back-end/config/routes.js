@@ -18,7 +18,7 @@ module.exports.routes = {
   'POST /companies/update':'Companies.update',
 
   'POST /company/getCompaniesByDealer':'Company.get-companies-by-dealer',
-  'POST /company/getCompaniesById':'Company.get-company-by-id',
+  'POST /company/getCompanyById':'Company.get-company-by-id',
   'POST /company/getEmployeesByAdmin':'Company.get-employees-by-admin',
   'POST /company/update':'Company.update',
 
@@ -45,6 +45,7 @@ module.exports.routes = {
   'POST /epcs/tagsByCompanyByMonth':'Epcs.tagsByCompanyByMonth',
 
   'POST /epc/create':'epc.create-epc',
+  'POST /epc/tagsByDealerByMonth':'epc.tags-by-dealer-monthly',
 
   //Inventarios
   'POST /inventarios/crear':'Inventories.create',

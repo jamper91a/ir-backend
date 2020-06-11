@@ -36,9 +36,9 @@ module.exports = {
         ('user',
           {
             group: [
-              sails.config.custom.USERS_GROUP.Cajero,
-              sails.config.custom.USERS_GROUP.Bodega,
-              sails.config.custom.USERS_GROUP.AdministradorLocal,
+              sails.config.custom.USERS_GROUP.Cashier,
+              sails.config.custom.USERS_GROUP.warehouse,
+              sails.config.custom.USERS_GROUP.manager,
             ]
           }
         )
