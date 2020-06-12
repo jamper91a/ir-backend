@@ -25,6 +25,7 @@ module.exports.policies = {
 
   'consolidated-inventory/last-inventory-by-employee' : ['isAuthenticated','isAdmin'],
   'consolidated-inventory/list-all' : ['isAuthenticated'],
+  'consolidated-inventory/list-by-collaborative' : ['isAuthenticated', 'isEmployee'],
 
 
   'epc/create-epc' : ['isAuthenticated','isDealer'],

@@ -78,5 +78,63 @@ describe('ConsolidatedInventoryController', function() {
         });
     });
   });
+  describe('#ListAllConsolidatedInventoriesByCollaborative', function() {
+    it('Cashier should get information', function (done) {
+      request
+        .post('/ci/listByCollaborative')
+        .send({collaborative: 1})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.cashier})
+        .expect(200)
+        .end(function(err, res) {
+          if (err){
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Cashier should get information', function (done) {
+      request
+        .post('/ci/listByCollaborative')
+        .send({collaborative: 0})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.cashier})
+        .expect(200)
+        .end(function(err, res) {
+          if (err){
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Warehouse should get information', function (done) {
+      request
+        .post('/ci/listByCollaborative')
+        .send({collaborative: 1})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function(err, res) {
+          if (err){
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Warehouse should get information', function (done) {
+      request
+        .post('/ci/listByCollaborative')
+        .send({collaborative: 0})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function(err, res) {
+          if (err){
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 

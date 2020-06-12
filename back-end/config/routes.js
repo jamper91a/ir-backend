@@ -56,8 +56,8 @@ module.exports.routes = {
 
 
   //InventariosConsolidados
-  'POST /inventariosConsolidados/listar':'ConsolidatedInventories.list',
-  'POST /inventariosConsolidados/listarTodos':'ConsolidatedInventories.listAll',
+  'POST /inventariosConsolidados/listar':'ConsolidatedInventories.list',//->listByCollaborative
+  'POST /inventariosConsolidados/listarTodos':'ConsolidatedInventories.listAll',//->listAll
   'POST /inventariosConsolidados/listarProductos':'ConsolidatedInventories.listProducts',
   'POST /inventariosConsolidados/ultimoInventario':'ConsolidatedInventories.lastInventory',
   'POST /inventariosConsolidados/ultimoInventarioAdmin':'ConsolidatedInventories.lastInventoryAdmin',
