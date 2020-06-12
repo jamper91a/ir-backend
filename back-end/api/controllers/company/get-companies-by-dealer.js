@@ -32,7 +32,7 @@ module.exports = {
       if(justActive) {
         dealer.companies = dealer.companies.filter((company)=> { return company.user.active});
       }
-      return dealer;
+      return  {data: dealer};
     } else {
       throw 'noDealer';
 ;    }

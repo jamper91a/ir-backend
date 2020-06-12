@@ -51,7 +51,7 @@ module.exports = {
           await Users.updateOne({id: user.id}, user).usingConnection(db);
           try {
             await Dealers.updateOne({user: user.id}, dealer).usingConnection(db);
-            return {};
+            return {data:{}};
           } catch (e) {
             await sails.helpers.printError({title: 'dealerNotUpdated', message: e.message}, this.req, dealer);
             throw 'dealerNotUpdated';

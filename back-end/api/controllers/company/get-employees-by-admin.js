@@ -43,8 +43,7 @@ module.exports = {
           }
         )
       .populate('shop');
-
-    return employees;
+    return  {data: employees};
 
   }
 

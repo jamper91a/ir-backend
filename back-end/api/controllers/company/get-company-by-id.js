@@ -42,7 +42,7 @@ module.exports = {
       }
       let company = await Companies.findOne(filter).populate('user');
       if (company) {
-        return company;
+        return {data: company};
       } else {
         throw 'noCompany';
       }

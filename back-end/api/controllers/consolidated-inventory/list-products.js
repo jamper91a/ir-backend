@@ -47,8 +47,7 @@ module.exports = {
         return things;
 
       } catch (e) {
-        things = {code: e.number, data: [], error: e};
-        return things;
+        throw e;
       }
 
   }

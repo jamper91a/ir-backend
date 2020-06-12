@@ -49,7 +49,7 @@ module.exports = {
         company.photo = url_photo
       }
       const companyUpdated = await sails.helpers.company.updateByUser(this.req.employee.user.id, {name: inputs.name, photo: company.photo});
-      return companyUpdated;
+      return {data:companyUpdated};
 
     } catch (e) {
       throw e;

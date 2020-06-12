@@ -56,12 +56,12 @@ module.exports = {
               }
             }
           }
-          return consolidatedInventory;
+          return {data:consolidatedInventory};
         }else{
-          return  [];
+          return  {data: []};
         }
       }
-      return  [];
+      return  {data: []};
     } catch (err) {
       let things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
       return things;

@@ -63,7 +63,7 @@ module.exports = {
         id: {in: employeeIventories}
       });
 
-      return {consolidatedInventories};
+      return {data:consolidatedInventories};
     } else {
       throw 'notAllow';
     }

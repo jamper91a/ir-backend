@@ -46,7 +46,7 @@ module.exports = {
 
         try {
           await Epcs.createEach(epcs).usingConnection(db);
-          return {}
+          return {data:{}}
         } catch (e) {
           await sails.helpers.printError({title: 'epcsNoCreate', message: e.message}, this.req);
           throw e;

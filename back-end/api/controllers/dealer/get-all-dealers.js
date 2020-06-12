@@ -26,7 +26,7 @@ module.exports = {
 
   fn: async function ({justActiveDealers}) {
 
-    let dealers, things;
+    let dealers;
     dealers = await  Dealers.find().populate('user');
     if(justActiveDealers){
       dealers = dealers.filter((dealer)=> { return dealer.user.active});
@@ -35,8 +35,7 @@ module.exports = {
     }
 
     if(dealers) {
-      things = {code: '', data: dealers, error: null, propio: false, bd: false};
-      return things;
+      return {data:dealers};
     } else
       throw 'noDealers';
 

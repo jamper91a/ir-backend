@@ -56,17 +56,14 @@ module.exports = {
             if (inv)
               inventory.products = inv.products;
           }
-          let things={code: '', data:[], error:null};
-          things.data = consolidatedInventory;
-          return things;
+          return {data: consolidatedInventory};
         }else{
-          return  [];
+          return {data: []};
         }
       }
       return  [];
     } catch (err) {
-      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
-      return res.generalAnswer(things);
+      throw err;
     }
 
   }

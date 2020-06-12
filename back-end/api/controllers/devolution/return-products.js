@@ -68,7 +68,7 @@ module.exports = {
             await sails.helpers.printError({title: 'productsNoReturned', message: e.message}, this.req);
             throw e;
           }
-          return {};
+          return {data:{}};
         });
 
   }
