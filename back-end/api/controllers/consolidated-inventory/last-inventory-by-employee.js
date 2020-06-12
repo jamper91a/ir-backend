@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Last consolidated inventory',
 
 
-  description: 'Find the last consolidated inventory of current user',
+  description: 'Find the last consolidated inventory of current user. It is used by company admin on the web page',
 
 
   inputs: {
@@ -59,38 +59,6 @@ module.exports = {
           let things={code: '', data:[], error:null};
           things.data = consolidatedInventory;
           return things;
-          // async.each(consolidatedInventory.inventories, async function(inventory, cb){
-          //   try {
-          //     let inv = await Inventories.findOne({where: {id: inventory.id}})
-          //       .populate('products.zone&product&epc');
-          //     for(const pz of inv.products){
-          //       if(pz.product){
-          //         pz.product.company = { id: pz.product.company};
-          //         pz.product.supplier = { id: pz.product.supplier};
-          //       }
-          //       if(pz.zone){
-          //         pz.zone.shop = { id: pz.zone.shop};
-          //       }
-          //       if(pz.epc){
-          //         pz.epc.company = { id: pz.epc.company};
-          //         pz.epc.dealer = { id: pz.epc.dealer};
-          //       }
-          //     }
-          //     if (inv)
-          //       inventory.products = inv.products;
-          //
-          //   } catch (e) {
-          //     cb(e);
-          //   }
-          //   cb();
-          // }, function(error){
-          //   let things={code: '', data:[], error:null};
-          //   if(error){
-          //     things.error=error;
-          //   }
-          //   things.data = consolidatedInventory;
-          //   return things;
-          // });
         }else{
           return  [];
         }
