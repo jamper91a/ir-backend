@@ -21,6 +21,7 @@ module.exports.policies = {
   },
   'company/get-company-by-id' : ['isAuthenticated'],
   'company/get-companies-by-dealer' : ['isAuthenticated','isDealer'],
+  'company/get-employees-by-admin' : ['isAuthenticated','isAdmin'],
   'epc/create-epc' : ['isAuthenticated','isDealer'],
   'epc/tags-by-dealer-monthly' : ['isAuthenticated','isDealer'],
 

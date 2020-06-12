@@ -82,7 +82,7 @@ describe('Company', function() {
         });
 
     });
-    it('Employees should not get the company', function (done) {
+    it('Employees should not see the company', function (done) {
       request
         .post('/company/getCompanyById')
         .send({id:1})
@@ -96,6 +96,71 @@ describe('Company', function() {
         });
 
     });
+  });
+
+  describe('#GetEmployeesByAdmin', function() {
+    it('Admin should get employees', function (done) {
+      request
+        .post('/company/getEmployeesByAdmin')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function(err, res) {
+
+          if (err){
+            printError(res);
+            return done(err);
+          }
+          done();
+        });
+
+    });
+    it('Cashier should not get the employees', function (done) {
+      request
+        .post('/company/getEmployeesByAdmin')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.cashier})
+        .expect(403)
+        .end(function(err, res) {
+
+          if (err){
+            printError(res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Dealer should not get the employees', function (done) {
+      request
+        .post('/company/getEmployeesByAdmin')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
+        .expect(403)
+        .end(function(err, res) {
+
+          if (err){
+            printError(res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Employee should not get the employees', function (done) {
+      request
+        .post('/company/getEmployeesByAdmin')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function(err, res) {
+
+          if (err){
+            printError(res);
+            return done(err);
+          }
+          done();
+        });
+    }
+    );
   });
 
   describe('#Update', function() {
