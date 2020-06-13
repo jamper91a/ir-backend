@@ -28,6 +28,7 @@ module.exports.policies = {
   'consolidated-inventory/list-by-collaborative' : ['isAuthenticated', 'isEmployee'],
 
   'dealer/create-dealer': ['isAuthenticated', 'isSAdmin'],
+  'dealer/get-all-active-dealers': ['isAuthenticated', 'isSAdmin'],
 
 
   'epc/create-epc' : ['isAuthenticated','isDealer'],
