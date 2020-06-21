@@ -26,10 +26,16 @@ module.exports = {
 
   fn: async function ({justActiveDealers}) {
 
-    let dealers;
-    dealers = await  Dealers.find().populate('user');
+    let dealers = [];
+    // dealers = await  Dealers.find().populate('user');
     if(justActiveDealers){
-      dealers = dealers.filter((dealer)=> { return dealer.user.active});
+      let users = await  Users.find({group: sails.config.custom.USERS_GROUP.dealer, active: true}).populate('dealer');
+       _.each(users, function (user) {
+        let dealer = user.dealer[0];
+        delete user.dealer;
+        dealer.user = user;
+         dealers.push(dealer);
+      });
     } else {
       dealers = await  Dealers.find().populate('user');
     }

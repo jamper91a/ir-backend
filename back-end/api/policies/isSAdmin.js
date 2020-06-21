@@ -7,7 +7,6 @@
 
 
 module.exports = (req, res, next) => {
-  console.log('isSadmin', req.user.group);
   if(req.user.group === sails.config.custom.USERS_GROUP.sAdmin) {
     return next();
   }

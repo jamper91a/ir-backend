@@ -29,6 +29,8 @@ module.exports.policies = {
 
   'dealer/create-dealer': ['isAuthenticated', 'isSAdmin'],
   'dealer/get-all-active-dealers': ['isAuthenticated', 'isSAdmin'],
+  'dealer/get-all-dealers': ['isAuthenticated', 'isSAdmin'],
+  'dealer/update-dealer': ['isAuthenticated'],
 
 
   'epc/create-epc' : ['isAuthenticated','isDealer'],
