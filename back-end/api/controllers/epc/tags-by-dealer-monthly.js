@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Tags by dealer monthly',
 
 
-  description: 'Get the amount of tags every dealer create by month ',
+  description: 'Get the amount of tags every dealer create by month. It is used by the dealer on the web site ',
 
 
   exits: {

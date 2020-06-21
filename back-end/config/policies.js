@@ -24,16 +24,17 @@ module.exports.policies = {
   'company/get-employees-by-admin' : ['isAuthenticated','isAdmin'],
 
   'consolidated-inventory/last-inventory-by-employee' : ['isAuthenticated','isAdmin'],
-  'consolidated-inventory/list-all' : ['isAuthenticated'],
+  'consolidated-inventory/list-all' : ['isAuthenticated'], //Policies in the controller
   'consolidated-inventory/list-by-collaborative' : ['isAuthenticated', 'isEmployee'],
 
   'dealer/create-dealer': ['isAuthenticated', 'isSAdmin'],
   'dealer/get-all-active-dealers': ['isAuthenticated', 'isSAdmin'],
   'dealer/get-all-dealers': ['isAuthenticated', 'isSAdmin'],
-  'dealer/update-dealer': ['isAuthenticated'],
+  'dealer/update-dealer': ['isAuthenticated'], //Policies in the controller
 
 
   'epc/create-epc' : ['isAuthenticated','isDealer'],
   'epc/tags-by-dealer-monthly' : ['isAuthenticated','isDealer'],
+  'epc/tags-by-company-monthly' : ['isAuthenticated','isDealer'],
 
 };
