@@ -23,7 +23,7 @@ describe('Company', function() {
             .expect(403)
             .end(function(err, res) {
               if (err){
-                // console.log(err);
+                printError(res);
                 return done(err);
               }
               done();
@@ -197,6 +197,7 @@ describe('Company', function() {
 function printError(res) {
   sails.log.error(res.res.headers['x-exit']);
   sails.log.error(res.res.headers['x-exit-description']);
+  sails.log.error(res.body);
 
 }
 

@@ -41,5 +41,6 @@ module.exports.policies = {
   'inventory/create-inventory' : ['isAuthenticated','isEmployee'],
   'inventory/attach-inventory' : ['isAuthenticated','isEmployee'],
   'inventory/list-inventories' : ['isAuthenticated','isEmployee'],
+  'inventory/consolidate-inventory' : ['isAuthenticated','isEmployee'],
 
 };

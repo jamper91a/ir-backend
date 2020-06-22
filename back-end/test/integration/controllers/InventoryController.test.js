@@ -116,7 +116,6 @@ describe('InventoryController', function() {
 
     });
   });
-
   describe('#List Inventories', function() {
     it('Should validate parameters', function (done) {
       request
@@ -166,6 +165,73 @@ describe('InventoryController', function() {
           done();
         });
 
+    });
+  });
+  describe('#Consolidate Inventory', function() {
+    it('Should validate parameters', function (done) {
+      request
+        .post('/inventory/consolidate')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should pass parameters', function (done) {
+      request
+        .post('/inventory/consolidate')
+        .send({
+          inventories: [1],
+          name: 'New Consolidated'
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not pass because inventory it is already consolidated', function (done) {
+      request
+        .post('/inventory/consolidate')
+        .send({
+          inventories: [1],
+          name: 'New Consolidated'
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not pass because inventory does not exits', function (done) {
+      request
+        .post('/inventory/consolidate')
+        .send({
+          inventories: [6],
+          name: 'New Consolidated'
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
     });
   });
 });

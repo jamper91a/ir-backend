@@ -165,3 +165,12 @@ INSERT INTO `inventarioRealTest`.`employees` (`id`, `company_id`, `user_id`, `sh
 INSERT INTO `inventarioRealTest`.`employees` (`id`, `company_id`, `user_id`, `shop_id`, `createdAt`, `updatedAt`) VALUES (3, 1, 5, 1, '2019-11-11', '2019-11-11');
 
 COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `inventarioRealTest`.`consolidated_inventories`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `inventarioRealTest`;
+INSERT INTO `inventarioRealTest`.`consolidated_inventories` (`id`, `name`, `employee_id`, `total_products`, `createdAt`, `updatedAt`) VALUES (1, 'No consolidated', 1, 0, '2020-06-22', '2020-06-22');
+
+COMMIT;
