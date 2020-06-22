@@ -73,7 +73,7 @@ module.exports = {
             if (productZone[0].epc.state == 1) {
               return proceed();
             } else {
-              var err = new Error();
+              var err = new Error(sails.config.custom.DB_ERRORS.error_IP03);
               err.bd = true;
               err.propio = true;
               err.number = 'error_IP03';

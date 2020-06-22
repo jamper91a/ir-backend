@@ -26,6 +26,10 @@ module.exports.custom = {
     warehouse:4,
     dealer:5,
     manager: 6
+  },
+  DB_ERRORS:{
+    error_IP01: 'ProductHasZone must exits before add to an inventory',
+    error_IP03: 'Epc must be assigned before used in an inventory'
   }
 
 };

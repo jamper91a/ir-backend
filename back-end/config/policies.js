@@ -37,4 +37,7 @@ module.exports.policies = {
   'epc/tags-by-dealer-monthly' : ['isAuthenticated','isDealer'],
   'epc/tags-by-company-monthly' : ['isAuthenticated','isDealer'],
 
+
+  'inventory/create-inventory' : ['isAuthenticated','isEmployee'],
+
 };

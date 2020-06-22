@@ -120,10 +120,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `inventarioRealTest`;
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (1, 0, '0036', 1, 1, '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (2, 0, 'E20053828213013412009C3E', 1, 1, '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (3, 0, 'E20053828213010711909BD1', 1, 1, '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (4, 0, 'E20053828213027012009E5E', 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (1, 1, '0036', 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (2, 1, 'E20053828213013412009C3E', 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (3, 1, 'E20053828213010711909BD1', 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (4, 1, 'E20053828213027012009E5E', 1, 1, '2018-08-10', '2018-08-10');
 INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (5, 0, 'E20053828213011911909C01', 1, 1, '2018-08-10', '2018-08-10');
 
 COMMIT;
