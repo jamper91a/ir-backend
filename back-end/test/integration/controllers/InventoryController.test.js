@@ -116,5 +116,57 @@ describe('InventoryController', function() {
 
     });
   });
+
+  describe('#List Inventories', function() {
+    it('Should validate parameters', function (done) {
+      request
+        .post('/inventory/list')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should pass parameters', function (done) {
+      request
+        .post('/inventory/list')
+        .send({
+          type: 'all',
+          collaborative: true
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            // console.log(err);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Employee should get inventories', function (done) {
+      //Try to create the inventory
+      request
+        .post('/inventory/list')
+        .send({
+          type: 'all',
+          collaborative: true
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+
+    });
+  });
 });
 
