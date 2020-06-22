@@ -39,5 +39,6 @@ module.exports.policies = {
 
 
   'inventory/create-inventory' : ['isAuthenticated','isEmployee'],
+  'inventory/attach-inventory' : ['isAuthenticated','isEmployee'],
 
 };

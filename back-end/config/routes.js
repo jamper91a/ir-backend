@@ -56,6 +56,7 @@ module.exports.routes = {
   'POST /inventarios/adjuntar':'Inventories.attach',
 
   'POST /inventory/create':'inventory.create-inventory',
+  'POST /inventory/attach':'inventory.attach-inventory',
 
   //InventariosConsolidados
   'POST /inventariosConsolidados/listar':'ConsolidatedInventories.list',//->listByCollaborative
