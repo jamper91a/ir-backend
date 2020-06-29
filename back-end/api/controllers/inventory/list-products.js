@@ -9,7 +9,7 @@ module.exports = {
 
   inputs: {
     inventory: {
-      type: 'json',
+      type: 'number',
       required: true
     }
   },

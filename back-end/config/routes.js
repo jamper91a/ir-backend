@@ -77,6 +77,8 @@ module.exports.routes = {
   //Inventory Erp
   'POST /inventoryErp/create':'InventoriesErp.create',
 
+  'POST /inventory-erp/create' : 'inventory-erp.create-inventory-erp',
+
   //Login
   'POST /login': 'Users.login',
   'POST /loginWeb': 'Users.loginWeb',
