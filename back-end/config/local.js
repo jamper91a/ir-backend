@@ -24,6 +24,7 @@ module.exports = {
     default: {
         adapter: 'sails-mysql',
         url: 'mysql://root:jamper91@localhost:3306/inventarioRealTest',
+        // url: 'mysql://root:jamper91@localhost:3306/inventarioRealEn',
       timezone: 'utc-5',
       multipleStatements: true
     },

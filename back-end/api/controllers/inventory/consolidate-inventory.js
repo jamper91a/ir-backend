@@ -130,7 +130,6 @@ module.exports = {
               })
             .usingConnection(db).fetch();
 
-          console.log('inventoriesConsolidated', inventory, inventoryConsolidated.id);
           return {
             data: {
               inventories:inventory,
