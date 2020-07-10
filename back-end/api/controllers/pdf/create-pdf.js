@@ -1,25 +1,46 @@
-/**
- * Companias
- *
- * @description :: Server-side logic for managing Companias
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
- */
 var fs = require('fs');
 const fse = require('fs-extra');
 var moment = require('moment');
 module.exports = {
-  create : async function(req, res){
+
+
+  friendlyName: 'Create pdf',
+
+
+  description: 'Create a pdf from a report and downloaded it or send to an email',
+
+
+  inputs: {
+    data: {
+      type: 'json',
+      required: true,
+      description: 'Data to be on the pdf'
+    },
+    templateId: {
+      type: 'number',
+      required: true,
+      description: 'Id of the template from pdfgeneratorapi'
+    },
+    to: {
+      type: 'string',
+      required: false,
+      isEmail: true,
+      defaultsTo: ''
+    }
+  },
+
+
+  exits: {
+
+  },
+
+
+  fn: async function ({data, templateId, to}) {
+
     try {
       var fileExits = false;
-      let jsonData;
-      const company = await Companies.findOne({id: req.employee.company.id});
-      try {
-        jsonData = JSON.parse(req.body.data);
-      } catch (e) {
-        jsonData = req.body.data;
-
-      }
-      const templateId = req.body.templateId;
+      let jsonData = data;
+      const company = await Companies.findOne({id: this.req.employee.company.id});
       jsonData.date = moment(new Date()).format("YYYY-MM-DD");
       jsonData.title = jsonData.title + '-' + jsonData.date;
       jsonData.company = company.name;
@@ -35,23 +56,23 @@ module.exports = {
       //Check if the report already exists
 
       try {
-        things = {code: 'Ok', data: dirFile, error: null};
+        let things = {code: 'Ok', data: dirFile, error: null};
         fileExits = fs.existsSync(dirFile);
         if (fileExits) things.code = 'Already Exits';
         if(!fileExits){
           //Generate the pdf using the helper
-          const response = await sails.helpers.generatePdf(req, templateId, jsonData);
+          const response = await sails.helpers.generatePdf(this.req, templateId, jsonData);
           const download = Buffer.from(response.response.toString('utf-8'), 'base64');
 
           //Save the pdf generated locally
           await fse.outputFileSync(dirFile, download);
         }
         //If the report must be send
-        if(req.body.to && sails.helpers.validateEmail(req.body.to)){
+        if(to && sails.helpers.validateEmail(to)){
           try {
             const response = await sails.helpers.sendEmail(
-              req,
-              req.body.to,
+              this.req,
+              to,
               'Inventario Real '+ jsonData.title,
               'Report generated',
               '<b> '+ jsonData.title +'</b>',
@@ -69,13 +90,11 @@ module.exports = {
             things.error = e;
           }
 
-          return res.generalAnswer(things);
+          return things;
         }else{
           dirFile = dirFile.replace('assets/','');
           things.data = dirFile;
-          setTimeout(function () {
-            return res.generalAnswer(things);
-          }, 1000);
+         return things;
         }
 
         // dirFile = dirFile.replace('assets/','');
@@ -87,22 +106,16 @@ module.exports = {
 
 
       } catch(err) {
-        sails.log.error(err);
-        things = {code: '', data: [], error: err};
-        return res.generalAnswer(things);
+        throw err;
       }
 
 
 
     } catch (e) {
-      sails.log.error(e);
-      things = {code: '', data: [], error: e};
-      return res.generalAnswer(things);
+      throw e;
     }
-  },
-
-  sendReport: async function(req, res, title, file) {
-
 
   }
+
+
 };

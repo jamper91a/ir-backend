@@ -86,6 +86,7 @@ module.exports.routes = {
 
   //Pdf
   'POST /pdf/create': 'Pdf.create',
+  'POST /pdf/createPdf': 'pdf.create-pdf',
 
   //Productos
   'POST /productos/addMercancia': 'ProductsHasZones.addCommodity',
