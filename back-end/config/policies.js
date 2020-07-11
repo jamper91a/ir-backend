@@ -48,6 +48,7 @@ module.exports.policies = {
   'pdf/create-pdf' : ['isAuthenticated'],
 
   'product/create-product': ['isAuthenticated', 'isAdmin'],
-  'product/import-products': ['isAuthenticated', 'isAdmin']
+  'product/import-products': ['isAuthenticated', 'isAdmin'],
+  'product/update-product': ['isAuthenticated', 'isAdmin']
 
 };

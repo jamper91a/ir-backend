@@ -1,13 +1,17 @@
 module.exports = {
 
 
-  friendlyName: 'Create product',
+  friendlyName: 'Update product',
 
 
-  description: 'Web service that create a product for a company. It is used from the front end by the admin of the company',
+  description: 'Web service that update a product for a company. It is used from the front end by the admin of the company',
 
 
   inputs: {
+    id: {
+      type: 'number',
+      required: true
+    },
     withPhoto: {
       type: 'boolean',
       required: true
@@ -89,8 +93,8 @@ module.exports = {
 
 
   exits: {
-    productNoCreated: {
-      description: 'Product could not be created',
+    productNoUpdated: {
+      description: 'Product could not be updated',
       responseType: 'serverError'
     },
     companyNotFound: {
@@ -105,28 +109,29 @@ module.exports = {
 
 
   fn: async function (inputs) {
+
     const company = await Companies.findOne({user: this.req.employee.user.id});
     if(company) {
       try {
-        // inputs.photo = '';
         if(inputs.withPhoto){
           const url_photo = await sails.helpers.uploadFile(this.req, company, 'product');
           if (url_photo) {
             inputs.imagen = url_photo;
           } else {
-            await sails.helpers.printError({title: 'photoNoSaved', message: e.message}, this.req, inputs);
+            await sails.helpers.printError({title: 'photoNoSaved', message: ''}, this.req, inputs);
             throw 'photoNoSaved';
           }
         }
         inputs.company = company.id;
         try {
-          await Products.create(inputs);
+          await Products.updateOne({id: inputs.id}, inputs);
           return {}
         } catch (e) {
-          await sails.helpers.printError({title: 'productNoCreated', message: e.message}, this.req, this.req.employee);
-          throw 'productNoCreated';
+          await sails.helpers.printError({title: 'productNoUpdated', message: e.message}, this.req, this.req.employee);
+          throw 'productNoUpdated';
         }
-        // }
+
+
       } catch (e) {
         sails.log.error(e);
         throw e;
