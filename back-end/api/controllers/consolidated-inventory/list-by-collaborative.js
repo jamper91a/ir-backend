@@ -33,29 +33,34 @@ module.exports = {
     }
     let consolidatedInventories, employeeIventories = [], employees;
 
-    employees = await  Employees.find({
-      where:{company}
-    })
-      .populate('inventories',{
-        where:{
-          consolidatedInventory: {'>': 0},
-          collaborative: collaborative
+    try {
+      employees = await Employees.find({
+        where: {company}
+      })
+        .populate('inventories', {
+          where: {
+            consolidatedInventory: {'>': 0},
+            collaborative: collaborative
+          }
+        });
+      // Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
+      employees.forEach(function (employee) {
+        if (employee.inventories) {
+          employee.inventories.forEach(async function (inventory) {
+            employeeIventories.push(inventory);
+          })
         }
       });
-    // Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
-    employees.forEach(function (employee) {
-      if(employee.inventories){
-        employee.inventories.forEach(async function (inventory) {
-          employeeIventories.push(inventory);
-        })
-      }
-    });
-    employeeIventories = employeeIventories.map(a => a.consolidatedInventory);
-    consolidatedInventories = await  ConsolidatedInventories.find({
-      id: {in: employeeIventories}
-    });
+      employeeIventories = employeeIventories.map(a => a.consolidatedInventory);
+      consolidatedInventories = await ConsolidatedInventories.find({
+        id: {in: employeeIventories}
+      });
 
-    return {data:consolidatedInventories};
+      return {data: consolidatedInventories};
+    } catch (e) {
+      await sails.helpers.printError(e, this.req, {});
+      throw e;
+    }
 
   }
 

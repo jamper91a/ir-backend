@@ -63,7 +63,6 @@ module.exports = {
       .transaction(async (db)=> {
         var totalProducts=0;
         //Se valida que la zona de los inventories sean diferentes
-        try {
           auxInventories = await Inventories.find(
             {
               where: {id: inventories},
@@ -97,11 +96,6 @@ module.exports = {
             throw 'inventoriesNoFound';
           }
 
-        } catch (e) {
-          await sails.helpers.printError({title: 'consolidateInventories', message: e.message}, this.req, e);
-          throw e;
-        }
-
 
         //1 -> Se crea un nuevo inventario consolidado.
 
@@ -114,7 +108,7 @@ module.exports = {
             }).usingConnection(db).fetch();
         } catch (e) {
           await sails.helpers.printError({title: 'inventoryConsolidatedNoCreated', message: e.message}, this.req, e);
-          throw e;
+          throw 'inventoryConsolidatedNoCreated';
         }
 
 
@@ -137,7 +131,7 @@ module.exports = {
             }}
         } catch (e) {
           await sails.helpers.printError({title: 'inventoriesNoAssociated', message: e.message}, this.req, e);
-          throw e;
+          throw 'inventoriesNoAssociated';
         }
 
       });

@@ -25,8 +25,6 @@ module.exports = {
 
 
   fn: async function ({consolidatedInventory}) {
-    console.time('ListProducts');
-    let  things=[];
       try {
         let zonesHasProducts=[];
         let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory})
@@ -37,16 +35,15 @@ module.exports = {
             zonesHasProducts.push(product);
           }
         }
-        let things={code: '', data:[], error:null};
         let consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
-        things.data = {
-          products: zonesHasProducts,
-          consolidatedInventories: consolidatedInventories
-        };
-        console.timeEnd('ListProducts');
-        return things;
+        return {
+          data: {
+            products: zonesHasProducts,
+            consolidatedInventories: consolidatedInventories
+          }};
 
       } catch (e) {
+        await sails.helpers.printError(e, this.req, {consolidatedInventory});
         throw e;
       }
 

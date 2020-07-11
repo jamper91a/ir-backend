@@ -19,7 +19,7 @@ module.exports = {
       description: `
             Si es consolidado, busque aquellos con consolidatedInventory mayor a 1,
             Si es no_consolidado busque aquellos con consolidatedInventory igual 1
-            Si es all busque todos*/`
+            Si es all busque todos`
     },
     collaborative: {
       type: 'boolean',

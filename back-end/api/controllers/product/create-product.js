@@ -107,8 +107,6 @@ module.exports = {
   fn: async function (inputs) {
     const company = await Companies.findOne({user: this.req.employee.user.id});
     if(company) {
-      try {
-        // inputs.photo = '';
         if(inputs.withPhoto){
           const url_photo = await sails.helpers.uploadFile(this.req, company, 'product');
           if (url_photo) {
@@ -126,11 +124,6 @@ module.exports = {
           await sails.helpers.printError({title: 'productNoCreated', message: e.message}, this.req, this.req.employee);
           throw 'productNoCreated';
         }
-        // }
-      } catch (e) {
-        sails.log.error(e);
-        throw e;
-      }
     } else {
       throw 'companyNotFound';
     }

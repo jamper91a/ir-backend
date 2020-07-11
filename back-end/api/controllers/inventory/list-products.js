@@ -27,10 +27,8 @@ module.exports = {
         theInventory = await Inventories.findOne({id: inventory})
           .populate('products.product');
         return {data:theInventory};
-
-
-
       } catch (e) {
+        await sails.helpers.printError({title: 'listProducts', message: e.message}, this.req, e);
         throw e;
       }
 
