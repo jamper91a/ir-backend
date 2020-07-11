@@ -32,9 +32,12 @@ module.exports = {
 
 
   fn: async function ({error, req, data}) {
-    let location= req.options.action;
-    sails.log.error(location, data);
-    sails.log.error(location, JSON.stringify(error));
+    if(!sails.config.custom.test) {
+      let location= req.options.action;
+      sails.log.error(location, data);
+      sails.log.error(location, JSON.stringify(error));
+    }
+
   }
 
 

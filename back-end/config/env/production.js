@@ -80,5 +80,9 @@ module.exports = {
 
   sockets: {
     onlyAllowOrigins: []
+  },
+  custom:{
+    testPdf: true,
+    test: false
   }
 };
