@@ -51,6 +51,7 @@ module.exports.policies = {
   'product/import-products': ['isAuthenticated', 'isAdmin'],
   'product/update-product': ['isAuthenticated', 'isAdmin'],
   'product/find-products': ['isAuthenticated', 'isAdmin'],
-  'product/find-one': ['isAuthenticated']
+  'product/find-one-product': ['isAuthenticated'],
+  'product/find-product-by-epc': ['isAuthenticated']
 
 };

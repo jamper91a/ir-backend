@@ -247,5 +247,178 @@ describe('ProductsController', function() {
 
     });
   });
+  describe('#Find one product', function() {
+    it('Should get the product using the ean', function (done) {
+      request
+        .post('/product/find-one')
+        .send({code: '11111'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+
+    });
+    it('Should no get the product using the ean of a different company', function (done) {
+      request
+        .post('/product/find-one')
+        .send({code: '11111', companyId: -1})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'productNotFound') {
+            done();
+          }
+        });
+
+    });
+    it('Should get the product using the plu', function (done) {
+      request
+        .post('/product/find-one')
+        .send({code: 'p11111'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should no ge the product using the plu of a different company', function (done) {
+      request
+        .post('/product/find-one')
+        .send({code: 'p11111', companyId: -1})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'productNotFound') {
+            done();
+          }
+        });
+    });
+    it('Should get the product using the plu2', function (done) {
+      request
+        .post('/product/find-one')
+        .send({code: 'p211111'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should no get the product using the plu2 of a different company ', function (done) {
+      request
+        .post('/product/find-one')
+        .send({code: 'p211111', companyId: -1})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'productNotFound') {
+            done();
+          }
+        });
+    });
+    it('Should get the product using the plu3', function (done) {
+      request
+        .post('/product/find-one')
+        .send({code: 'p311111'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should no get the product using the plu3 of a different company', function (done) {
+      request
+        .post('/product/find-one')
+        .send({code: 'p311111', companyId: -1})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'productNotFound') {
+            done();
+          }
+        });
+    });
+  });
+  describe('#Find one product by epc', function() {
+    it('Should get the product using the epc', function (done) {
+      request
+        .post('/product/find-by-epc')
+        .send({code: '0036'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+
+    });
+    it('Should no get the product using the epc of a different company', function (done) {
+      request
+        .post('/product/find-by-epc')
+        .send({code: '0036', companyId: -1})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'epcNotFound') {
+            done();
+          }
+        });
+    });
+    it('Should no get the product using a epc that does not exits', function (done) {
+      request
+        .post('/product/find-by-epc')
+        .send({code: '1111'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'epcNotFound') {
+            done();
+          }
+        });
+    });
+  });
 });
 

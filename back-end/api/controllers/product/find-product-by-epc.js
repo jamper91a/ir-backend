@@ -1,10 +1,10 @@
 module.exports = {
 
 
-  friendlyName: 'Find one product',
+  friendlyName: 'Find product by epc',
 
 
-  description: 'Find one product by the ean/plu code. It is used in the app and the front-end',
+  description: '',
 
 
   inputs: {
@@ -22,8 +22,8 @@ module.exports = {
 
 
   exits: {
-    productNotFound: {
-      description: 'Product not found',
+    epcNotFound: {
+      description: 'Epc not found',
       responseType: 'badRequest'
     },
     companyNotFound: {
@@ -35,32 +35,35 @@ module.exports = {
 
   fn: async function ({code, companyId}) {
     const company = this.req.employee.company;
-    if(company) {
+    if (company) { //Find the epc
       //This is just for test to check if not getting products of a different company
       if(sails.config.custom.test && companyId === -1) {
         company.id = 0;
       }
-      let product;
-      product = await  Products.findOne({
-        where:{
-          or:[
-            {ean:  code},
-            {plu:  code},
-            {plu2: code},
-            {plu3: code},
-
-          ],
+      let epc = await Epcs.findOne({
+        where: {
+          epc: code,
           company: company.id
         }
-      }).populate('company');
-      if(product)
-        return {data:product};
-      else
-        throw 'productNotFound';
-    } else {
+      });
+
+      if (epc) {
+        //Find products where producto id and zone match
+        let product = await ProductsHasZones.findOne({
+          where: {
+            epc: epc.id
+          }
+        })
+          .populate('product')
+          .populate('zone')
+          .populate('epc');
+        return {data: {data: product.product}}
+      } else {
+        throw 'epcNotFound';
+      }
+    }else {
       throw 'companyNotFound';
     }
-
 
   }
 
