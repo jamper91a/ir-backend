@@ -217,5 +217,35 @@ describe('ProductsController', function() {
 
     });
   });
+  describe('#Find products', function() {
+    it('Just manager should be allow', function (done) {
+      request
+        .get('/product/find-all')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+
+    });
+    it('Manager should get products', function (done) {
+      request
+        .get('/product/find-all')
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.manager})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+
+    });
+  });
 });
 
