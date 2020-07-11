@@ -90,7 +90,7 @@ module.exports = {
 
   exits: {
     productNoCreated: {
-      description: 'Products could not be created',
+      description: 'Product could not be created',
       responseType: 'serverError'
     },
     companyNotFound: {

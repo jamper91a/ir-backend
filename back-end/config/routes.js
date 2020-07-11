@@ -98,6 +98,7 @@ module.exports.routes = {
   'POST /productos/update': 'Products.update',
 
   'POST /product/create' : 'product.create-product',
+  'POST /product/import' : 'product.import-products',
 
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
