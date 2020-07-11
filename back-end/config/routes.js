@@ -97,6 +97,8 @@ module.exports.routes = {
   'POST /productos/findProductInLocalByEpc': 'ProductsHasZones.findProductInLocalByEpc',
   'POST /productos/update': 'Products.update',
 
+  'POST /product/create' : 'product.create-product',
+
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
   'POST /reportes/guardarReporte': 'Reports.saveReport',

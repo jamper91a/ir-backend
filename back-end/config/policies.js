@@ -43,6 +43,10 @@ module.exports.policies = {
   'inventory/list-inventories' : ['isAuthenticated','isEmployee'],
   'inventory/consolidate-inventory' : ['isAuthenticated','isEmployee'],
 
-  'inventory-erp/create-inventory-erp' : ['isAuthenticated', 'isEmployee']
+  'inventory-erp/create-inventory-erp' : ['isAuthenticated', 'isEmployee'],
+
+  'pdf/create-pdf' : ['isAuthenticated'],
+
+  'product/create-product': ['isAuthenticated', 'isAdmin']
 
 };

@@ -31,10 +31,10 @@ after(async function() {
   // here you can clear fixtures, etc.
   // (e.g. you might want to destroy the records you created above)
 //Clean database for test
-  var tablets = fs.readFileSync('test/sql/tables.sql', 'utf8');
-  await sails.sendNativeQuery(tablets);
-  var inserts = fs.readFileSync('test/sql/inserts.sql', 'utf8');
-  await sails.sendNativeQuery(inserts);
+//   var tablets = fs.readFileSync('test/sql/tables.sql', 'utf8');
+//   await sails.sendNativeQuery(tablets);
+//   var inserts = fs.readFileSync('test/sql/inserts.sql', 'utf8');
+//   await sails.sendNativeQuery(inserts);
   sails.lower();
 
 });
