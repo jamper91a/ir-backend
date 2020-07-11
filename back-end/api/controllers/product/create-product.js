@@ -105,15 +105,12 @@ module.exports = {
 
 
   fn: async function (inputs) {
-    sails.log.info('Creating product');
-    sails.log.info(inputs);
     const company = await Companies.findOne({user: this.req.employee.user.id});
     if(company) {
       try {
         // inputs.photo = '';
         if(inputs.withPhoto == 'true'){
           const url_photo = await sails.helpers.uploadFile(this.req, company, 'logo');
-          console.log('url_photo', url_photo);
           if (url_photo) {
             inputs.imagen = url_photo;
           } else {
