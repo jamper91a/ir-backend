@@ -105,7 +105,7 @@ module.exports = {
 
 
   fn: async function (inputs) {
-    const company = await Companies.findOne({user: this.req.employee.user.id});
+    const company = this.req.employee.company;
     if(company) {
         if(inputs.withPhoto){
           const url_photo = await sails.helpers.uploadFile(this.req, company, 'product');

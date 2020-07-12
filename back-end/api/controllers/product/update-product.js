@@ -110,7 +110,7 @@ module.exports = {
 
   fn: async function (inputs) {
 
-    const company = await Companies.findOne({user: this.req.employee.user.id});
+    const company = this.req.employee.company;
     if(company) {
       try {
         if(inputs.withPhoto){

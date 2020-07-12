@@ -60,6 +60,7 @@ module.exports = {
       sAdmin: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTIwODk2MTB9.ivZftEIfTNos5b-a3tJW0s-yUt0jV6uDY4hR01aI2cI'
     },
     testPdf: false,
+    testEmail: false,
     test: true
   },
 

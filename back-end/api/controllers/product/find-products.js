@@ -22,7 +22,7 @@ module.exports = {
 
     let products;
     try {
-      const company = await Companies.findOne({user: this.req.employee.user.id});
+      const company = this.req.employee.company;
       if (company) {
         products = await Products.find({where: {company: company.id}});
         if (products && products.length > 0) {

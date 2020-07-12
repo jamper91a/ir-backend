@@ -36,7 +36,6 @@ module.exports = {
 
 
   fn: async function ({data, templateId, to}) {
-
     if(sails.config.custom.testPdf) {
       try {
         var fileExits = false;

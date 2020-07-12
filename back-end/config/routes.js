@@ -103,6 +103,7 @@ module.exports.routes = {
   'GET  /product/find-all' : 'product.find-products',
   'POST /product/find-one' : 'product.find-one-product',
   'POST /product/find-by-epc' : 'product.find-product-by-epc',
+  'POST /product/add-commodity' : 'product-has-zone.add-commodity',
 
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
