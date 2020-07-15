@@ -19,39 +19,49 @@ module.exports.policies = {
   ReportsController: {
     'sendReport': true
   },
-  'company/get-company-by-id' : ['isAuthenticated'],
   'company/get-companies-by-dealer' : ['isAuthenticated','isDealer'],
+  'company/get-company-by-id' : ['isAuthenticated'],
   'company/get-employees-by-admin' : ['isAuthenticated','isAdmin'],
+  'company/update' : ['isAuthenticated','isAdmin'],
 
+  'consolidated-inventory/last-inventory' : ['isAuthenticated'],
   'consolidated-inventory/last-inventory-by-employee' : ['isAuthenticated','isAdmin'],
   'consolidated-inventory/list-all' : ['isAuthenticated'], //Policies in the controller
   'consolidated-inventory/list-by-collaborative' : ['isAuthenticated', 'isEmployee'],
+  'consolidated-inventory/list-products' : ['isAuthenticated'],
 
   'dealer/create-dealer': ['isAuthenticated', 'isSAdmin'],
   'dealer/get-all-active-dealers': ['isAuthenticated', 'isSAdmin'],
   'dealer/get-all-dealers': ['isAuthenticated', 'isSAdmin'],
   'dealer/update-dealer': ['isAuthenticated'], //Policies in the controller
 
+  'devolution/return-products': ['isAuthenticated'], //Policies in the controller'
+
 
   'epc/create-epc' : ['isAuthenticated','isDealer'],
-  'epc/tags-by-dealer-monthly' : ['isAuthenticated','isDealer'],
   'epc/tags-by-company-monthly' : ['isAuthenticated','isDealer'],
+  'epc/tags-by-dealer-monthly' : ['isAuthenticated','isDealer'],
 
 
-  'inventory/create-inventory' : ['isAuthenticated','isEmployee'],
   'inventory/attach-inventory' : ['isAuthenticated','isEmployee'],
-  'inventory/list-inventories' : ['isAuthenticated','isEmployee'],
   'inventory/consolidate-inventory' : ['isAuthenticated','isEmployee'],
+  'inventory/create-inventory' : ['isAuthenticated','isEmployee'],
+  'inventory/list-inventories' : ['isAuthenticated','isEmployee'],
+  'inventory/list-products' : ['isAuthenticated'],
 
   'inventory-erp/create-inventory-erp' : ['isAuthenticated', 'isEmployee'],
 
   'pdf/create-pdf' : ['isAuthenticated'],
 
   'product/create-product': ['isAuthenticated', 'isAdmin'],
+  'product/find-one-product': ['isAuthenticated'],
+  'product/find-product-by-epc': ['isAuthenticated'],
+  'product/find-products': ['isAuthenticated', 'isAdmin'],
   'product/import-products': ['isAuthenticated', 'isAdmin'],
   'product/update-product': ['isAuthenticated', 'isAdmin'],
-  'product/find-products': ['isAuthenticated', 'isAdmin'],
-  'product/find-one-product': ['isAuthenticated'],
-  'product/find-product-by-epc': ['isAuthenticated']
+
+
+  'product-has-zone/add-commodity': ['isAuthenticated'],
+  'product-has-zone/find-products-in-local-by-id': ['isAuthenticated', 'isAdmin']
 
 };

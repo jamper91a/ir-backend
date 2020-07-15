@@ -28,9 +28,9 @@ module.exports.routes = {
   'POST /dealers/update':'Dealers.update',
   'POST /dealers/getAllActiveDealers':'Dealers.getAllActiveDealers',
 
-  'POST /dealer/getAllDealers':'dealer.get-all-dealers',
-  'POST /dealer/getAllActiveDealers':'dealer.get-all-active-dealers',
   'POST /dealer/create':'dealer.create-dealer',
+  'POST /dealer/getAllActiveDealers':'dealer.get-all-active-dealers',
+  'POST /dealer/getAllDealers':'dealer.get-all-dealers',
   'POST /dealer/update':'dealer.update-dealer',
 
 
@@ -45,8 +45,8 @@ module.exports.routes = {
   'POST /epcs/tagsByCompanyByMonth':'Epcs.tagsByCompanyByMonth',
 
   'POST /epc/create':'epc.create-epc',
-  'POST /epc/tagsByDealerByMonth':'epc.tags-by-dealer-monthly',
   'POST /epc/tagsByCompanyByMonth':'epc.tags-by-company-monthly',
+  'POST /epc/tagsByDealerByMonth':'epc.tags-by-dealer-monthly',
 
   //Inventarios
   'POST /inventarios/crear':'Inventories.create',
@@ -55,10 +55,10 @@ module.exports.routes = {
   'POST /inventarios/listarProductosInventario':'Inventories.listProducts',
   'POST /inventarios/adjuntar':'Inventories.attach',
 
-  'POST /inventory/create':'inventory.create-inventory',
   'POST /inventory/attach':'inventory.attach-inventory',
-  'POST /inventory/list':'inventory.list-inventories',
   'POST /inventory/consolidate':'inventory.consolidate-inventory',
+  'POST /inventory/create':'inventory.create-inventory',
+  'POST /inventory/list':'inventory.list-inventories',
   'POST /inventory/list-products-by-inventory':'inventory.list-products',
 
   //InventariosConsolidados
@@ -98,12 +98,15 @@ module.exports.routes = {
   'POST /productos/update': 'Products.update',
 
   'POST /product/create' : 'product.create-product',
-  'POST /product/import' : 'product.import-products',
-  'POST /product/update' : 'product.update-product',
-  'GET  /product/find-all' : 'product.find-products',
   'POST /product/find-one' : 'product.find-one-product',
   'POST /product/find-by-epc' : 'product.find-product-by-epc',
+  'GET  /product/find-all' : 'product.find-products',
+  'POST /product/import' : 'product.import-products',
+  'POST /product/update' : 'product.update-product',
+
+
   'POST /product/add-commodity' : 'product-has-zone.add-commodity',
+  'POST /product/find-products-in-local' : 'product-has-zone.find-products-in-local-by-id',
 
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
@@ -141,5 +144,7 @@ module.exports.routes = {
 
   //Zones
   'POST /zones/find' : 'Zones.find'
+
+
 
 };

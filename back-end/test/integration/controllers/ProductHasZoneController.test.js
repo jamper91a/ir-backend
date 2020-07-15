@@ -152,5 +152,112 @@ describe('ProductHasZoneController', function() {
     });
 
   });
+  describe('#Find Product In Local By Id', function() {
+    it('Should validate parameters', function (done) {
+      request
+        .post('/product/find-products-in-local')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate employee shop', function (done) {
+      request
+        .post('/product/find-products-in-local')
+        .send({
+          product: 1,
+          employee: {id:1}
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate employee shop id', function (done) {
+      request
+        .post('/product/find-products-in-local')
+        .send({
+          product: 1,
+          employee: {shop: {id: 0}}
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not allow employee to find a product', function (done) {
+      request
+        .post('/product/find-products-in-local')
+        .send({
+          product: 1
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow admin to find a product', function (done) {
+      request
+        .post('/product/find-products-in-local')
+        .send({
+          product: 1
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should noT allow admin to find a product from a different company', function (done) {
+      request
+        .post('/product/find-products-in-local')
+        .send({
+          product: 1,
+          employee: {
+            shop: {
+              id: 1
+            }
+          },
+          company: 3
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'zonesNotFound') {
+            done();
+          }
+        });
+    });
+
+  });
 });
 
