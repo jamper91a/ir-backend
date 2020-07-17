@@ -155,7 +155,7 @@ describe('ProductHasZoneController', function() {
   describe('#Find Product In Local By Id', function() {
     it('Should validate parameters', function (done) {
       request
-        .post('/product/find-products-in-local')
+        .post('/product/find-products-in-local-by-id')
         .send()
         .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
         .expect(400)
@@ -169,7 +169,7 @@ describe('ProductHasZoneController', function() {
     });
     it('Should validate employee shop', function (done) {
       request
-        .post('/product/find-products-in-local')
+        .post('/product/find-products-in-local-by-id')
         .send({
           product: 1,
           employee: {id:1}
@@ -186,7 +186,7 @@ describe('ProductHasZoneController', function() {
     });
     it('Should validate employee shop id', function (done) {
       request
-        .post('/product/find-products-in-local')
+        .post('/product/find-products-in-local-by-id')
         .send({
           product: 1,
           employee: {shop: {id: 0}}
@@ -203,7 +203,7 @@ describe('ProductHasZoneController', function() {
     });
     it('Should not allow employee to find a product', function (done) {
       request
-        .post('/product/find-products-in-local')
+        .post('/product/find-products-in-local-by-id')
         .send({
           product: 1
         })
@@ -219,7 +219,7 @@ describe('ProductHasZoneController', function() {
     });
     it('Should allow admin to find a product', function (done) {
       request
-        .post('/product/find-products-in-local')
+        .post('/product/find-products-in-local-by-id')
         .send({
           product: 1
         })
@@ -235,7 +235,7 @@ describe('ProductHasZoneController', function() {
     });
     it('Should noT allow admin to find a product from a different company', function (done) {
       request
-        .post('/product/find-products-in-local')
+        .post('/product/find-products-in-local-by-id')
         .send({
           product: 1,
           employee: {
@@ -257,7 +257,91 @@ describe('ProductHasZoneController', function() {
           }
         });
     });
-
+  });
+  describe('#Find Product In Local By Epc', function() {
+    it('Should validate parameters', function (done) {
+      request
+        .post('/product/find-products-in-local-by-epc')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not allow employee to find a product', function (done) {
+      request
+        .post('/product/find-products-in-local-by-epc')
+        .send({
+          epc: 333
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should no found a product with a not existing epc', function (done) {
+      request
+        .post('/product/find-products-in-local-by-epc')
+        .send({
+          epc: '00360'
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'epcNotFound') {
+            done();
+          }
+        });
+    });
+    it('Should allow admin to find a product', function (done) {
+      request
+        .post('/product/find-products-in-local-by-epc')
+        .send({
+          epc: '0036'
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should noT allow admin to find a product from a different company', function (done) {
+      request
+        .post('/product/find-products-in-local-by-epc')
+        .send({
+          epc: '0036',
+          company: 3
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'zonesNotFound') {
+            done();
+          }
+        });
+    });
   });
 });
 

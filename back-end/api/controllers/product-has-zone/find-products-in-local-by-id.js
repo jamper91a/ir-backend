@@ -58,14 +58,11 @@ module.exports = {
       }
 
       const employeeCompany = this.req.employee.company;
-      console.log('employeeCompany.id', employeeCompany.id);
       //Just for test
-      console.log('company !== 0  && sails.config.custom.test', company !== 0 && sails.config.custom.test);
       if (company !== 0 && sails.config.custom.test) {
         employeeCompany.id = company;
       }
 
-      console.log('employeeCompany.id', employeeCompany.id);
       //Find all zones of the company of the empleado
       let shop = await Shops.findOne({id: employee.shop.id, company: employeeCompany.id}).populate('zone');
       if(!shop) {
@@ -79,24 +76,24 @@ module.exports = {
       if (!zones || zones.length === 0) {
         throw 'zonesNotFound';
       }
-      // //Find productos where productoid and zone match
-      // let products = await ProductsHasZones.find({
-      //   where: {
-      //     product: product,
-      //     zone: zones,
-      //     or:[
-      //       {sell: {'<': 2}},
-      //       {sell: null}
-      //     ]
-      //   }
-      // })
-      //   .populate('product')
-      //   .populate('zone')
-      //   .populate('epc');
-      // if(!products || products.length === 0 ){
-      //   throw 'productsNotFound'
-      // }
-      // return {data: products};
+      //Find productos where productoid and zone match
+      let products = await ProductsHasZones.find({
+        where: {
+          product: product,
+          zone: zones,
+          or:[
+            {sell: {'<': 2}},
+            {sell: null}
+          ]
+        }
+      })
+        .populate('product')
+        .populate('zone')
+        .populate('epc');
+      if(!products || products.length === 0 ){
+        throw 'productsNotFound'
+      }
+      return {data: products};
       return {data: []};
     } catch (e) {
       throw e;

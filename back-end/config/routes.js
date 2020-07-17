@@ -106,7 +106,8 @@ module.exports.routes = {
 
 
   'POST /product/add-commodity' : 'product-has-zone.add-commodity',
-  'POST /product/find-products-in-local' : 'product-has-zone.find-products-in-local-by-id',
+  'POST /product/find-products-in-local-by-id' : 'product-has-zone.find-products-in-local-by-id',
+  'POST /product/find-products-in-local-by-epc' : 'product-has-zone.find-products-in-local-by-epc',
 
   //Report
   'POST /reportes/diferenceBetweenInventories': 'Reports.diferenceBetweenInventories',
