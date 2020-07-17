@@ -122,7 +122,7 @@ module.exports.routes = {
   'POST /reportes/diferenceWithInventoryErp': 'Reports.diferenceWithInventoryErp',
   'POST /reportes/sendReport': 'Reports.sendReport',
 
-
+  'POST /report/difference-between-inventories': 'report.difference-between-inventories',
   //Sells
   'POST /sells/create':'Sells.createSell',
 
