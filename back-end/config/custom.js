@@ -30,6 +30,10 @@ module.exports.custom = {
   DB_ERRORS:{
     error_IP01: 'ProductHasZone must exits before add to an inventory',
     error_IP03: 'Epc must be assigned before used in an inventory'
+  },
+  REPORT_TYPE:{
+    SELL_UNITS: 1,
+    DIFFERENCE_BETWEEN_INVENTORIES: 2
   }
 
 };

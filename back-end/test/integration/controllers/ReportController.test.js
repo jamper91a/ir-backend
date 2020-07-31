@@ -41,5 +41,194 @@ describe('ReportController', function() {
     });
 
   });
+  describe('#Save report', function() {
+    it('Should validate parameters', function (done) {
+      request
+        .post('/report/save-report')
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate parameters products', function (done) {
+      request
+        .post('/report/save-report')
+        .send({
+          products: [{product : 1}, {product : 0}, {product : 3}],
+          report: {
+            firstInventory: 1,
+            secondInventory: 2,
+            amount: 10,
+            units_sell: 10,
+            units_returned: 10,
+            firstDate: '2020-01-01',
+            secondDate: '2020-01-01',
+            type: sails.config.custom.REPORT_TYPE.SELL_UNITS,
+
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate parameters report', function (done) {
+      request
+        .post('/report/save-report')
+        .send({
+          products: [{product : 1}, {product : 2}, {product : 3}],
+          report: "two"
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate parameters report type', function (done) {
+      request
+        .post('/report/save-report')
+        .send({
+          products: [{product : 1}, {product : 2}, {product : 3}],
+          report: {
+            firstInventory: 1,
+            secondInventory: 2,
+            amount: 10,
+            units_sell: 10,
+            units_returned: 10,
+            firstDate: '2020-01-01',
+            secondDate: '2020-01-01',
+            type: 3,
+
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate parameters report sell units', function (done) {
+      request
+        .post('/report/save-report')
+        .send({
+          products: [{product : 1}, {product : 2}, {product : 3}],
+          report: {
+            firstInventory: 1,
+            secondInventory: 2,
+            amount: 10,
+            units_sell: 10,
+            units_returned: 10,
+            firstDate: '2020-01-01',
+            secondDate: null,
+            type: sails.config.custom.REPORT_TYPE.SELL_UNITS,
+
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate parameters report difference between inventories', function (done) {
+      request
+        .post('/report/save-report')
+        .send({
+          products: [{product : 1}, {product : 2}, {product : 3}],
+          report: {
+            firstInventory: null,
+            secondInventory: 2,
+            amount: 10,
+            units_sell: 10,
+            units_returned: 10,
+            firstDate: null,
+            secondDate: null,
+            type: sails.config.custom.REPORT_TYPE.DIFFERENCE_BETWEEN_INVENTORIES,
+
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should save report sell units', function (done) {
+      request
+        .post('/report/save-report')
+        .send({
+          products: [{product : 1}, {product : 2}, {product : 3}],
+          report: {
+            amount: 10,
+            firstDate: '2020-01-01',
+            secondDate: '2020-01-01',
+            type: sails.config.custom.REPORT_TYPE.SELL_UNITS,
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should save report difference between inventories', function (done) {
+      request
+        .post('/report/save-report')
+        .send({
+          products: [{product : 1}, {product : 2}, {product : 3}],
+          report: {
+            firstInventory: 1,
+            secondInventory: 2,
+            amount: 10,
+            units_sell: 10,
+            units_returned: 10,
+            type: sails.config.custom.REPORT_TYPE.DIFFERENCE_BETWEEN_INVENTORIES,
+
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+
+  });
 });
 
