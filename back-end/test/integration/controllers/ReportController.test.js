@@ -42,9 +42,10 @@ describe('ReportController', function() {
 
   });
   describe('#Save report', function() {
+    const url='/report/save-report';
     it('Should validate parameters', function (done) {
       request
-        .post('/report/save-report')
+        .post(url)
         .send()
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
         .expect(400)
@@ -58,7 +59,7 @@ describe('ReportController', function() {
     });
     it('Should validate parameters products', function (done) {
       request
-        .post('/report/save-report')
+        .post(url)
         .send({
           products: [{product : 1}, {product : 0}, {product : 3}],
           report: {
@@ -85,7 +86,7 @@ describe('ReportController', function() {
     });
     it('Should validate parameters report', function (done) {
       request
-        .post('/report/save-report')
+        .post(url)
         .send({
           products: [{product : 1}, {product : 2}, {product : 3}],
           report: "two"
@@ -102,7 +103,7 @@ describe('ReportController', function() {
     });
     it('Should validate parameters report type', function (done) {
       request
-        .post('/report/save-report')
+        .post(url)
         .send({
           products: [{product : 1}, {product : 2}, {product : 3}],
           report: {
@@ -129,7 +130,7 @@ describe('ReportController', function() {
     });
     it('Should validate parameters report sell units', function (done) {
       request
-        .post('/report/save-report')
+        .post(url)
         .send({
           products: [{product : 1}, {product : 2}, {product : 3}],
           report: {
@@ -156,7 +157,7 @@ describe('ReportController', function() {
     });
     it('Should validate parameters report difference between inventories', function (done) {
       request
-        .post('/report/save-report')
+        .post(url)
         .send({
           products: [{product : 1}, {product : 2}, {product : 3}],
           report: {
@@ -183,7 +184,7 @@ describe('ReportController', function() {
     });
     it('Should save report sell units', function (done) {
       request
-        .post('/report/save-report')
+        .post(url)
         .send({
           products: [{product : 1}, {product : 2}, {product : 3}],
           report: {
@@ -205,7 +206,7 @@ describe('ReportController', function() {
     });
     it('Should save report difference between inventories', function (done) {
       request
-        .post('/report/save-report')
+        .post(url)
         .send({
           products: [{product : 1}, {product : 2}, {product : 3}],
           report: {
@@ -228,7 +229,71 @@ describe('ReportController', function() {
           done();
         });
     });
-
+  });
+  describe('#Get reports by type', function() {
+    const url='/report/get-reports-by-type';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate parameter type', function (done) {
+      request
+        .post(url)
+        .send({
+          type: 332323
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate employee', function (done) {
+      request
+        .post(url)
+        .send({
+          type: 34344
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should return data', function (done) {
+      request
+        .post(url)
+        .send({
+          type: sails.config.custom.REPORT_TYPE.DIFFERENCE_BETWEEN_INVENTORIES
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
   });
 });
 

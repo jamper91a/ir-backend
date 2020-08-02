@@ -66,6 +66,7 @@ module.exports.policies = {
   'product-has-zone/find-products-in-local-by-epc': ['isAuthenticated', 'isAdmin'],
 
   'report/difference-between-inventories': ['isAuthenticated'],
-  'report/save-report': ['isAuthenticated']
+  'report/save-report': ['isAuthenticated'],
+  'report/get-reports-by-type': ['isAuthenticated', 'isEmployee']
 
 };
