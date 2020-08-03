@@ -24,7 +24,7 @@ module.exports = {
   exits: {
     reportsNoFound: {
       responseType: 'badRequest',
-      description: 'Reports were no foun'
+      description: 'Reports were no found'
     }
   },
 

@@ -67,6 +67,7 @@ module.exports.policies = {
 
   'report/difference-between-inventories': ['isAuthenticated'],
   'report/save-report': ['isAuthenticated'],
-  'report/get-reports-by-type': ['isAuthenticated', 'isEmployee']
+  'report/get-reports-by-type': ['isAuthenticated', 'isEmployee'],
+  'report/get-report-by-id': ['isAuthenticated', 'isEmployee']
 
 };

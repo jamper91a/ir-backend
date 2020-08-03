@@ -125,6 +125,7 @@ module.exports.routes = {
   'POST /report/difference-between-inventories': 'report.difference-between-inventories',
   'POST /report/save-report': 'report.save-report',
   'POST /report/get-reports-by-type': 'report.get-reports-by-type',
+  'POST /report/get-report-by-id': 'report.get-report-by-id',
   //Sells
   'POST /sells/create':'Sells.createSell',
 
