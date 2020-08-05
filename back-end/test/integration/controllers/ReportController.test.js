@@ -340,5 +340,78 @@ describe('ReportController', function() {
         });
     });
   });
+  describe('#Homologate units', function() {
+    const url='/report/homologate-units';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate products', function (done) {
+      request
+        .post(url)
+        .send({products: [{id: 0}]})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not allow admin', function (done) {
+      request
+        .post(url)
+        .send({products: [{id: 0}]})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not allow manager', function (done) {
+      request
+        .post(url)
+        .send({products: [{id: 0}]})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.manager})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should return data', function (done) {
+      request
+        .post(url)
+        .send({products: [{id: 1}]})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 
