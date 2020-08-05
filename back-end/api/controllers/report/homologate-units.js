@@ -36,8 +36,8 @@ module.exports = {
       await ReportsHasProductsZones.update(_.map(products, 'id'), {homologatorEmployee: homologator_employee_id});
       return {}
     } catch (e) {
-      things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};
-      return res.generalAnswer(things);
+      await sails.helpers.printError({title: 'getReportsByType', message: e.message}, this.req, this.req.employee);
+      throw e;
     }
 
   }

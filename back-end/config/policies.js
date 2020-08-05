@@ -69,6 +69,7 @@ module.exports.policies = {
   'report/save-report': ['isAuthenticated'],
   'report/get-reports-by-type': ['isAuthenticated', 'isEmployee'],
   'report/get-report-by-id': ['isAuthenticated', 'isEmployee'],
-  'report/homologate-units': ['isAuthenticated', 'isEmployee']
+  'report/homologate-units': ['isAuthenticated', 'isEmployee'],
+  'report/sale-units': ['isAuthenticated', 'isEmployee'],
 
 };

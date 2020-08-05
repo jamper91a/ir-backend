@@ -127,6 +127,7 @@ module.exports.routes = {
   'POST /report/get-reports-by-type': 'report.get-reports-by-type',
   'POST /report/get-report-by-id': 'report.get-report-by-id',
   'POST /report/homologate-units': 'report.homologate-units',
+  'POST /report/sale-units': 'report.sale-units',
   //Sells
   'POST /sells/create':'Sells.createSell',
 
