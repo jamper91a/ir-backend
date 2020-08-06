@@ -486,5 +486,92 @@ describe('ReportController', function() {
         });
     });
   });
+  describe('#Rotation Units', function() {
+    const url='/report/rotation-units';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate dates', function (done) {
+      request
+        .post(url)
+        .send({firstDate: 'dadsa', secondDate:'sdsdsd'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate employee', function (done) {
+      request
+        .post(url)
+        .send({firstDate: 'dadsa', secondDate:'sdsdsd', employee: {}})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not allow sAdmin', function (done) {
+      request
+        .post(url)
+        .send({firstDate: '2010-09-01', secondDate:'2019-10-06'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.sAdmin})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow employee', function (done) {
+      request
+        .post(url)
+        .send({firstDate: '2010-09-01', secondDate:'2019-10-06'})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow admin', function (done) {
+      request
+        .post(url)
+        .send({firstDate: '2010-09-01', secondDate:'2019-10-06', employee: {shop: {id: 1}}})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 

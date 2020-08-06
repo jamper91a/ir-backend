@@ -85,35 +85,8 @@ module.exports = {
         returnedUnits: returnedUnits
       };
       return {data};
-      // async.forEach(products,
-      //   async function (product, cb) {
-      //     if(product.sell>1){
-      //       if(!sails.helpers.existInArray(saleUnits, product))
-      //         saleUnits.push(product);
-      //       cb();
-      //     }else{
-      //       if(product.devolution>1){
-      //         if(!sails.helpers.existInArray(returnedUnits, product))
-      //           returnedUnits.push(product);
-      //       }
-      //       cb();
-      //     }
-      //
-      //   },
-      //   function(error){
-      //     let things={code: '', data:[], error:null};
-      //     if(error){
-      //       things.error=error;
-      //     }
-      //     things.data = {
-      //       saleUnits: saleUnits,
-      //       returnedUnits: returnedUnits
-      //     };
-      //     return res.generalAnswer(things);
-      //   }
-      // );
     } catch (e) {
-      await sails.helpers.printError({title: 'getReportsByType', message: e.message}, this.req, this.req.employee);
+      await sails.helpers.printError({title: 'saleUnits', message: e.message}, this.req, this.req.employee);
       throw e;
     }
 
