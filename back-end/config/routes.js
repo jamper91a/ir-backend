@@ -130,6 +130,7 @@ module.exports.routes = {
   'POST /report/sale-units': 'report.sale-units',
   'POST /report/rotation-units': 'report.rotation-units',
   'POST /report/devolutions-by-type': 'report.devolutions-by-type',
+  'POST /report/rotation-proyected-by-ean-plu': 'report.rotation-proyected-by-ean-plu',
   //Sells
   'POST /sells/create':'Sells.createSell',
 

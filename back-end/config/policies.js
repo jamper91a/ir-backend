@@ -73,5 +73,6 @@ module.exports.policies = {
   'report/sale-units': ['isAuthenticated', 'isEmployee'],
   'report/rotation-units': ['isAuthenticated'], //Policies in the controller
   'report/devolutions-by-type': ['isAuthenticated'], //Policies in the controller
+  'report/rotation-proyected-by-ean-plu': ['isAuthenticated'], //Policies in the controller
 
 };
