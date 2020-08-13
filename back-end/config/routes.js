@@ -139,6 +139,7 @@ module.exports.routes = {
 
   //Shops
   'POST /shop/create-shop': 'shop.create-shop',
+  'GET /shop/find-shops-by-company': 'shop.find-shops-by-company',
 
   //Transferencias
   'POST /transferencias/crear':'Transfers.create',
