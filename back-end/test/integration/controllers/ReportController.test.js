@@ -761,5 +761,76 @@ describe('ReportController', function() {
         });
     });
   });
+  describe('#Difference With Inventory Erp', function() {
+    const url='/report/difference-with-inventory-erp';
+    it('Should validate employee', function (done) {
+      request
+        .post(url)
+        .send({employee:{}})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow employee with parameter', function (done) {
+      request
+        .post(url)
+        .send({
+          employee:
+            {
+              shop: {id: 1},
+              company: {id: 1}
+            }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow employee without parameter', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow admin', function (done) {
+      request
+        .post(url)
+        .send({
+          employee:
+            {
+              shop: {id: 1},
+              company: {id: 1}
+            }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 

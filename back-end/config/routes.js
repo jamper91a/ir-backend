@@ -131,6 +131,7 @@ module.exports.routes = {
   'POST /report/rotation-units': 'report.rotation-units',
   'POST /report/devolutions-by-type': 'report.devolutions-by-type',
   'POST /report/rotation-proyected-by-ean-plu': 'report.rotation-proyected-by-ean-plu',
+  'POST /report/difference-with-inventory-erp': 'report.difference-with-inventory-erp',
   //Sells
   'POST /sells/create':'Sells.createSell',
 

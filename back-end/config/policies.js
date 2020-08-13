@@ -74,5 +74,6 @@ module.exports.policies = {
   'report/rotation-units': ['isAuthenticated'], //Policies in the controller
   'report/devolutions-by-type': ['isAuthenticated'], //Policies in the controller
   'report/rotation-proyected-by-ean-plu': ['isAuthenticated'], //Policies in the controller
+  'report/difference-with-inventory-erp': ['isAuthenticated'], //Policies in the controller
 
 };
