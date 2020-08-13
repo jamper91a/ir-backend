@@ -76,4 +76,6 @@ module.exports.policies = {
   'report/rotation-proyected-by-ean-plu': ['isAuthenticated'], //Policies in the controller
   'report/difference-with-inventory-erp': ['isAuthenticated'], //Policies in the controller
 
+  'sell/create-sell': ['isAuthenticated', 'isEmployee'], //Policies in the controller
+
 };
