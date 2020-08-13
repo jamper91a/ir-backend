@@ -34,6 +34,27 @@ module.exports.custom = {
   REPORT_TYPE:{
     SELL_UNITS: 1,
     DIFFERENCE_BETWEEN_INVENTORIES: 2
-  }
+  },
+  DEVOLUTION: {
+    NO_DEVOLUTION: 1,
+    CUSTOMER: {
+      WARRANTY: 2,
+      SIZE_NO_MATCH: 3,
+      POOR_CONDITION: 4
+    },
+    SUPPLIER: {
+      WARRANTY: 5,
+      SIZE_NO_MATCH: 6,
+      POOR_CONDITION: 7
+    }
+  },
+  DEVOLUTION_TYPE: {
+    CUSTOMER: 1,
+    SUPPLIER: 2
+  },
+
+  testPdf: false,
+  testEmail: false,
+  test: true
 
 };

@@ -72,5 +72,6 @@ module.exports.policies = {
   'report/homologate-units': ['isAuthenticated', 'isEmployee'],
   'report/sale-units': ['isAuthenticated', 'isEmployee'],
   'report/rotation-units': ['isAuthenticated'], //Policies in the controller
+  'report/devolutions-by-type': ['isAuthenticated'], //Policies in the controller
 
 };

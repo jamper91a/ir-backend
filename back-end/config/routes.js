@@ -129,6 +129,7 @@ module.exports.routes = {
   'POST /report/homologate-units': 'report.homologate-units',
   'POST /report/sale-units': 'report.sale-units',
   'POST /report/rotation-units': 'report.rotation-units',
+  'POST /report/devolutions-by-type': 'report.devolutions-by-type',
   //Sells
   'POST /sells/create':'Sells.createSell',
 
