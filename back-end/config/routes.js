@@ -134,7 +134,11 @@ module.exports.routes = {
   'POST /report/difference-with-inventory-erp': 'report.difference-with-inventory-erp',
   //Sells
   'POST /sells/create':'Sells.createSell',
+
   'POST /sell/create-sell':'sell.create-sell',
+
+  //Shops
+  'POST /shop/create-shop': 'shop.create-shop',
 
   //Transferencias
   'POST /transferencias/crear':'Transfers.create',
