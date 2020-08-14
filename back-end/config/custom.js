@@ -52,6 +52,10 @@ module.exports.custom = {
     CUSTOMER: 1,
     SUPPLIER: 2
   },
+  TRANSFER_TYPE:{
+    IN: 'entrada',
+    OUT: 'salida'
+  },
 
   testPdf: false,
   testEmail: false,
