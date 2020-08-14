@@ -132,6 +132,8 @@ module.exports.routes = {
   'POST /report/devolutions-by-type': 'report.devolutions-by-type',
   'POST /report/rotation-proyected-by-ean-plu': 'report.rotation-proyected-by-ean-plu',
   'POST /report/difference-with-inventory-erp': 'report.difference-with-inventory-erp',
+
+
   //Sells
   'POST /sells/create':'Sells.createSell',
 
@@ -140,6 +142,11 @@ module.exports.routes = {
   //Shops
   'POST /shop/create-shop': 'shop.create-shop',
   'GET /shop/find-shops-by-company': 'shop.find-shops-by-company',
+
+
+  //Suppliers
+  'POST /supplier/create-supplier': 'supplier.create-supplier',
+  'GET /supplier/find-suppliers-by-company': 'shop.find-suppliers-by-company',
 
   //Transferencias
   'POST /transferencias/crear':'Transfers.create',

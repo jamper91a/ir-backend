@@ -1,8 +1,8 @@
 var request = require('supertest');
 request = request('http://localhost:1337');
-describe('ShopController', function() {
+describe('SupplierController', function() {
   describe('#Create shop', function() {
-    const url='/shop/create-shop';
+    const url='/supplier/create-supplier';
     it('Should validate parameters', function (done) {
       request
         .post(url)
@@ -17,27 +17,11 @@ describe('ShopController', function() {
           done();
         });
     });
-    it('Should validate name', function (done) {
-      request
-        .post(url)
-        .send({
-          shop: {}
-        })
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
-        .expect(400)
-        .end(function (err, res) {
-          if (err) {
-            sails.helpers.printTestError(err, res);
-            return done(err);
-          }
-          done();
-        });
-    });
     it('Should allow admin', function (done) {
       request
         .post(url)
         .send({
-            name: 'My new shop'
+            name: 'My new supplier'
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
         .expect(200)
@@ -53,9 +37,7 @@ describe('ShopController', function() {
       request
         .post(url)
         .send({
-          shop: {
-            name: 'My new shop'
-          }
+            name: 'My new supplier'
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
         .expect(403)
@@ -68,8 +50,8 @@ describe('ShopController', function() {
         });
     });
   });
-  describe('#Find shops by company', function() {
-    const url='/shop/find-shops-by-company';
+  describe('#Find suppliers by company', function() {
+    const url='/supplier/find-suppliers-by-company';
     it('Should allow admin', function (done) {
       request
         .get(url)

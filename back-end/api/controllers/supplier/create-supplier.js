@@ -1,7 +1,7 @@
 module.exports = {
 
 
-  friendlyName: 'Create shop',
+  friendlyName: 'Create supplier',
 
 
   description: '',
@@ -22,16 +22,16 @@ module.exports = {
 
   fn: async function (inputs) {
 
-    let things;
     const company = await Companies.findOne({user: this.req.employee.user.id});
+    inputs.company = company.id;
     try {
-      inputs.company = company.id;
-      await Shops.create(inputs);
-      return {}
+      await Suppliers.create(inputs);
+      return {};
     } catch (e) {
-      await sails.helpers.printError({title: 'createShop', message: e.message}, this.req);
+      await sails.helpers.printError({title: 'createSupplier', message: e.message}, this.req);
       return e;
     }
+
   }
 
 
