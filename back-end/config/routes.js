@@ -155,6 +155,8 @@ module.exports.routes = {
   'POST /transferencias/listTransfersByShop':'Transfers.listTransfersByShop',
   'POST /transferencias/finishTransfer':'Transfers.finishTransfer',
 
+  'POST /transfer/create-transfer':'transfer.create-transfer',
+
   //Usuarios
   'POST /users':'Users.crearEmpleado',
   'POST /createAdmin':'Users.createAdmin',
