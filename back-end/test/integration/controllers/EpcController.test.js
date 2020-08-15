@@ -71,13 +71,17 @@ describe('EpcController', function() {
           ]
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
-        .expect(500)
+        .expect(400)
         .end(function(err, res) {
-          if (err){
-            // console.log(err);
+          if (err) {
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+          if(res.res.headers['x-exit'] === 'epcNotValid') {
+            done();
+          } else {
+            done('Should not allow same key on an epc')
+          }
         });
     });
     it('Dealer should create epc', function (done) {

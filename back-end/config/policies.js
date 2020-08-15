@@ -84,7 +84,8 @@ module.exports.policies = {
   'supplier/create-supplier': ['isAuthenticated', 'isAdmin'],
   'supplier/find-suppliers-by-company': ['isAuthenticated'],  //Policies in the controller,
 
-  'transfer/create-transfer': ['isAuthenticated', 'isEmployee'],  //Policies in the controller,
-  'transfer/get-transfers-by-type': ['isAuthenticated', 'isEmployee'],  //Policies in the controller,
+  'transfer/create-transfer': ['isAuthenticated', 'isEmployee'],
+  'transfer/get-transfers-by-type': ['isAuthenticated', 'isEmployee'],
+  'transfer/get-transfers-by-shop': ['isAuthenticated', 'isEmployee'],
 
 };

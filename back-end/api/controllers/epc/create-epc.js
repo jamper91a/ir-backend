@@ -27,7 +27,10 @@ module.exports = {
 
 
   exits: {
-
+    epcNotValid: {
+      description: 'Epc already used',
+      responseType: 'badRequest'
+    }
   },
 
 
@@ -48,8 +51,13 @@ module.exports = {
           await Epcs.createEach(epcs).usingConnection(db);
           return {data:{}}
         } catch (e) {
-          await sails.helpers.printError({title: 'epcsNoCreate', message: e.message}, this.req);
-          throw e;
+          if(e.code === 'E_UNIQUE') {
+            throw 'epcNotValid';
+          } else {
+            await sails.helpers.printError({title: 'epcsNoCreate', message: e.message}, this.req);
+            throw e;
+          }
+
         }
       });
 
