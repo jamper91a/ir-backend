@@ -238,5 +238,58 @@ describe('TransferController', function() {
         });
     });
   });
+  describe('#Finish transfer', function() {
+    const url='/transfer/finish-transfer';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate products', function (done) {
+      request
+        .post(url)
+        .send({products: {}})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow employee', function (done) {
+      request
+        .post(url)
+        .send({
+          products: [
+            {
+              id: 10,
+              transfer: 20,
+              product: 5
+            }
+          ]
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 

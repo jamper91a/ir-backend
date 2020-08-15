@@ -158,6 +158,7 @@ module.exports.routes = {
   'POST /transfer/create-transfer':'transfer.create-transfer',
   'POST /transfer/get-transfers-by-type':'transfer.get-transfers-by-type',
   'POST /transfer/get-transfers-by-shop':'transfer.get-transfers-by-shop',
+  'POST /transfer/finish-transfer':'transfer.finish-transfer',
 
   //Usuarios
   'POST /users':'Users.crearEmpleado',
