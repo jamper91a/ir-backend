@@ -126,5 +126,70 @@ describe('TransferController', function() {
         });
     });
   });
+  describe('#Get Transfers by Type', function() {
+    const url='/transfer/get-transfers-by-type';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate shop sources', function (done) {
+      request
+        .post(url)
+        .send({shopSource: {}})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate type', function (done) {
+      request
+        .post(url)
+        .send({
+          shopSource: 1,
+          type: 3
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow employee', function (done) {
+      request
+        .post(url)
+        .send({
+          shopSource: 1,
+          type: 'entrada'
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 

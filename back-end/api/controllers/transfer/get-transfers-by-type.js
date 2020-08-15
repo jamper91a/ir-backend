@@ -14,7 +14,10 @@ module.exports = {
     },
     type: {
       type: 'string',
-      required: true
+      required: true,
+      custom: function (type) {
+        return type === sails.config.custom.TRANSFER_TYPE.IN || type === sails.config.custom.TRANSFER_TYPE.OUT
+      }
     }
   },
 

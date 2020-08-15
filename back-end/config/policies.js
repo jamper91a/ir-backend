@@ -85,5 +85,6 @@ module.exports.policies = {
   'supplier/find-suppliers-by-company': ['isAuthenticated'],  //Policies in the controller,
 
   'transfer/create-transfer': ['isAuthenticated', 'isEmployee'],  //Policies in the controller,
+  'transfer/get-transfers-by-type': ['isAuthenticated', 'isEmployee'],  //Policies in the controller,
 
 };
