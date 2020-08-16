@@ -94,5 +94,6 @@ module.exports.policies = {
   'user/update-admin': ['isAuthenticated', 'isDealer'],
   'user/login': true,
   'user/login-web': true,
+  'user/sync': ['isAuthenticated', 'isEmployee'],
 
 };
