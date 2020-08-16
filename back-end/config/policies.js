@@ -89,4 +89,6 @@ module.exports.policies = {
   'transfer/get-transfers-by-shop': ['isAuthenticated', 'isEmployee'],
   'transfer/finish-transfer': ['isAuthenticated', 'isEmployee'],
 
+  'user/create-employee': ['isAuthenticated', 'isAdmin'],
+
 };

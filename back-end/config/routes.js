@@ -170,6 +170,8 @@ module.exports.routes = {
   'POST /users/changeEmployeeState':'Users.changeEmployeeState',
   'POST /sync':'Users.sync',
 
+  'POST /user/create-employee': 'user.create-employee',
+
   //Zones
   'POST /zones/find' : 'Zones.find'
 
