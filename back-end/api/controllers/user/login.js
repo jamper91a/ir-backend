@@ -31,8 +31,7 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     const self = this;
-
-      passport.authenticate('local', async function (err, employee, user, info) {
+    passport.authenticate('local', async function (err, employee, user, info) {
           if (err || !employee) {
             await sails.helpers.printError({title: 'login', message: err}, self.req, info);
             return exits.noEmployee();
@@ -40,7 +39,7 @@ module.exports = {
           self.req.login(employee, {session: false}, async (err) => {
             try {
               if (err) {
-                return exits.badRequest();
+                return self.res.badRequest();
               }
               if (employee) {
                 const token = jwt.sign(
@@ -56,12 +55,13 @@ module.exports = {
                   employee,
                   token
                 };
-                return exits.success(data);
+                return exits.success({data});
               } else {
                 return exits.noEmployee();
               }
             } catch (e) {
-              return exits.serverError(e);
+              await sails.helpers.printError({title: 'login', message: e}, self.req, e);
+              return self.res.serverError();
             }
           });
       })(self.req, self.res);

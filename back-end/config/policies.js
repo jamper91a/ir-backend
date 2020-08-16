@@ -93,5 +93,6 @@ module.exports.policies = {
   'user/create-admin': ['isAuthenticated', 'isDealer'],
   'user/update-admin': ['isAuthenticated', 'isDealer'],
   'user/login': true,
+  'user/login-web': true,
 
 };

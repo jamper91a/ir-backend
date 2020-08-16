@@ -429,8 +429,8 @@ describe('UserController', function() {
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
-          if(res.body && _.isObject(res.body.employee) && _.isObject(res.body.employee.company) &&
-            _.isObject(res.body.employee.user) && _.isObject(res.body.employee.shop) && _.isString(res.body.token)
+          if(res.body.data && _.isObject(res.body.data.employee) && _.isObject(res.body.data.employee.company) &&
+            _.isObject(res.body.data.employee.user) && _.isObject(res.body.data.employee.shop) && _.isString(res.body.data.token)
           ) {
             done();
           } else{
@@ -440,8 +440,73 @@ describe('UserController', function() {
         });
     });
   });
+  describe('#User login web', function() {
+    const url='/user/login-web';
+    it('should return information about dealer', function (done) {
+      request
+        .post(url)
+        .send({ username: 'dealer@ir.com', password: '12345' })
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          if(res.body.data && _.isObject(res.body.data.user) && _.isObject(res.body.data.dealer) &&
+            _.isBoolean(res.body.data.employee) && res.body.data.employee === false && _.isString(res.body.data.token)
+          ) {
+            done();
+          } else{
+            done (new Error('No valid data'));
+          }
 
+        });
+    });
+    it('should return information about sAdmin', function (done) {
+      request
+        .post(url)
+        .send({ username: 'superAdmin', password: '12345' })
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          if(res.body.data && _.isObject(res.body.data.user)  &&
+            _.isBoolean(res.body.data.employee) && res.body.data.employee === false  && _.isString(res.body.data.token)
+          ) {
+            done();
+          } else{
+            done ('No valid data');
+          }
 
+        });
+    });
+    it('should return information about admin', function (done) {
+      request
+        .post(url)
+        .send({ username: 'gerente@ir.com', password: '12345' })
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          if(
+            res.body.data &&
+            _.isObject(res.body.data.user) &&
+            _.isObject(res.body.data.employee) &&  _.isObject(res.body.data.employee.company) && _.isObject(res.body.data.employee.user) && _.isObject(res.body.data.employee.shop) &&
+            _.isString(res.body.data.token)
+          ) {
+            done();
+          } else{
+            done ('No valid data');
+          }
+
+        });
+    });
+    it('should not allow employee', function (done) {
+      request
+        .post(url)
+        .send({ username: 'cajero@ir.com', password: '12345' })
+        .expect(403)
+        .end(function(err, res) {
+          if (err) return done(err);
+            done();
+        });
+    });
+  });
 });
 
 // describe('UserController.sync', function() {

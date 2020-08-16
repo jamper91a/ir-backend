@@ -174,6 +174,7 @@ module.exports.routes = {
   'POST /user/create-admin': 'user.create-admin',
   'POST /user/update-admin': 'user.update-admin',
   'POST /user/login': 'user.login',
+  'POST /user/login-web': 'user.login-web',
 
   //Zones
   'POST /zones/find' : 'Zones.find'
