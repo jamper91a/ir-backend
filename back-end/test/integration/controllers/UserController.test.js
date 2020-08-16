@@ -150,6 +150,141 @@ describe('UserController.login', function() {
         });
     });
   });
+  describe('#Create admin', function() {
+    const url='/user/create-admin';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate username', function (done) {
+      request
+        .post(url)
+        .send({user: {password: '', username: '', group: 1}})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate password', function (done) {
+      request
+        .post(url)
+        .send({user: {password: '', username: 'newUser', group: 1}})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate employee', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            user: {password: 'newpassword', username: 'newUser', group: 3},
+            employee: {}
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate employee company', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            user: {password: 'newpassword', username: 'newUser'},
+            employee: {company: 0, shop: {}}
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate employee company name', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            user: {password: 'newpassword', username: 'newUser', group: 3},
+            employee: {company: { name: ''}}
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not allow no dealer users', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            user: {password: 'newpassword', username: 'newUser', group: 3},
+            employee: {company: { name: 'New company'}}
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow dealer users', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            user: {password: 'newpassword', username: 'newUser', group: 3},
+            employee: {company: { name: 'New company'}}
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
   describe('#login()', function() {
     it('should return information', function (done) {
 
