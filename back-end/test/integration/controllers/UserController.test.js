@@ -420,13 +420,11 @@ describe('UserController', function() {
         });
     });
   });
-  describe('#login()', function() {
+  describe('#User login', function() {
+    const url='/user/login';
     it('should return information', function (done) {
-
-      //Structure to compare
-
       request
-        .post('/login')
+        .post(url)
         .send({ username: 'cajero@ir.com', password: '12345' })
         .expect(200)
         .end(function(err, res) {
