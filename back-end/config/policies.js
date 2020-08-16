@@ -91,5 +91,6 @@ module.exports.policies = {
 
   'user/create-employee': ['isAuthenticated', 'isAdmin'],
   'user/create-admin': ['isAuthenticated', 'isDealer'],
+  'user/update-admin': ['isAuthenticated', 'isDealer'],
 
 };

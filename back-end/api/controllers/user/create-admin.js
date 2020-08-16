@@ -56,10 +56,10 @@ module.exports = {
   fn: async function ({user, employee}) {
 
     //Get the dealer
-    sails.getDatastore()
+    return await sails.getDatastore()
       .transaction(async (db)=> {
           let dealer, newUser, company, shop, newEmployee;
-          dealer = await Dealers.findOne({user: this.req.user.id});
+          dealer = await Dealers.findOne({user: this.req.user.id}).usingConnection(db);
           if(!dealer) {
             throw 'dealerNoFound';
           }
@@ -67,7 +67,8 @@ module.exports = {
           user.active = 1;
           user.group = sails.config.custom.USERS_GROUP.admin;
           try {
-            newUser = await Users.create(req.body.user).fetch().usingConnection(db);
+            const users = await Users.find();
+            newUser = await Users.create(user).fetch().usingConnection(db);
           } catch (e) {
             await sails.helpers.printError({title: 'userNotCreated', message: e.message}, this.req);
             throw 'userNotCreated';
