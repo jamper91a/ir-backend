@@ -429,7 +429,14 @@ describe('UserController', function() {
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
-          done();
+          if(res.body && _.isObject(res.body.employee) && _.isObject(res.body.employee.company) &&
+            _.isObject(res.body.employee.user) && _.isObject(res.body.employee.shop) && _.isString(res.body.token)
+          ) {
+            done();
+          } else{
+            done ('No valid data');
+          }
+
         });
     });
   });
