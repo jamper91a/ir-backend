@@ -178,6 +178,7 @@ module.exports.routes = {
   'POST /user/sync': 'user.sync',
   'POST /user/find-employee-by-username': 'user.find-employee-by-username',
   'POST /user/modify-employee-by-username': 'user.modify-employee-by-username',
+  'POST /user/list-employees-by-username': 'user.list-employees-by-username',
 
   //Zones
   'POST /zones/find' : 'Zones.find'

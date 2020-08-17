@@ -826,6 +826,35 @@ describe('UserController', function() {
         });
     });
   });
+  describe('#List Employees by Company', function() {
+    const url='/user/list-employees-by-company';
+    it('Should no allow non admin users', function (done) {
+      request
+        .post(url)
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow admin', function (done) {
+      request
+        .post(url)
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 
 // describe('UserController.sync', function() {
