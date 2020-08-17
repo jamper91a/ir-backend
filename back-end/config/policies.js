@@ -96,5 +96,6 @@ module.exports.policies = {
   'user/login-web': true,
   'user/sync': ['isAuthenticated', 'isEmployee'],
   'user/find-employee-by-username': ['isAuthenticated', 'isAdmin'],
+  'user/modify-employee-by-username': ['isAuthenticated', 'isAdmin'],
 
 };

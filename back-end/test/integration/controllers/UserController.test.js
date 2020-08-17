@@ -648,6 +648,184 @@ describe('UserController', function() {
         });
     });
   });
+  describe('#Update Employee by Username', function() {
+    const url='/user/modify-employee-by-username';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate group', function (done) {
+      request
+        .post(url)
+        .send({
+          user: {
+            username: 'test',
+            password: 'test',
+            rpassword: 'test',
+            name: 'test',
+            active: true,
+            group: 1,
+          },
+          employee: {
+            shop: 1
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate passwords', function (done) {
+      request
+        .post(url)
+        .send({
+          user: {
+            username: 'test',
+            password: 'test',
+            rpassword: '2',
+            name: 'test',
+            active: true,
+            group: 3,
+          },
+          employee: {
+            shop: 1
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate company', function (done) {
+      request
+        .post(url)
+        .send({
+          user: {
+            username: 'test',
+            password: 'test',
+            rpassword: 'test',
+            name: 'test',
+            active: true,
+            group: 3,
+          },
+          employee: {
+            shop: 1,
+            company: 1
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should no find user', function (done) {
+      request
+        .post(url)
+        .send({
+          user: {
+            username: 'test',
+            password: 'test',
+            rpassword: 'test',
+            name: 'test',
+            active: true,
+            group: 3,
+          },
+          employee: {
+            shop: 1
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'userNoFound') {
+            done();
+          } else {
+            done('Should not found user')
+          }
+        });
+    });
+    it('Should no allow non admin users', function (done) {
+      request
+        .post(url)
+        .send({
+          user: {
+            username: 'newUser',
+            password: 'newUser',
+            rpassword: 'newUser',
+            name: 'newUser updated',
+            active: true,
+            group: 3,
+          },
+          employee: {
+            shop: 1
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow admin', function (done) {
+      request
+        .post(url)
+        .send({
+          user: {
+            username: 'newUser',
+            password: 'newUser',
+            rpassword: 'newUser',
+            name: 'newUser updated',
+            active: true,
+            group: 3,
+          },
+          employee: {
+            shop: 1
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 
 // describe('UserController.sync', function() {

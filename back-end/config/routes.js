@@ -177,6 +177,7 @@ module.exports.routes = {
   'POST /user/login-web': 'user.login-web',
   'POST /user/sync': 'user.sync',
   'POST /user/find-employee-by-username': 'user.find-employee-by-username',
+  'POST /user/modify-employee-by-username': 'user.modify-employee-by-username',
 
   //Zones
   'POST /zones/find' : 'Zones.find'
