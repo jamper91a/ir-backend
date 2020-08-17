@@ -1,5 +1,5 @@
 var request = require('supertest');
-request = request('http://localhost:1337'); //r
+request = request('http://localhost:1337');
 describe('UserController', function() {
   describe('#Create employee', function() {
     const url='/user/create-employee';
@@ -538,6 +538,113 @@ describe('UserController', function() {
             return done(err);
           }
           done();
+        });
+    });
+  });
+  describe('#Find Employee by Username', function() {
+    const url='/user/find-employee-by-username';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate username', function (done) {
+      request
+        .post(url)
+        .send({ username: ''})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should no find user', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            username: 'cajero2@ir.com'
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'userNoFound') {
+            done();
+          } else {
+            done('Should not found user')
+          }
+        });
+    });
+    it('Should no find employee', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            username: 'superAdmin'
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'employeeNoFound') {
+            done();
+          } else {
+            done('Should not found employee')
+          }
+        });
+    });
+    it('Should no allow non admin users', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            username: 'cajero@ir.com'
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should return data', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            username: 'cajero@ir.com'
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+            done();
         });
     });
   });
