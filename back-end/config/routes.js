@@ -79,15 +79,16 @@ module.exports.routes = {
   // 'POST /productos/findProductInLocalByEanPlu':                                                          'ProductsHasZones.findProductInLocalByEanPlu',
   // 'POST /productos/findProductInLocalByEpc':                                                             'ProductsHasZones.findProductInLocalByEpc',
   // 'POST /productos/update':                                                                              'Products.update',
-  'POST /product/create' :                                                                               'product.create-product',
+
+  'POST /product/add-commodity' :                                                                        'product-has-zone.add-commodity',
+  'POST /product/import' :                                                                               'product.import-products',
   'POST /product/find-one' :                                                                             'product.find-one-product',
   'POST /product/find-by-epc' :                                                                          'product.find-product-by-epc',
-  'GET  /product/find-all' :                                                                             'product.find-products',
-  'POST /product/import' :                                                                               'product.import-products',
-  'POST /product/update' :                                                                               'product.update-product',
-  'POST /product/add-commodity' :                                                                        'product-has-zone.add-commodity',
   'POST /product/find-products-in-local-by-id' :                                                         'product-has-zone.find-products-in-local-by-id',
   'POST /product/find-products-in-local-by-epc' :                                                        'product-has-zone.find-products-in-local-by-epc',
+  'POST /product/update' :                                                                               'product.update-product',
+  'POST /product/create' :                                                                               'product.create-product',
+  'GET  /product/find-all' :                                                                             'product.find-products',
   //Report
   // 'POST /reportes/diferenceBetweenInventories':                                                          'Reports.diferenceBetweenInventories',
   // 'POST /reportes/guardarReporte':                                                                       'Reports.saveReport',
@@ -118,8 +119,9 @@ module.exports.routes = {
   'GET  /shop/find-shops-by-company':                                                                     'shop.find-shops-by-company',
   'GET  /shop/update-shop':                                                                               'shop.update-shop',
   //Suppliers
-  'POST /supplier/create-supplier':                                                                      'supplier.create-supplier',
+  'POST /supplier/create-supplier':                                                                       'supplier.create-supplier',
   'GET  /supplier/find-suppliers-by-company':                                                             'supplier.find-suppliers-by-company',
+  'POST /supplier/update-supplier':                                                                       'supplier.update-supplier',
   //Transferencias
   // 'POST /transferencias/crear':                                                                          'Transfers.create',
   // 'POST /transferencias/buscar':                                                                         'Transfers.find',
