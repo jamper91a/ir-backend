@@ -57,6 +57,7 @@ module.exports = {
       manager: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1OTE4NTgzOTR9.qKHSdyi_CuidaOKkwpjDto3EQkmUGP_UP46b5vWCdpM',
       cashier: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJjYWplcm9AaXIuY29tIiwiY29tcGFueV9pZCI6MSwic2hvcF9pZCI6MSwiaWF0IjoxNTkxODU0MzQzfQ.tpkYXR7tQzzmlX5Nbfu5zhCAkRa89922oD3LgeqMOSs',
       admin: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1OTE4NTgzOTR9.qKHSdyi_CuidaOKkwpjDto3EQkmUGP_UP46b5vWCdpM',
+      admin2: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJpYXQiOjE1OTc4MTMwNDR9.gKyxzUbvPUpaxgc3IfwW5-wRaaSqc7_p-ao1nedRys4',
       sAdmin: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTIwODk2MTB9.ivZftEIfTNos5b-a3tJW0s-yUt0jV6uDY4hR01aI2cI'
     },
     testPdf: false,

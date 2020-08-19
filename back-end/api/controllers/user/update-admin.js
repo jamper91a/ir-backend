@@ -42,7 +42,7 @@ module.exports = {
 
 
   fn: async function ({user, employee}) {
-
+    user.group = sails.config.custom.USERS_GROUP.admin;
 
     return await sails.getDatastore()
       .transaction(async (db)=> {

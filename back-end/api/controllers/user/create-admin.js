@@ -67,7 +67,6 @@ module.exports = {
           user.active = 1;
           user.group = sails.config.custom.USERS_GROUP.admin;
           try {
-            const users = await Users.find();
             newUser = await Users.create(user).fetch().usingConnection(db);
           } catch (e) {
             await sails.helpers.printError({title: 'userNotCreated', message: e.message}, this.req);

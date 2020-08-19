@@ -271,7 +271,7 @@ describe('UserController', function() {
         .post(url)
         .send(
           {
-            user: {password: 'newpassword', username: 'newUserAdmin', group: 3},
+            user: {password: '12345', username: 'newUserAdmin', group: 3},
             employee: {company: { name: 'New company'}}
           })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
@@ -303,6 +303,28 @@ describe('UserController', function() {
             done();
           } else {
             done('Should not allow update a shop from another company')
+          }
+        });
+    });
+    const urlUpdateSupplier='/supplier/update-supplier';
+    it('Should not allow to update a supplier of a different company', function (done) {
+      request
+        .post(urlUpdateSupplier)
+        .send({
+          name: 'My supplier updated',
+          id: 14
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin2})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'supplierNotValid') {
+            done();
+          } else {
+            done(new Error('Should not allow update a shop from another company'))
           }
         });
     });
@@ -549,7 +571,7 @@ describe('UserController', function() {
         .post(url)
         .send(
           {
-            user: {password: 'newpassword3', username: 'newUserAdmin', group: 3},
+            user: {password: '12345', username: 'newUserAdmin', group: 3},
             employee: {company: { name: 'New company 2'}}
           })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})

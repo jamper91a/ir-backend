@@ -164,23 +164,6 @@ describe('ShopController', function() {
           done();
         });
     });
-    it('Should not allow admin of a different company', function (done) {
-      request
-        .post(url)
-        .send({
-          name: 'My shop updated',
-          id: 3
-        })
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
-        .expect(200)
-        .end(function (err, res) {
-          if (err) {
-            sails.helpers.printTestError(err, res);
-            return done(err);
-          }
-          done();
-        });
-    });
     it('Should allow admin', function (done) {
       request
         .post(url)
