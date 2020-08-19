@@ -181,6 +181,7 @@ module.exports.routes = {
   'POST /user/list-employees-by-username': 'user.list-employees-by-username',
 
   //Zones
+  'GET /zones/list-zones-by-shop' : 'Zones.list-zones-by-shop',
   'POST /zones/find' : 'Zones.find'
 
 
