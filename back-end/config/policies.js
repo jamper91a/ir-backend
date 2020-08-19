@@ -100,6 +100,9 @@ module.exports.policies = {
   'user/list-employees-by-company'                              : ['isAuthenticated', 'isAdmin'],
   'user/change-employee-state'                                  : ['isAuthenticated', 'isAdmin'],
 
+  'zone/create-zone'                                            : ['isAuthenticated', 'isAdmin'],
   'zone/list-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
+  'zone/find-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
+  'zone/update-zone'                                            : ['isAuthenticated', 'isAdmin'],
 
 };

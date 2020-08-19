@@ -325,20 +325,20 @@ describe('ReportController', function() {
           done();
         });
     });
-    it('Should return data 2', function (done) {
-      request
-        .post('/reportes/getReportById')
-        .send({id: 1})
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
-        .expect(200)
-        .end(function (err, res) {
-          if (err) {
-            sails.helpers.printTestError(err, res);
-            return done(err);
-          }
-          done();
-        });
-    });
+    // it('Should return data 2', function (done) {
+    //   request
+    //     .post('/reportes/getReportById')
+    //     .send({id: 1})
+    //     .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+    //     .expect(200)
+    //     .end(function (err, res) {
+    //       if (err) {
+    //         sails.helpers.printTestError(err, res);
+    //         return done(err);
+    //       }
+    //       done();
+    //     });
+    // });
   });
   describe('#Homologate units', function() {
     const url='/report/homologate-units';

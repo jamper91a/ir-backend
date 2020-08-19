@@ -169,7 +169,7 @@ describe('Company', function() {
       //Login as admin
       let token = '';
       request
-        .post('/loginWeb')
+        .post('/user/login-web')
         .send({ username: 'gerente@ir.com', password: '12345' })
         .expect(200)
         .end(function(err, res) {
