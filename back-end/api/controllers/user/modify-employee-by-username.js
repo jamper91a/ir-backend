@@ -18,11 +18,15 @@ module.exports = {
             sails.config.custom.USERS_GROUP.manager,
             sails.config.custom.USERS_GROUP.warehouse,
           ], user.group)){
+          let password = true;
+          if(user.password){
+            password =_.isString(user.password) && _.isString(user.rpassword) && user.password === user.rpassword
+          }
+
           return _.isObject(user) &&
             _.isString(user.username) &&
-            _.isString(user.password) && _.isString(user.rpassword) && user.password === user.rpassword &&
             _.isString(user.name) &&
-            _.isBoolean(user.active)
+            _.isBoolean(user.active) && password
         }
         else
           return false;

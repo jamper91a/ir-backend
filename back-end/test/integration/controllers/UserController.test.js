@@ -989,6 +989,42 @@ describe('UserController', function() {
           }
         });
     });
+    it('Should allow admin without users password', function (done) {
+      request
+        .post(url)
+        .send({
+          user: {
+            username: 'newUser',
+            name: 'newUser updated 3',
+            active: true,
+            group: 3,
+          },
+          employee: {
+            shop: 1
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
+        });
+    });
   });
   describe('#List Employees by Company', function() {
     const url='/user/list-employees-by-company';

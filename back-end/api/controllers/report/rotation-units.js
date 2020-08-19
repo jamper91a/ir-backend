@@ -50,6 +50,7 @@ module.exports = {
 
   fn: async function ({firstDate, secondDate, employee}) {
 
+
       if(sails.helpers.policies.canBeAnyOfThese(
         [
           sails.config.custom.USERS_GROUP.admin,
@@ -62,6 +63,9 @@ module.exports = {
         try{
           firstDate =firstDate + " 00:00:00";
           secondDate =secondDate + " 23:59:59";
+
+          console.log(firstDate);
+          console.log(secondDate);
 
           let auxEmployee = employee ? employee : this.req.employee;
           let shop = auxEmployee.shop.id;
