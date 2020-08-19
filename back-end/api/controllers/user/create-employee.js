@@ -13,8 +13,9 @@ module.exports = {
       required: true,
       custom: function (user) {
         return _.isObject(user) &&
-          _.isString(user.username) && user.username &&
-          _.isString(user.password) && user.password &&
+          _.isString(user.username) &&
+          _.isString(user.name) &&
+          _.isString(user.password) && _.isString(user.rpassword) && user.password === user.rpassword &&
           _.isNumber(user.group) && (user.group === 3 || user.group === 4 )
       }
     },

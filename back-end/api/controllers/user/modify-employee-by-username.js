@@ -33,12 +33,7 @@ module.exports = {
       type: 'json',
       required: true,
       custom: function (employee) {
-        if(employee.company || employee.user) {
-          return false;
-        } else {
           return _.isNumber(employee.shop) && employee.shop > 0
-        }
-
       }
     }
   },
