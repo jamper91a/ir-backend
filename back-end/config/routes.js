@@ -146,7 +146,7 @@ module.exports.routes = {
 
   //Suppliers
   'POST /supplier/create-supplier': 'supplier.create-supplier',
-  'GET /supplier/find-suppliers-by-company': 'shop.find-suppliers-by-company',
+  'GET /supplier/find-suppliers-by-company': 'supplier.find-suppliers-by-company',
 
   //Transferencias
   'POST /transferencias/crear':'Transfers.create',
@@ -178,10 +178,11 @@ module.exports.routes = {
   'POST /user/sync': 'user.sync',
   'POST /user/find-employee-by-username': 'user.find-employee-by-username',
   'POST /user/modify-employee-by-username': 'user.modify-employee-by-username',
-  'POST /user/list-employees-by-username': 'user.list-employees-by-username',
+  'POST /user/list-employees-by-company': 'user.list-employees-by-company',
+  'POST /user/change-employee-state': 'user.change-employee-state',
 
   //Zones
-  'GET /zones/list-zones-by-shop' : 'Zones.list-zones-by-shop',
+  'GET /zones/list-zones-by-shop' : 'zone.list-zones-by-shop',
   'POST /zones/find' : 'Zones.find'
 
 
