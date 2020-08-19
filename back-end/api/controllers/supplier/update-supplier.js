@@ -38,6 +38,7 @@ module.exports = {
       const supplier = await Suppliers.findOne(id);
       if(supplier && supplier.company === this.req.employee.company.id) {
         await Suppliers.updateOne({id}).set({name});
+        return {};
       } else {
         throw 'supplierNotValid'
       }

@@ -30,6 +30,8 @@ module.exports = {
 
 
   exits: {
+    success: {
+    },
     userNotUpdated: {
       description: 'User could not be updated',
       responseType: 'serverError'
@@ -55,14 +57,14 @@ module.exports = {
       ],
       this.req.user.group)
     ) {
-      await sails.getDatastore()
+      return await sails.getDatastore()
         .transaction(async (db) => {
           //Find the user
           try {
             await Users.updateOne({id: user.id}, user).usingConnection(db);
             try {
               await Dealers.updateOne({user: user.id}, dealer).usingConnection(db);
-              return {data:{}};
+              return {};
             } catch (e) {
               await sails.helpers.printError({title: 'dealerNotUpdated', message: e.message}, this.req, dealer);
               throw 'dealerNotUpdated';

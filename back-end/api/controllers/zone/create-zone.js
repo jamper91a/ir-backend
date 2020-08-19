@@ -31,6 +31,7 @@ module.exports = {
 
     try {
       await Zones.create(inputs);
+      return {};
     } catch (e) {
       await sails.helpers.printError({title: 'createZone', message: e.message}, this.req);
       return e;

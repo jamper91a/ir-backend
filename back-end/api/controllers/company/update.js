@@ -27,7 +27,6 @@ module.exports = {
 
   exits: {
     success: {
-
     },
     companyNotUpdated: {
       description: 'Company could not be update',

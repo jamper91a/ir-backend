@@ -40,7 +40,7 @@ module.exports = {
     let auxInventory, employessInventory,inventoriesProducts;
     auxInventory = await Inventories.findOne({id: inventory.id});
     if(auxInventory.collaborative){
-      await sails.getDatastore()
+      return await sails.getDatastore()
         .transaction(async (db)=> {
 
           //Actualizo el mensaje

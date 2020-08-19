@@ -65,7 +65,7 @@ module.exports = {
         if(aux.length === 0) {
           //Primero creo la venta
           sell.user = this.req.employee.user.id;
-          let newSell,things;
+          let newSell;
           try {
             newSell = await Sells.create(sell).usingConnection(db).fetch();
           } catch (e) {
@@ -85,6 +85,8 @@ module.exports = {
             const sellDate = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss");
             await ProductsHasZones.update({id: productsId}, {sell: newSell.id, devolution: 1, sell_date: sellDate}).usingConnection(db);
             await SalesHistory.createEach(saleHistory).usingConnection(db);
+
+            return {data: products}
 
           } catch (e) {
             await sails.helpers.printError({title: 'createSell', message: e.message}, this.req);

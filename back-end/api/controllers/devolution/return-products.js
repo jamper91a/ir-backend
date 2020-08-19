@@ -40,7 +40,7 @@ module.exports = {
     let products = inputs.products;
 
     let newDevolutionHistories = [];
-      await sails.getDatastore()
+      return await sails.getDatastore()
         .transaction(async (db) => {
           //Update every productZone
           for (const product of products) {

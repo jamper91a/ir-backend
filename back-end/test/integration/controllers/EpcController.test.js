@@ -78,7 +78,7 @@ describe('EpcController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'epcNotValid') {
-            done();
+             done();
           } else {
             done('Should not allow same key on an epc')
           }
@@ -104,7 +104,19 @@ describe('EpcController', function() {
             // console.log(err);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Employee should not create epc', function (done) {
@@ -143,7 +155,19 @@ describe('EpcController', function() {
             // console.log(err);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('sAdmin should not get data', function (done) {
@@ -175,7 +199,19 @@ describe('EpcController', function() {
             // console.log(err);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('It should ask for company id', function (done) {
@@ -189,7 +225,19 @@ describe('EpcController', function() {
             // console.log(err);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('sAdmin should not get data', function (done) {

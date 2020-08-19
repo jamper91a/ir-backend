@@ -11,7 +11,7 @@ describe('InventoryErpController', function() {
         .expect(400)
         .end(function (err, res) {
           if (err) {
-            // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
           done();
@@ -36,7 +36,19 @@ describe('InventoryErpController', function() {
           if (err) {
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
 
     });
@@ -58,7 +70,19 @@ describe('InventoryErpController', function() {
           if (err) {
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
 
     });

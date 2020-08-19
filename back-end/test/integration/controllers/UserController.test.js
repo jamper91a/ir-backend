@@ -146,7 +146,19 @@ describe('UserController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -281,7 +293,19 @@ describe('UserController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     const urlUpdateShop='/shop/update-shop';
@@ -322,7 +346,7 @@ describe('UserController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'supplierNotValid') {
-            done();
+             done();
           } else {
             done(new Error('Should not allow update a shop from another company'))
           }
@@ -341,7 +365,19 @@ describe('UserController', function() {
           if(res.body.data && _.isObject(res.body.data.employee) && _.isObject(res.body.data.employee.company) &&
             _.isObject(res.body.data.employee.user) && _.isObject(res.body.data.employee.shop) && _.isString(res.body.data.token)
           ) {
-            done();
+             try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
           } else{
             done ('No valid data');
           }
@@ -361,7 +397,19 @@ describe('UserController', function() {
           if(res.body.data && _.isObject(res.body.data.user) && _.isObject(res.body.data.dealer) &&
             _.isBoolean(res.body.data.employee) && res.body.data.employee === false && _.isString(res.body.data.token)
           ) {
-            done();
+             try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
           } else{
             done (new Error('No valid data'));
           }
@@ -378,7 +426,19 @@ describe('UserController', function() {
           if(res.body.data && _.isObject(res.body.data.user)  &&
             _.isBoolean(res.body.data.employee) && res.body.data.employee === false  && _.isString(res.body.data.token)
           ) {
-            done();
+             try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
           } else{
             done ('No valid data');
           }
@@ -398,7 +458,19 @@ describe('UserController', function() {
             _.isObject(res.body.data.employee) &&  _.isObject(res.body.data.employee.company) && _.isObject(res.body.data.employee.user) && _.isObject(res.body.data.employee.shop) &&
             _.isString(res.body.data.token)
           ) {
-            done();
+             try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
           } else{
             done ('No valid data');
           }
@@ -412,7 +484,7 @@ describe('UserController', function() {
         .expect(403)
         .end(function(err, res) {
           if (err) return done(err);
-            done();
+          done();
         });
     });
   });
@@ -442,7 +514,19 @@ describe('UserController', function() {
             _.isArray(devolutions) &&
             _.isNumber(page)
           ) {
-            done();
+             try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
           } else{
             done (new Error('No valid data'));
           }
@@ -581,7 +665,19 @@ describe('UserController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -630,7 +726,7 @@ describe('UserController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'userNoFound') {
-            done();
+             done();
           } else {
             done('Should not found user')
           }
@@ -651,7 +747,7 @@ describe('UserController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'employeeNoFound') {
-            done();
+             done();
           } else {
             done('Should not found employee')
           }
@@ -688,7 +784,19 @@ describe('UserController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-            done();
+             try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -811,7 +919,7 @@ describe('UserController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'userNoFound') {
-            done();
+             done();
           } else {
             done('Should not found user')
           }
@@ -866,7 +974,19 @@ describe('UserController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -895,7 +1015,19 @@ describe('UserController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -968,29 +1100,22 @@ describe('UserController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
 });
 
-// describe('UserController.sync', function() {
-//
-//   describe('#sync()', function() {
-//     it('should return information', function (done) {
-//
-//       //Structure to compare
-//
-//       request
-//         .post('/sync')
-//         .send({ username: 'jamper91', password: '12345' })
-//         .set({Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsZWFkb19pZCI6MSwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJqYW1wZXI5MSIsImNvbXBhbnlfaWQiOjEsImxvY2FsZXNfaWQiOjEsImlhdCI6MTU0MTIwMDUzMH0.DutQTEv0HLcWajtxA2dwRED_RNESJVSE9nSyrcfzPmA"})
-//         .expect(200)
-//         .end(function(err, res) {
-//           if (err) return done(err);
-//           done();
-//         });
-//     });
-//   });
-// });
 

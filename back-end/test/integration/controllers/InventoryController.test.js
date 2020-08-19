@@ -11,7 +11,7 @@ describe('InventoryController', function() {
         .expect(400)
         .end(function (err, res) {
           if (err) {
-            // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
           done();
@@ -42,7 +42,19 @@ describe('InventoryController', function() {
           if (err) {
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
 
     });
@@ -56,7 +68,7 @@ describe('InventoryController', function() {
         .expect(400)
         .end(function (err, res) {
           if (err) {
-            // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
           done();
@@ -111,7 +123,19 @@ describe('InventoryController', function() {
           if (err) {
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
 
     });
@@ -125,7 +149,7 @@ describe('InventoryController', function() {
         .expect(400)
         .end(function (err, res) {
           if (err) {
-            // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
           done();
@@ -145,7 +169,19 @@ describe('InventoryController', function() {
             // console.log(err);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Employee should get inventories', function (done) {
@@ -162,7 +198,19 @@ describe('InventoryController', function() {
           if (err) {
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
 
     });
@@ -176,7 +224,7 @@ describe('InventoryController', function() {
         .expect(400)
         .end(function (err, res) {
           if (err) {
-            // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
           done();
@@ -196,7 +244,19 @@ describe('InventoryController', function() {
             // console.log(err);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should not pass because inventory it is already consolidated', function (done) {
@@ -210,7 +270,7 @@ describe('InventoryController', function() {
         .expect(400)
         .end(function (err, res) {
           if (err) {
-            // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
           done();
@@ -227,7 +287,7 @@ describe('InventoryController', function() {
         .expect(400)
         .end(function (err, res) {
           if (err) {
-            // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
           done();
@@ -245,7 +305,19 @@ describe('InventoryController', function() {
           if (err) {
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should pass parameters', function (done) {
@@ -261,7 +333,19 @@ describe('InventoryController', function() {
             // console.log(err);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });

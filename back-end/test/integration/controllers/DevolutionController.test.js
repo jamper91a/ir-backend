@@ -41,7 +41,19 @@ describe('DevolutionController', function() {
             // console.log(err);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });

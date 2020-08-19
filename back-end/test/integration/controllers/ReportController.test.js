@@ -32,7 +32,19 @@ describe('ReportController', function() {
             return done(err);
           }
           if(res.body.data.length>0) {
-            done();
+             try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
           } else {
             done(new Error('Not found products should not be empty'));
           }
@@ -201,7 +213,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should save report difference between inventories', function (done) {
@@ -226,7 +250,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -291,7 +327,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -322,23 +370,21 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
-    // it('Should return data 2', function (done) {
-    //   request
-    //     .post('/reportes/getReportById')
-    //     .send({id: 1})
-    //     .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
-    //     .expect(200)
-    //     .end(function (err, res) {
-    //       if (err) {
-    //         sails.helpers.printTestError(err, res);
-    //         return done(err);
-    //       }
-    //       done();
-    //     });
-    // });
   });
   describe('#Homologate units', function() {
     const url='/report/homologate-units';
@@ -409,7 +455,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -482,7 +540,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -555,7 +625,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should allow admin', function (done) {
@@ -569,7 +651,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -656,7 +750,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should allow admin', function (done) {
@@ -670,7 +776,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -743,7 +861,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should allow admin', function (done) {
@@ -757,7 +887,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });
@@ -794,7 +936,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should allow employee without parameter', function (done) {
@@ -808,7 +962,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should allow admin', function (done) {
@@ -828,7 +994,19 @@ describe('ReportController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });

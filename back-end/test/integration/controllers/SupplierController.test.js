@@ -30,7 +30,19 @@ describe('SupplierController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should not allow employee', function (done) {
@@ -63,7 +75,19 @@ describe('SupplierController', function() {
             return done(err);
           }
 
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should not allow sAdmin', function (done) {
@@ -160,7 +184,18 @@ describe('SupplierController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+          try{
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
   });

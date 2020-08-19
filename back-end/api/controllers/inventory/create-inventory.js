@@ -38,7 +38,7 @@ module.exports = {
   fn: async function ({inventory, products}) {
 
 
-    await sails.getDatastore()
+    return await sails.getDatastore()
       .transaction(async (db)=> {
 
         //Primero creo el inventario

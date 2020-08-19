@@ -92,7 +92,19 @@ describe('SellController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should not be able to sell same products', function (done) {
@@ -115,7 +127,9 @@ describe('SellController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'productsNoValid') {
-            done();
+             done();
+          } else {
+            done(new Error('Should not be able to sell the same product'))
           }
         });
     });

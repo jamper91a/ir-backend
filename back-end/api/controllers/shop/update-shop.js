@@ -38,6 +38,7 @@ module.exports = {
       const shop = await Shops.findOne(id);
       if(shop && shop.company === this.req.employee.company.id) {
         await Shops.updateOne({id}).set({name});
+        return {};
       } else {
         throw 'shopNoValid'
       }

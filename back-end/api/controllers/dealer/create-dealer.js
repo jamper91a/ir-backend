@@ -46,7 +46,7 @@ module.exports = {
 
     user.active = 1;
     user.group = 5;
-    await sails.getDatastore()
+    return await sails.getDatastore()
       .transaction(async (db) => {
         try {
           //Creo usuario

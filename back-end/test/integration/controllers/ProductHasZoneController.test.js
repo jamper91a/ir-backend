@@ -78,7 +78,9 @@ describe('ProductHasZoneController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'epcNotFound') {
-            done();
+             done();
+          } else{
+            done(new Error('Epc should not be found'));
           }
         });
     });
@@ -112,7 +114,19 @@ describe('ProductHasZoneController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
 
     });
@@ -146,7 +160,9 @@ describe('ProductHasZoneController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'epcNotFound') {
-            done();
+             done()
+          } else{
+            done(new Error('Epc should not be found'))
           }
         });
     });
@@ -230,7 +246,19 @@ describe('ProductHasZoneController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should noT allow admin to find a product from a different company', function (done) {
@@ -253,7 +281,9 @@ describe('ProductHasZoneController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'zonesNotFound') {
-            done();
+             done();
+          } else {
+            done(new Error('Zone should not be found'))
           }
         });
     });
@@ -303,7 +333,9 @@ describe('ProductHasZoneController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'epcNotFound') {
-            done();
+             done();
+          } else {
+            done(new Error('Epc should no be found'));
           }
         });
     });
@@ -320,7 +352,19 @@ describe('ProductHasZoneController', function() {
             sails.helpers.printTestError(err, res);
             return done(err);
           }
-          done();
+           try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
         });
     });
     it('Should noT allow admin to find a product from a different company', function (done) {
@@ -338,7 +382,9 @@ describe('ProductHasZoneController', function() {
             return done(err);
           }
           if(res.res.headers['x-exit'] === 'zonesNotFound') {
-            done();
+             done();
+          } else{
+            done(new Error('Should not have found a zone'))
           }
         });
     });

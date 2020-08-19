@@ -59,7 +59,7 @@ module.exports = {
     let inventoryConsolidated,things,inventory,auxInventories;
 
 
-    await sails.getDatastore()
+    return await sails.getDatastore()
       .transaction(async (db)=> {
         var totalProducts=0;
         //Se valida que la zona de los inventories sean diferentes

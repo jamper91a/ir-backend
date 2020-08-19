@@ -47,7 +47,7 @@ module.exports = {
     const company = this.req.employee.company;
     if(company) {
       products = products.map((product) => { product.company = company.id; return product});
-      await sails.getDatastore()
+      return await sails.getDatastore()
         .transaction(async (db)=> {
           try {
             //Find or create suppliers

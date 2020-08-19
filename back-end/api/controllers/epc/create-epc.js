@@ -44,7 +44,7 @@ module.exports = {
       }
       pos++;
     }
-    await sails.getDatastore()
+    return await sails.getDatastore()
       .transaction(async (db)=> {
 
         try {

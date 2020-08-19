@@ -26,7 +26,7 @@ module.exports = {
       if (company) {
         products = await Products.find({where: {company: company.id}});
         if (products && products.length > 0) {
-          return {products};
+          return {data: products};
         } else {
           throw 'noProductsFound';
         }
