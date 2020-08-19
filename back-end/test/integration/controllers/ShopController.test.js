@@ -98,5 +98,106 @@ describe('ShopController', function() {
         });
     });
   });
+  describe('#Update shop', function() {
+    const url='/shop/update-shop';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate name', function (done) {
+      request
+        .post(url)
+        .send({
+          name: ''
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate id', function (done) {
+      request
+        .post(url)
+        .send({
+          name: 'shop updated',
+          id: 0
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not allow employee', function (done) {
+      request
+        .post(url)
+        .send({
+            name: 'My new shop',
+            id: 1
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should not allow admin of a different company', function (done) {
+      request
+        .post(url)
+        .send({
+          name: 'My shop updated',
+          id: 3
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow admin', function (done) {
+      request
+        .post(url)
+        .send({
+          name: 'My shop updated',
+          id: 3
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
 });
 

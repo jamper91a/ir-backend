@@ -80,6 +80,7 @@ module.exports.policies = {
 
   'shop/create-shop'                                            : ['isAuthenticated', 'isAdmin'],
   'shop/find-shops-by-company'                                  : ['isAuthenticated'],  //Policies in the controller,
+  'shop/update-shop'                                            : ['isAuthenticated', 'isAdmin'],
 
   'supplier/create-supplier'                                    : ['isAuthenticated', 'isAdmin'],
   'supplier/find-suppliers-by-company'                          : ['isAuthenticated'],  //Policies in the controller,

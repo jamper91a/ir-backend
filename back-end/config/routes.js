@@ -114,8 +114,9 @@ module.exports.routes = {
   // 'POST /sells/create':                                                                                  'Sells.createSell',
   'POST /sell/create-sell':                                                                              'sell.create-sell',
   //Shops
-  'POST /shop/create-shop':                                                                              'shop.create-shop',
+  'POST /shop/create-shop':                                                                               'shop.create-shop',
   'GET  /shop/find-shops-by-company':                                                                     'shop.find-shops-by-company',
+  'GET  /shop/update-shop':                                                                               'shop.update-shop',
   //Suppliers
   'POST /supplier/create-supplier':                                                                      'supplier.create-supplier',
   'GET  /supplier/find-suppliers-by-company':                                                             'supplier.find-suppliers-by-company',

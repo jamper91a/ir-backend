@@ -284,6 +284,28 @@ describe('UserController', function() {
           done();
         });
     });
+    const urlUpdateShop='/shop/update-shop';
+    it('Should not allow to update a shop of a different company', function (done) {
+      request
+        .post(urlUpdateShop)
+        .send({
+          name: 'My shop updated',
+          id: 4
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'shopNoValid') {
+            done();
+          } else {
+            done('Should not allow update a shop from another company')
+          }
+        });
+    });
   });
   describe('#User login', function() {
     const url='/user/login';

@@ -35,7 +35,7 @@ module.exports = {
         return {data: shops};
       } catch (e) {
         await sails.helpers.printError({title: 'findShops', message: e.message}, this.req);
-        return e;
+        throw e;
       }
     } else {
       throw 'notAllow';

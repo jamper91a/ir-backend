@@ -29,7 +29,7 @@ module.exports = {
       return {};
     } catch (e) {
       await sails.helpers.printError({title: 'createSupplier', message: e.message}, this.req);
-      return e;
+      throw e;
     }
 
   }
