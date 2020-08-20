@@ -9,7 +9,7 @@ module.exports = {
 
   inputs: {
     products: {
-      type: 'ref',
+      type: 'json',
       required: true,
       custom: function(products) {
         const isArray = _.isArray(products);

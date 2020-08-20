@@ -493,43 +493,63 @@ describe('UserController', function() {
     it('Should return data', function (done) {
       request
         .post(url)
-        .send({ page: 1 })
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .send({ page: 0 })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.cashier})
         .expect(200)
-        .end(function(err, res) {
+        .end(async function(err, res) {
           if (err) return done(err);
-          const epcs = res.body.data.epcs;
-          const products = res.body.data.products;
-          const productsHasZones = res.body.data.productsHasZones;
-          const zones = res.body.data.zones;
-          const shops = res.body.data.shops;
-          const devolutions = res.body.data.devolutions;
-          const page = res.body.data.page;
-          if(
-            _.isArray(epcs) &&
-            _.isArray(products) &&
-            _.isArray(productsHasZones) &&
-            _.isArray(zones) &&
-            _.isArray(shops) &&
-            _.isArray(devolutions) &&
-            _.isNumber(page)
-          ) {
-             try{
+          if(res.headers['content-type'].includes('application/json')) {
+            console.log(res.body);
+            const epcs = res.body.data.epcs;
+            const products = res.body.data.products;
+            const productsHasZones = res.body.data.productsHasZones;
+            const zones = res.body.data.zones;
+            const shops = res.body.data.shops;
+            const devolutions = res.body.data.devolutions;
+            const page = res.body.data.page;
+            if(
+              _.isArray(epcs) &&
+              _.isArray(products) &&
+              _.isArray(productsHasZones) &&
+              _.isArray(zones) &&
+              _.isArray(shops) &&
+              _.isArray(devolutions) &&
+              _.isNumber(page)
+            ) {
+              try{
+                //Validate the epcs
+                const allEpcs = await sails.helpers.validation.validateEpcs(epcs);
+                const allProducts = await sails.helpers.validation.validateProducts(products);
+                const allProductsHasZones = await sails.helpers.validation.validateProductsHasZones(productsHasZones);
+                const allZones = await sails.helpers.validation.validateZones(zones);
+                const allShops = await sails.helpers.validation.validateShops(shops);
+                const allDevolutions = await sails.helpers.validation.validateDevolutions(devolutions);
+                if(allEpcs && allProducts && allProductsHasZones && allZones && allShops && allDevolutions) {
+                  JSON.parse(JSON.stringify(res.body));
+                  done();
+                } else {
+                  console.log('allEpcs', allEpcs);
+                  console.log('allProducts', allProducts);
+                  console.log('allProductsHasZones', allProductsHasZones);
+                  console.log('allZones', allZones);
+                  console.log('allShops', allShops);
+                  console.log('allDevolutions', allDevolutions);
+                  done (new Error('No valid format for the response'));
+                }
 
-            JSON.parse(JSON.stringify(res.body));
-            if(res.headers['content-type'].includes('application/json')) {
-              done();
-            } else {
-              done(new Error('No valid Json format'));
+
+
+              } catch (e) {
+                console.error(e);
+                return done(e);
+              }
+            } else{
+              done (new Error('No valid data'));
             }
+          } else {
+            done(new Error('No valid Json format'));
+          }
 
-          } catch (e) {
-            console.error(e);
-            return done(e);
-          }
-          } else{
-            done (new Error('No valid data'));
-          }
 
         });
     });
