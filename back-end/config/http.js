@@ -18,6 +18,7 @@ module.exports.http = {
     order: [
       'cookieParser',
       'session',
+      'requestLogger',
       'passportInit',
       'passportSession',
       'bodyParser',
@@ -42,6 +43,11 @@ module.exports.http = {
     //   var middlewareFn = skipper({ strict: true });
     //   return middlewareFn;
     // })(),
+
+    requestLogger: function (req, res, next) {
+      // sails.log.info("Requested :: ", req.method, req.url);
+      return next();
+    },
 
   },
 
