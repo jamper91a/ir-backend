@@ -28,7 +28,7 @@ module.exports = {
       await Suppliers.create(inputs);
       return {};
     } catch (e) {
-      await sails.helpers.printError({title: 'createSupplier', message: e.message}, this.req);
+      sails.helpers.printError({title: 'createSupplier', message: e.message}, this.req);
       throw e;
     }
 

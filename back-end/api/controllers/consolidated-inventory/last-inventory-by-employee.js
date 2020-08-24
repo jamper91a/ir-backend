@@ -63,7 +63,7 @@ module.exports = {
       }
       return  [];
     } catch (e) {
-      await sails.helpers.printError({title: e.title, message: e.message}, this.req, {});
+      sails.helpers.printError({title: e.title, message: e.message}, this.req, {});
       throw e;
     }
 

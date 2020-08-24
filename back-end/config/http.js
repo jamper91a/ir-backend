@@ -45,7 +45,7 @@ module.exports.http = {
     // })(),
 
     requestLogger: function (req, res, next) {
-      // sails.log.info("Requested :: ", req.method, req.url);
+      sails.log.info("Requested :: ", req.method, req.url);
       return next();
     },
 

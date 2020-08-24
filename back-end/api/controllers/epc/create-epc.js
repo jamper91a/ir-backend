@@ -54,7 +54,7 @@ module.exports = {
           if(e.code === 'E_UNIQUE') {
             throw 'epcNotValid';
           } else {
-            await sails.helpers.printError({title: 'epcsNoCreate', message: e.message}, this.req);
+            sails.helpers.printError({title: 'epcsNoCreate', message: e.message}, this.req);
             throw e;
           }
 

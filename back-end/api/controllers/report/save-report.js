@@ -69,7 +69,7 @@ module.exports = {
           await ReportsHasProductsZones.createEach(products).usingConnection(db);
           return {}
         } catch (e) {
-          await sails.helpers.printError({title: 'save-report'},this.req, e);
+          sails.helpers.printError({title: 'save-report'},this.req, e);
           throw e;
         }
 

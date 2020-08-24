@@ -51,14 +51,14 @@ module.exports = {
       user.active = 1;
       newUser = await Users.create(user).fetch();
     } catch (e) {
-      await sails.helpers.printError({title: 'userNotCreated', message: e.message}, this.req);
+      sails.helpers.printError({title: 'userNotCreated', message: e.message}, this.req);
       throw 'userNotCreated';
     }
     try {
       employee.user = newUser.id
       newEmployee = await Employees.create(employee).fetch();
     } catch (e) {
-      await sails.helpers.printError({title: 'employeeNotCreated', message: e.message}, this.req);
+      sails.helpers.printError({title: 'employeeNotCreated', message: e.message}, this.req);
       throw 'employeeNotCreated';
     }
     return {data: newEmployee};

@@ -44,7 +44,7 @@ module.exports = {
       }
 
     } catch (e) {
-      await sails.helpers.printError({title: 'updateShop', message: e.message}, this.req);
+      sails.helpers.printError({title: 'updateShop', message: e.message}, this.req);
       throw e;
     }
 

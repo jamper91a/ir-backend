@@ -43,7 +43,7 @@ module.exports = {
           }};
 
       } catch (e) {
-        await sails.helpers.printError(e, this.req, {consolidatedInventory});
+        sails.helpers.printError(e, this.req, {consolidatedInventory});
         throw e;
       }
 

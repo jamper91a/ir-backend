@@ -34,7 +34,7 @@ module.exports = {
       }
 
     } catch (e) {
-      await sails.helpers.printError({title: 'listZones', message: e.message}, this.req, e);
+      sails.helpers.printError({title: 'listZones', message: e.message}, this.req, e);
       throw e;
     }
 

@@ -59,7 +59,7 @@ module.exports = {
         });
         return {data: companyUpdated};
       } catch (e) {
-        await sails.helpers.printError({title: 'companyNotUpdated', message: e.message}, this.req, inputs);
+        sails.helpers.printError({title: 'companyNotUpdated', message: e.message}, this.req, inputs);
         throw 'companyNotUpdated';
       }
     } else {

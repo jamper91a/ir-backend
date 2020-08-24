@@ -50,7 +50,7 @@ module.exports = {
           try {
             employessInventory = await EmployeesInventories.create({inventory: auxInventory.id,employee:this.req.employee.id}).usingConnection(db).fetch();
           } catch (e) {
-            await sails.helpers.printError({title: 'employeeNoAssociated', message: e.message}, this.req, this.req.employee);
+            sails.helpers.printError({title: 'employeeNoAssociated', message: e.message}, this.req, this.req.employee);
             throw 'employeeNoAssociated';
           }
           try {
@@ -62,12 +62,12 @@ module.exports = {
                 products: inventoriesProducts
               }};
           } catch (e) {
-            await sails.helpers.printError({title: 'productsNoAssociated', message: e.message}, this.req);
+            sails.helpers.printError({title: 'productsNoAssociated', message: e.message}, this.req);
             throw 'productsNoAssociated';
           }
         })
     } else {
-      await sails.helpers.printError({title: 'inventoryNotValid', message:''}, this.req, inventory);
+      sails.helpers.printError({title: 'inventoryNotValid', message:''}, this.req, inventory);
       throw 'inventoryNotValid';
     }
 

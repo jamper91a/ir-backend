@@ -50,13 +50,13 @@ module.exports = {
         try {
           userUpdated = await Users.updateOne({username: user.username}, user).usingConnection(db);
         } catch (e) {
-          await sails.helpers.printError({title: 'userNoUpdated', message: e.message}, this.req);
+          sails.helpers.printError({title: 'userNoUpdated', message: e.message}, this.req);
           throw 'userNoUpdated';
         }
         try {
           await Companies.updateOne({user: userUpdated.id}, employee.company).usingConnection(db);
         } catch (e) {
-          await sails.helpers.printError({title: 'companyNoUpdated', message: e.message}, this.req);
+          sails.helpers.printError({title: 'companyNoUpdated', message: e.message}, this.req);
           throw 'companyNoUpdated';
         }
 

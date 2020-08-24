@@ -62,7 +62,7 @@ module.exports = {
       }
       return {data: auxInv}
     } catch (e) {
-      await sails.helpers.printError({title: 'listInventories', message: e.message}, this.req, e);
+      sails.helpers.printError({title: 'listInventories', message: e.message}, this.req, e);
       throw e;
     }
 

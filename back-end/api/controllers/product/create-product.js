@@ -112,7 +112,7 @@ module.exports = {
           if (url_photo) {
             inputs.imagen = url_photo;
           } else {
-            await sails.helpers.printError({title: 'photoNoSaved', message: e.message}, this.req, inputs);
+            sails.helpers.printError({title: 'photoNoSaved', message: e.message}, this.req, inputs);
             throw 'photoNoSaved';
           }
         }
@@ -121,7 +121,7 @@ module.exports = {
           await Products.create(inputs);
           return {}
         } catch (e) {
-          await sails.helpers.printError({title: 'productNoCreated', message: e.message}, this.req, this.req.employee);
+          sails.helpers.printError({title: 'productNoCreated', message: e.message}, this.req, this.req.employee);
           throw 'productNoCreated';
         }
     } else {

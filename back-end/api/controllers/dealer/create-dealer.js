@@ -56,11 +56,11 @@ module.exports = {
             const newDealer = await Dealers.create(dealer).fetch().usingConnection(db);
             return {data: newDealer};
           } catch (e) {
-            await sails.helpers.printError({title: 'dealerNotCreated', message: e.message}, this.req);
+            sails.helpers.printError({title: 'dealerNotCreated', message: e.message}, this.req);
             throw 'dealerNotCreated';
           }
         } catch (e) {
-          await sails.helpers.printError({title: 'userNotCreated', message: e.message}, this.req);
+          sails.helpers.printError({title: 'userNotCreated', message: e.message}, this.req);
           throw  'userNotCreated';
         }
       });

@@ -27,7 +27,7 @@ module.exports = {
       epcs = await sails.sendNativeQuery(sql, [dealer.id]);
       return {data:epcs.rows};
     } catch (e) {
-      await sails.helpers.printError({title: 'noTagsByDealerMonthly', message: e.message}, this.req);
+      sails.helpers.printError({title: 'noTagsByDealerMonthly', message: e.message}, this.req);
       throw e;
     }
 

@@ -25,7 +25,7 @@ module.exports = {
       const zones = await Zones.find({shop: id});
       return { data: zones};
     } catch (e) {
-      await sails.helpers.printError({title: 'findZonesByShop', message: e.message}, this.req, e);
+      sails.helpers.printError({title: 'findZonesByShop', message: e.message}, this.req, e);
       throw e;
     }
 

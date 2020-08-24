@@ -36,7 +36,7 @@ module.exports = {
       await InventoryErp.create({shop: shop, products: products});
       return {};
     } catch (e) {
-      await sails.helpers.printError({title: 'createInventoryErp', message: e.message}, this.req, e);
+      sails.helpers.printError({title: 'createInventoryErp', message: e.message}, this.req, e);
       throw e;
     }
 

@@ -58,7 +58,7 @@ module.exports = {
 
       return {data: consolidatedInventories};
     } catch (e) {
-      await sails.helpers.printError(e, this.req, {});
+      sails.helpers.printError(e, this.req, {});
       throw e;
     }
 

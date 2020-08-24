@@ -79,7 +79,7 @@ module.exports = {
         return {data: allProducts}
 
       } catch (e) {
-        await sails.helpers.printError({title: 'differenceWithInvenoryErp', message: e.message}, this.req, this.req.employee);
+        sails.helpers.printError({title: 'differenceWithInvenoryErp', message: e.message}, this.req, this.req.employee);
         throw e;
       }
     } else {

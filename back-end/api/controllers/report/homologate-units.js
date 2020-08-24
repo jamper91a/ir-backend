@@ -36,7 +36,7 @@ module.exports = {
       await ReportsHasProductsZones.update(_.map(products, 'id'), {homologatorEmployee: homologator_employee_id});
       return {}
     } catch (e) {
-      await sails.helpers.printError({title: 'homologateUnits', message: e.message}, this.req, this.req.employee);
+      sails.helpers.printError({title: 'homologateUnits', message: e.message}, this.req, this.req.employee);
       throw e;
     }
 

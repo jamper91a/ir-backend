@@ -69,7 +69,7 @@ module.exports = {
           try {
             newUser = await Users.create(user).fetch().usingConnection(db);
           } catch (e) {
-            await sails.helpers.printError({title: 'userNotCreated', message: e.message}, this.req);
+            sails.helpers.printError({title: 'userNotCreated', message: e.message}, this.req);
             throw 'userNotCreated';
           }
           employee.company.dealer = dealer.id;
@@ -77,14 +77,14 @@ module.exports = {
           try {
             company = await Companies.create(employee.company).fetch().usingConnection(db);
           } catch (e) {
-            await sails.helpers.printError({title: 'companyNoCreated', message: e.message}, this.req);
+            sails.helpers.printError({title: 'companyNoCreated', message: e.message}, this.req);
             throw 'companyNoCreated';
           }
           //Create default shop, because a company must have at least one shop
           try {
             shop = await Shops.create({name: company.name, company: company.id}).fetch().usingConnection(db);
           } catch (e) {
-            await sails.helpers.printError({title: 'shopNoCreated', message: e.message}, this.req);
+            sails.helpers.printError({title: 'shopNoCreated', message: e.message}, this.req);
             throw 'shopNoCreated';
 
           }
@@ -94,7 +94,7 @@ module.exports = {
           try {
             newEmployee = await Employees.create(employee).fetch().usingConnection(db);
           } catch (e) {
-            await sails.helpers.printError({title: 'shopNoCreated', message: e.message}, this.req);
+            sails.helpers.printError({title: 'shopNoCreated', message: e.message}, this.req);
             throw 'shopNoCreated';
           }
           newEmployee.user = newUser;

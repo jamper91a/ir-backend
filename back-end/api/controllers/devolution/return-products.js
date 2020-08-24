@@ -57,7 +57,7 @@ module.exports = {
                 .set({id: product.id, devolution: product.devolution, notes_return: product.notes_return})
                 .usingConnection(db);
             } catch (err) {
-              await sails.helpers.printError({title: 'productsNoReturned', message: e.message}, this.req);
+              sails.helpers.printError({title: 'productsNoReturned', message: e.message}, this.req);
               throw err;
             }
           }
@@ -65,7 +65,7 @@ module.exports = {
           try {
             await DevolutionsHistory.createEach(newDevolutionHistories).usingConnection(db);
           } catch (e) {
-            await sails.helpers.printError({title: 'productsNoReturned', message: e.message}, this.req);
+            sails.helpers.printError({title: 'productsNoReturned', message: e.message}, this.req);
             throw e;
           }
           return {data:{}};

@@ -50,7 +50,7 @@ module.exports = {
               let pz = await ProductsHasZones.updateOne({id: pht.product}, {zone: shopDestination.zone[0].id, wasTransfered: 1, transfer_date: transferDate})                                                                 .usingConnection(db);
               newProducts.push(pz);
             } catch (e) {
-              await sails.helpers.printError({title: 'finishTransfer', message: e.message}, this.req);
+              sails.helpers.printError({title: 'finishTransfer', message: e.message}, this.req);
               throw e;
             }
           }

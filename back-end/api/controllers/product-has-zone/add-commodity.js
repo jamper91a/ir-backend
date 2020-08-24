@@ -89,7 +89,7 @@ module.exports = {
                 newProduct.devolution = 1;
                 newProduct.sell = 1;
               } else {
-                await sails.helpers.printError(
+                sails.helpers.printError(
                   {title: 'epcNotFound', message: 'Epc ' + newProduct.epc},
                   this.req,
                   {company: company.id, epc: newProduct.epc});
@@ -102,7 +102,7 @@ module.exports = {
             try{
               await ProductsHasZones.createEach(products).usingConnection(db);
             }catch (e) {
-              await sails.helpers.printError({title: 'productsNoCreated'},this.req, e);
+              sails.helpers.printError({title: 'productsNoCreated'},this.req, e);
               throw 'productsNoCreated';
             }
             /**
@@ -116,7 +116,7 @@ module.exports = {
               };
               return {data: data};
             } catch (err) {
-              await sails.helpers.printError({title: 'epcUsed'},this.req,{epcs: _.map(newProducts, 'epc_id')});
+              sails.helpers.printError({title: 'epcUsed'},this.req,{epcs: _.map(newProducts, 'epc_id')});
               throw 'epcUsed';
             }
           } else {

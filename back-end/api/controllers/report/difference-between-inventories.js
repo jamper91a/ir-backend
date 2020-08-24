@@ -68,7 +68,7 @@ module.exports = {
       },
       async function(e){
         if(e){
-          await sails.helpers.printError({title: 'differenceBetweenInventories'},this.req, e);
+          sails.helpers.printError({title: 'differenceBetweenInventories'},this.req, e);
           throw e;
         }
         return {data:notFoundProducts};

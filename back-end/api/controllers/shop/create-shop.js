@@ -29,7 +29,7 @@ module.exports = {
       await Shops.create(inputs);
       return {}
     } catch (e) {
-      await sails.helpers.printError({title: 'createShop', message: e.message}, this.req);
+      sails.helpers.printError({title: 'createShop', message: e.message}, this.req);
       throw e;
     }
   }

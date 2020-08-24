@@ -36,7 +36,7 @@ module.exports = {
 
       return {data: transfers};
     } catch (e) {
-      await sails.helpers.printError({title: 'getTransfersByShop', message: e.message}, this.req);
+      sails.helpers.printError({title: 'getTransfersByShop', message: e.message}, this.req);
       throw e;
     }
 

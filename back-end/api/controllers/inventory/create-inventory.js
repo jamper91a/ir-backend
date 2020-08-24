@@ -46,14 +46,14 @@ module.exports = {
         try {
           newInventory = await Inventories.create(inventory).usingConnection(db).fetch();
         } catch (e) {
-          await sails.helpers.printError({title: 'inventoryNotCreated', message: e.message}, this.req, inventory);
+          sails.helpers.printError({title: 'inventoryNotCreated', message: e.message}, this.req, inventory);
           throw 'inventoryNotCreated';
         }
         //Una vez creado el inventario, le asocio el usuario
         try {
           employeesInventory = await EmployeesInventories.create({inventory:newInventory.id,employee:this.req.employee.id}).usingConnection(db).fetch();
         } catch (e) {
-          await sails.helpers.printError({title: 'employeeNoAssociated', message: e.message}, this.req, this.req.employee);
+          sails.helpers.printError({title: 'employeeNoAssociated', message: e.message}, this.req, this.req.employee);
           throw 'employeeNoAssociated';
         }
         try {
@@ -67,7 +67,7 @@ module.exports = {
             }
           };
         } catch (e) {
-          await sails.helpers.printError({title: 'productsNoAssociated', message: e.message}, this.req, this.req.employee);
+          sails.helpers.printError({title: 'productsNoAssociated', message: e.message}, this.req, this.req.employee);
           throw 'productsNoAssociated';
         }
       });

@@ -13,9 +13,25 @@ module.exports = {
 
   inputs: {
     inventories:{
-      type: 'ref',
+      type: 'json',
       required: true,
-      description: 'Id de los inventories a consolidar'
+      description: 'Id de los inventories a consolidar',
+      custom: function (inventories){
+        console.log()
+        const isArray = _.isArray(inventories)
+        const length = inventories.length>1;
+
+        if(!isArray) {
+          sails.helpers.printError({title: 'consolidateInventory', message: 'Inventories is not an array'}, 'consolidateInventory', inventories);
+        }
+        if(!length) {
+          sails.helpers.printError({title: 'consolidateInventort', message: 'Inventories must be at least 2'}, 'consolidateInventory', inventories);
+        }
+
+        console.log(isArray && length);
+
+        return isArray && length;
+      }
     },
     name: {
       type: 'string',
@@ -70,7 +86,7 @@ module.exports = {
             }).populate("products").usingConnection(db);
           // console.log('auxInventories', auxInventories);
           // console.log('inventories', inventories);
-          if(auxInventories && auxInventories.length>0) {
+          if(auxInventories && auxInventories.length>1) {
             let zones = auxInventories.map(a => a.zone);
             auxInventories = auxInventories.every(function (inventory, index) {
               totalProducts+=inventory.products.length;
@@ -107,7 +123,7 @@ module.exports = {
               total_products:totalProducts
             }).usingConnection(db).fetch();
         } catch (e) {
-          await sails.helpers.printError({title: 'inventoryConsolidatedNoCreated', message: e.message}, this.req, e);
+          sails.helpers.printError({title: 'inventoryConsolidatedNoCreated', message: e.message}, this.req, e);
           throw 'inventoryConsolidatedNoCreated';
         }
 
@@ -130,7 +146,7 @@ module.exports = {
               consolidatedIventory: inventoryConsolidated
             }}
         } catch (e) {
-          await sails.helpers.printError({title: 'inventoriesNoAssociated', message: e.message}, this.req, e);
+          sails.helpers.printError({title: 'inventoriesNoAssociated', message: e.message}, this.req, e);
           throw 'inventoriesNoAssociated';
         }
 

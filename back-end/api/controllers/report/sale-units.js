@@ -86,7 +86,7 @@ module.exports = {
       };
       return {data};
     } catch (e) {
-      await sails.helpers.printError({title: 'saleUnits', message: e.message}, this.req, this.req.employee);
+      sails.helpers.printError({title: 'saleUnits', message: e.message}, this.req, this.req.employee);
       throw e;
     }
 

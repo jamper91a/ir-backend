@@ -82,7 +82,7 @@ module.exports = {
             await Products.createEach(products).usingConnection(db).fetch();
             return {};
           } catch (e) {
-            await sails.helpers.printError({title: 'productNoCreated', message: e.message}, this.req, products);
+            sails.helpers.printError({title: 'productNoCreated', message: e.message}, this.req, products);
             throw 'productNoCreated';
           }
         });

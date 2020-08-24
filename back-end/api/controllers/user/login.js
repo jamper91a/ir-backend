@@ -33,7 +33,7 @@ module.exports = {
     const self = this;
     passport.authenticate('local', async function (err, employee, user, info) {
           if (err || !employee) {
-            await sails.helpers.printError({title: 'login', message: err}, self.req, info);
+            sails.helpers.printError({title: 'login', message: err}, self.req, info);
             return exits.noEmployee();
           }
           self.req.login(employee, {session: false}, async (err) => {
@@ -60,7 +60,7 @@ module.exports = {
                 return exits.noEmployee();
               }
             } catch (e) {
-              await sails.helpers.printError({title: 'login', message: e}, self.req, e);
+              sails.helpers.printError({title: 'login', message: e}, self.req, e);
               return self.res.serverError();
             }
           });

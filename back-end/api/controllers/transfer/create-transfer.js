@@ -73,7 +73,7 @@ module.exports = {
         try {
           newTransfer = await Transfers.create(transfer).usingConnection(db).fetch();
         } catch (e) {
-          await sails.helpers.printError({title: 'createNewTransfer', message: e.message}, this.req);
+          sails.helpers.printError({title: 'createNewTransfer', message: e.message}, this.req);
           throw e;
         }
         //Una vez creado la transferencia, le asocio los productos
@@ -89,7 +89,7 @@ module.exports = {
           if(e.raw === 'error_PZHT01') {
             throw 'productAlreadyTransferred';
           } else{
-            await sails.helpers.printError({title: 'productsFromTransfer', message: e.message}, this.req);
+            sails.helpers.printError({title: 'productsFromTransfer', message: e.message}, this.req);
             throw e;
           }
 

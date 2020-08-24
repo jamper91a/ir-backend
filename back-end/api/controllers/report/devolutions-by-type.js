@@ -104,7 +104,7 @@ module.exports = {
           .populate('epc');
         return {data: products};
       } catch (e) {
-        await sails.helpers.printError({title: 'devolutionsByType', message: e.message}, this.req, this.req.employee);
+        sails.helpers.printError({title: 'devolutionsByType', message: e.message}, this.req, this.req.employee);
         throw e;
       }
     } else {

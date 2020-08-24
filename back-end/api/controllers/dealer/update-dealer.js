@@ -66,11 +66,11 @@ module.exports = {
               await Dealers.updateOne({user: user.id}, dealer).usingConnection(db);
               return {};
             } catch (e) {
-              await sails.helpers.printError({title: 'dealerNotUpdated', message: e.message}, this.req, dealer);
+              sails.helpers.printError({title: 'dealerNotUpdated', message: e.message}, this.req, dealer);
               throw 'dealerNotUpdated';
             }
           } catch (e) {
-            await sails.helpers.printError({title: 'userNotUpdated', message: e.message}, this.req, user);
+            sails.helpers.printError({title: 'userNotUpdated', message: e.message}, this.req, user);
             throw 'userNotUpdated';
           }
         });

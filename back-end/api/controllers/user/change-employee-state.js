@@ -30,7 +30,7 @@ module.exports = {
       await Users.updateOne({username},{active});
       return {};
     } catch (e) {
-      await sails.helpers.printError({title: 'changeEmployeeState', message: e.message}, this.req, e);
+      sails.helpers.printError({title: 'changeEmployeeState', message: e.message}, this.req, e);
       throw e;
     }
 

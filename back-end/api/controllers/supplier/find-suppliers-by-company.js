@@ -35,7 +35,7 @@ module.exports = {
         const suppliers = await Suppliers.find({company: company.id});
         return {data: suppliers};
       } catch (e) {
-        await sails.helpers.printError({title: 'findSuppliers', message: e.message}, this.req);
+        sails.helpers.printError({title: 'findSuppliers', message: e.message}, this.req);
         throw e;
       }
     } else {

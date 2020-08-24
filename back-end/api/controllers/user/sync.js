@@ -171,7 +171,7 @@ module.exports = {
             page: skip - 1
           }};
     } catch (e) {
-      await sails.helpers.printError({title: 'sync', message: e.message}, this.req);
+      sails.helpers.printError({title: 'sync', message: e.message}, this.req);
       throw e;
     }
 

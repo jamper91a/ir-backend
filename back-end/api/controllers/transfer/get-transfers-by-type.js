@@ -62,7 +62,7 @@ module.exports = {
       }
       return {data: transfers};
     } catch (e) {
-      await sails.helpers.printError({title: 'getTransfersByType', message: e.message}, this.req);
+      sails.helpers.printError({title: 'getTransfersByType', message: e.message}, this.req);
       throw e;
     }
 

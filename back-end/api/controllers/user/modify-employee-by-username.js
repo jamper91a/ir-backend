@@ -75,7 +75,7 @@ module.exports = {
         await Employees.updateOne({user: userToModify.id}, employee);
         return {};
       }catch(e){
-        await sails.helpers.printError({title: 'employeeNotUpdated', message: e.message}, this.req, e);
+        sails.helpers.printError({title: 'employeeNotUpdated', message: e.message}, this.req, e);
         throw 'employeeNotUpdated';
       }
 

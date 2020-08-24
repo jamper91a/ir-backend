@@ -23,7 +23,7 @@ module.exports = {
     const self = this;
     passport.authenticate('local', async function (err, employee, user, info) {
       if (err) {
-        await sails.helpers.printError({title: 'loginWeb', message: err}, self.req, err);
+        sails.helpers.printError({title: 'loginWeb', message: err}, self.req, err);
         return self.res.serverError();
       }
       if(user === null && employee !== null){

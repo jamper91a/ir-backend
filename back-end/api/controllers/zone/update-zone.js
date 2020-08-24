@@ -34,7 +34,7 @@ module.exports = {
       await Zones.updateOne({id}).set({name});
       return {};
     } catch (e) {
-      await sails.helpers.printError({title: 'updateZone', message: e.message}, this.req);
+      sails.helpers.printError({title: 'updateZone', message: e.message}, this.req);
       return e;
     }
 

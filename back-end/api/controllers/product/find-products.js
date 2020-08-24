@@ -34,7 +34,7 @@ module.exports = {
         throw 'companyNotFound';
       }
     } catch (e) {
-      await sails.helpers.printError({title: 'find-products', message: e.message}, this.req, e);
+      sails.helpers.printError({title: 'find-products', message: e.message}, this.req, e);
       throw e;
     }
 

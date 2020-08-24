@@ -69,7 +69,7 @@ module.exports = {
           try {
             newSell = await Sells.create(sell).usingConnection(db).fetch();
           } catch (e) {
-            await sails.helpers.printError({title: 'createSell', message: e.message}, this.req);
+            sails.helpers.printError({title: 'createSell', message: e.message}, this.req);
             return e;
           }
           try {
@@ -89,7 +89,7 @@ module.exports = {
             return {data: products}
 
           } catch (e) {
-            await sails.helpers.printError({title: 'createSell', message: e.message}, this.req);
+            sails.helpers.printError({title: 'createSell', message: e.message}, this.req);
             return e;
           }
         } else {

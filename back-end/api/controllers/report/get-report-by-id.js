@@ -56,7 +56,7 @@ module.exports = {
       }
 
     } catch (e) {
-      await sails.helpers.printError({title: 'getReportsById', message: e.message}, this.req, this.req.employee);
+      sails.helpers.printError({title: 'getReportsById', message: e.message}, this.req, this.req.employee);
       throw e;
     }
 
