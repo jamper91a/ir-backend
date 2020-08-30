@@ -23,7 +23,10 @@ module.exports = {
 
 
   exits: {
-
+    productsNoFound: {
+      description: 'Some products were not found',
+      responseType: 'serverError'
+    }
   },
 
 
@@ -53,8 +56,13 @@ module.exports = {
         let productsToFind = _.map(transfer.products, function (product) {
           return product.product;
         });
-        let products = await ProductsHasZones.find({id: productsToFind}).populate('product')
+        let products = await ProductsHasZones.find({id: productsToFind})
+          .populate('product')
           .populate('epc');
+        //The products found must be the same amount that the products to find
+        if(productsToFind.length!== products.length) {
+          throw 'productsNoFound';
+        }
         for (let j = 0; j < transfer.products.length; j++) {
           //Busco la informacion de dichos elementos
           transfers[i].products[j].product = products[j];

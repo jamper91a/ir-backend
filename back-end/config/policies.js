@@ -97,10 +97,10 @@ module.exports.policies = {
   'user/login'                                                  : true,
   'user/login-web'                                              : true,
   'user/sync'                                                   : ['isAuthenticated', 'isEmployee'],
-  'user/find-employee-by-username'                              : ['isAuthenticated', 'isAdmin'],
-  'user/modify-employee-by-username'                            : ['isAuthenticated', 'isAdmin'],
-  'user/list-employees-by-company'                              : ['isAuthenticated', 'isAdmin'],
-  'user/change-employee-state'                                  : ['isAuthenticated', 'isAdmin'],
+  'user/find-employee-by-username'                              : ['isAuthenticated', 'isAdmin'],//isAdmin
+  'user/modify-employee-by-username'                            : ['isAuthenticated', 'isAdmin'],//isAdmin
+  'user/list-employees-by-company'                              : ['isAuthenticated', 'isAdmin'],//isAdmin
+  'user/change-employee-state'                                  : ['isAuthenticated', 'isAdmin'],//isAdmin
 
   'zone/create-zone'                                            : ['isAuthenticated', 'isAdmin'],
   'zone/list-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],

@@ -14,6 +14,7 @@ module.exports = {
       custom: function (user) {
         if( _.isNumber(user.group) &&
           _.contains([
+            sails.config.custom.USERS_GROUP.admin,
             sails.config.custom.USERS_GROUP.Cashier,
             sails.config.custom.USERS_GROUP.manager,
             sails.config.custom.USERS_GROUP.warehouse,
@@ -25,8 +26,7 @@ module.exports = {
 
           return _.isObject(user) &&
             _.isString(user.username) &&
-            _.isString(user.name) &&
-            _.isBoolean(user.active) && password
+            _.isString(user.name) && password
         }
         else
           return false;

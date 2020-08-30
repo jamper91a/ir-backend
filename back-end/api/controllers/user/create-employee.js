@@ -16,7 +16,7 @@ module.exports = {
           _.isString(user.username) &&
           _.isString(user.name) &&
           _.isString(user.password) && _.isString(user.rpassword) && user.password === user.rpassword &&
-          _.isNumber(user.group) && (user.group === 3 || user.group === 4 )
+          _.isNumber(user.group)
       }
     },
     employee: {

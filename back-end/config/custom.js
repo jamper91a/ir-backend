@@ -57,7 +57,7 @@ module.exports.custom = {
     OUT: 'salida'
   },
 
-  testPdf: false,
+  testPdf: true,
   testEmail: false,
   test: true
 
