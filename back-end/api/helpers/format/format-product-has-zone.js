@@ -27,41 +27,21 @@ module.exports = {
 
 
   fn: function ({data}) {
-    if(_.isNumber(data.product)) {
-      data = sails.helpers.format.formatRelation(data, 'product');
+    if( _.isNumber(data)) {
+      data = { id: data}
     } else {
-      data.product = sails.helpers.format.formatRelation(data.product, 'company');
-      // if(_.isNumber(data.product.company)) {
-      //   data.product.company= {
-      //     id: data.product.company
-      //   }
-      // }
-      data.product = sails.helpers.format.formatRelation(data.product, 'supplier');
-      // if(_.isNumber(data.product.supplier)) {
-      //   data.product.supplier= {
-      //     id: data.product.supplier
-      //   }
-      // }
+      data.product = sails.helpers.format.formatProduct(data.product);
+      data.zone = sails.helpers.format.formatZone(data.zone);
+      data.devolution = sails.helpers.format.formatDevolution(data.devolution);
+      data.sell = sails.helpers.format.formatSell(data.sell);
+      data.epc = sails.helpers.format.formatEpc(data.epc);
+      if(data.inventories) {
+        data.inventories = _.map(data.inventories, function (inventory) {
+          return sails.helpers.format.formatInventoryHasProduct(inventory);
+        });
+      }
     }
-    data = sails.helpers.format.formatRelation(data, 'zone');
-    // if(data.zone && _.isNumber(data.zone)) {
-    //   data.zone= {
-    //     id: data.zone
-    //   }
-    // }
-    data = sails.helpers.format.formatRelation(data, 'devolution');
-    // if(data.devolution && _.isNumber(data.devolution)) {
-    //   data.devolution= {
-    //     id: data.devolution
-    //   }
-    // }
-    data = sails.helpers.format.formatRelation(data, 'sell');
-    // if(data.sell && _.isNumber(data.sell)) {
-    //   data.sell= {
-    //     id: data.sell
-    //   }
-    // }
-    data = sails.helpers.format.formatRelation(data, 'epc');
+
 
     return data;
 

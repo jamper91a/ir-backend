@@ -41,22 +41,10 @@ module.exports = {
       if(consolidatedInventory && consolidatedInventory.length>0){
         consolidatedInventory = consolidatedInventory[0];
         if(consolidatedInventory.inventories){
-          for(const inventory of consolidatedInventory.inventories) {
-            for(const pz of inventory.products) {
-              if(pz.product){
-                    pz.product.company = { id: pz.product.company};
-                    pz.product.supplier = { id: pz.product.supplier};
-              }
-              if(pz.zone){
-                pz.zone.shop = { id: pz.zone.shop};
-              }
-              if(pz.epc){
-                pz.epc.company = { id: pz.epc.company};
-                pz.epc.dealer = { id: pz.epc.dealer};
-              }
-            }
-          }
+          //Format data
+          consolidatedInventory = await sails.helpers.format.responses.consolidatedInventory.lastConsolidatedInventory(consolidatedInventory);
           return {data:consolidatedInventory};
+
         }else{
           return  {data: []};
         }
