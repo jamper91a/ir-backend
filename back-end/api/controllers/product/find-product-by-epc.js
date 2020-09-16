@@ -57,7 +57,7 @@ module.exports = {
           .populate('product')
           .populate('zone')
           .populate('epc');
-        return {data: {data: product.product}}
+        return {data: product.product}
       } else {
         throw 'epcNotFound';
       }
