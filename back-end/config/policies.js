@@ -107,4 +107,6 @@ module.exports.policies = {
   'zone/find-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
   'zone/update-zone'                                            : ['isAuthenticated', 'isAdmin'],
 
+  // 'sockets/user'                                               : true
+
 };

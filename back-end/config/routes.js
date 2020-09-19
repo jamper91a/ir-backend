@@ -159,5 +159,6 @@ module.exports.routes = {
   // 'POST /zones/find' :                                                                                   'Zones.find'
 
 
+  'POST /sockets/subs': 'sockets/user',
 
 };
