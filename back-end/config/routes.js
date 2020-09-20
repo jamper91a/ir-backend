@@ -39,6 +39,7 @@ module.exports.routes = {
   'POST /epc/create':                                                                                    'epc.create-epc',
   'POST /epc/tagsByCompanyByMonth':                                                                      'epc.tags-by-company-monthly',
   'POST /epc/tagsByDealerByMonth':                                                                       'epc.tags-by-dealer-monthly',
+  'POST /epc/getEpcByCode':                                                                              'epc.get-epc-by-code',
   //Inventarios
   // 'POST /inventarios/crear':                                                                             'Inventories.create',
   // 'POST /inventarios/consolidar':                                                                        'Inventories.consolidate',

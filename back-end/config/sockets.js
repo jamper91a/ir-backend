@@ -31,6 +31,7 @@ module.exports.sockets = {
 
   onConnect: function(session, socket) {
     socket.on('getEpcByEpc', async function (data) {
+      console.log('Employee: ',this.req.employee);
       //Find the epc
       try {
         var epc = await sails.helpers.epc.findByEpc(data.epc);

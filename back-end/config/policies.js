@@ -41,6 +41,7 @@ module.exports.policies = {
   'epc/create-epc'                                              : ['isAuthenticated','isDealer'],
   'epc/tags-by-company-monthly'                                 : ['isAuthenticated','isDealer'],
   'epc/tags-by-dealer-monthly'                                  : ['isAuthenticated','isDealer'],
+  'epc/get-epc-by-code'                                         : ['isAuthenticated','isEmployee'],
 
 
   'inventory/attach-inventory'                                  : ['isAuthenticated','isEmployee'],
@@ -103,7 +104,7 @@ module.exports.policies = {
   'user/change-employee-state'                                  : ['isAuthenticated', 'isAdmin'],//isAdmin
 
   'zone/create-zone'                                            : ['isAuthenticated', 'isAdmin'],
-  'zone/list-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
+  'zone/list-zones-by-shop'                                     : ['isAuthenticated'],
   'zone/find-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
   'zone/update-zone'                                            : ['isAuthenticated', 'isAdmin'],
 
