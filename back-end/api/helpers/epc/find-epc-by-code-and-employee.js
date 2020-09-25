@@ -35,6 +35,7 @@ module.exports = {
 
   fn: async function ({epc, company}) {
     var epcToFind = await  Epcs.findOne({epc: epc, company: company});
+
     if(epcToFind) {
       return epcToFind
     } else {

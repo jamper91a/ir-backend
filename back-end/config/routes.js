@@ -90,6 +90,9 @@ module.exports.routes = {
   'POST /product/update' :                                                                               'product.update-product',
   'POST /product/create' :                                                                               'product.create-product',
   'GET  /product/find-all' :                                                                             'product.find-products',
+
+
+  'POST  /productHasZone/findByEpcCode' :                                                                 'product-has-zone.find-product-zone-by-epc-code',
   //Report
   // 'POST /reportes/diferenceBetweenInventories':                                                          'Reports.diferenceBetweenInventories',
   // 'POST /reportes/guardarReporte':                                                                       'Reports.saveReport',
