@@ -25,8 +25,8 @@ module.exports = {
 
 
   fn: async function ({data}) {
-    data = sails.helpers.format.formatRelation(data, 'zone');
-    data = sails.helpers.format.formatRelation(data, 'consolidatedInventory');
+    data.zone = sails.helpers.format.formatZone(data.zone);
+    data.consolidatedInventory = sails.helpers.format.formatConsolidatedInventory(data.consolidatedInventory);
     if(data.products) {
       data.products = await _.map(data.products, function (productHasZone) {
         return sails.helpers.format.formatProductHasZone(productHasZone);

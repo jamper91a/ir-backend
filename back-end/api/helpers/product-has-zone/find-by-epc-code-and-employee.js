@@ -39,6 +39,7 @@ module.exports = {
       var productZone = await ProductsHasZones.findOne({epc: epcToFind.id})
         .populate('product')
         .populate('sell')
+        .populate('devolution')
 
       var zone = await Zones.findOne({id: productZone.zone}).populate('shop')
       if(productZone) {

@@ -24,8 +24,17 @@ module.exports = {
 
     let theInventory;
       try {
-        theInventory = await Inventories.findOne({id: inventory})
-          .populate('products.product');
+        theInventory = await Inventories.findOne({id: inventory}).populate('zone');
+        // Find the products using the productHasZone
+        let products = await ProductsHasZones.find({id: theInventory.products})
+          .populate('product')
+          .populate('zone')
+          .populate('devolution')
+          .populate('sell')
+          .populate('epc');
+          // .populate('product');
+        //Add the products to the inventory
+        theInventory.products = products
         //Format data
         theInventory = await sails.helpers.format.responses.inventory.listProducts(theInventory);
         return {data:theInventory};

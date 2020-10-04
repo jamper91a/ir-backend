@@ -33,7 +33,7 @@ module.exports = {
       data.consolidatedInventory = sails.helpers.format.formatConsolidatedInventory(data.consolidatedInventory);
       if(data.products) {
         data.products = _.map(data.products, function (product) {
-          return sails.helpers.format.formatProductHasZone(product);
+          return sails.helpers.format.formatInventoriesHasProduct(product);
         });
       }
       if(data.employees) {

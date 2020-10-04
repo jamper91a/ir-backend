@@ -9,7 +9,7 @@ module.exports = {
 
   inputs: {
     data: {
-      type: 'json'
+      type: 'json',
     }
   },
 
