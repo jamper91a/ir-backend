@@ -28,9 +28,10 @@ module.exports = {
       try {
         let zonesHasProducts=[];
         let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory})
-          .populate('products.product.company&supplier');
+          .populate('products.zone&epc&sell&devolution&product.company&supplier');
 
         for(const inventory of inventories) {
+          //Find the products
           for(const product of inventory.products) {
             zonesHasProducts.push(product);
           }

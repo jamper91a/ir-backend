@@ -71,11 +71,15 @@ module.exports = {
           sails.helpers.printError({title: 'differenceBetweenInventories'},this.req, e);
           throw e;
         }
-        return {data:notFoundProducts};
+
       }
     );
-
-    return {data:notFoundProducts};
+    try {
+      notFoundProducts = await sails.helpers.format.responses.report.differenceBetweenInventories(notFoundProducts);
+    } catch (e) {
+      return e
+    }
+    return {data: notFoundProducts};
 
   }
 
