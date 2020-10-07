@@ -58,7 +58,7 @@ module.exports = {
           where: {
             id: productsId,
             sell: {
-              '>': 0
+              '>': 1
             }
           }
         }).usingConnection(db);

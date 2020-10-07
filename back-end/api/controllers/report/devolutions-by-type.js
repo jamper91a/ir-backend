@@ -92,7 +92,7 @@ module.exports = {
           where: {
             or: [
               //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
-              {or: [{wasTransfered: null}, {wasTransfered: 0}], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate}},
+              {or: [{wasTransfered: null}, {wasTransfered: 0}], zone: zones, updatedAt: {'>=': firstDate, '<=': secondDate}},
               //Search all the products that were transfer and belongs to the loca and the updated date is in the range
               {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate}},
             ],

@@ -56,12 +56,14 @@ module.exports = {
             {
               or:[
                 {wasTransfered: null}, {wasTransfered:0}
-              ], zone: zones, createdAt: {'>=': firstDate, '<=': secondDate }},
+              ], zone: zones, updatedAt: {'>=': firstDate, '<=': secondDate }},
             //Search all the products that were transfer and belongs to the local and the updated date is in the range
             {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate }},
           ]
         }
-      });
+      }).populate('zone')
+        .populate('product')
+        .populate('epc');
 
 
       let saleUnits = [];

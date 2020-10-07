@@ -63,8 +63,8 @@ module.exports.policies = {
 
 
   'product-has-zone/add-commodity'                              : ['isAuthenticated'],
-  'product-has-zone/find-products-in-local-by-id'               : ['isAuthenticated', 'isEmployee'],
-  'product-has-zone/find-products-in-local-by-epc'              : ['isAuthenticated', 'isEmployee'],
+  'product-has-zone/find-products-in-local-by-id'               : ['isAuthenticated'], //Policies in the controller
+  'product-has-zone/find-products-in-local-by-epc'              : ['isAuthenticated'], //Policies in the controller
   'product-has-zone/find-product-zone-by-epc-code'              : ['isAuthenticated', 'isEmployee'],
 
   'report/difference-between-inventories'                       : ['isAuthenticated'],

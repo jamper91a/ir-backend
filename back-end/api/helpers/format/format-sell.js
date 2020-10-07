@@ -10,7 +10,7 @@ module.exports = {
   inputs: {
     data: {
       type: 'json',
-      required: true
+      required: false
     }
   },
 
@@ -26,12 +26,17 @@ module.exports = {
   sync: true,
 
   fn: function ({data}) {
-    if( _.isNumber(data)) {
-      data = { id: data}
-    } else {
-      data.user = sails.helpers.format.formatUser(data.user);
+    if(data) {
+      if( _.isNumber(data)) {
+        data = { id: data}
+      } else {
+        data.user = sails.helpers.format.formatUser(data.user);
+      }
+      return data;
+    } else{
+      return null
     }
-    return data;
+
 
 
 

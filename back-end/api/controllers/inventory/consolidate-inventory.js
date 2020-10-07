@@ -17,7 +17,6 @@ module.exports = {
       required: true,
       description: 'Id de los inventories a consolidar',
       custom: function (inventories){
-        console.log()
         const isArray = _.isArray(inventories)
         const length = inventories.length>1;
 
@@ -27,8 +26,6 @@ module.exports = {
         if(!length) {
           sails.helpers.printError({title: 'consolidateInventort', message: 'Inventories must be at least 2'}, 'consolidateInventory', inventories);
         }
-
-        console.log(isArray && length);
 
         return isArray && length;
       }

@@ -15,8 +15,7 @@ module.exports = {
         return _.isObject(transfer) &&
           _.isNumber(transfer.shopSource) && transfer.shopSource > 0 &&
           _.isNumber(transfer.shopDestination) && transfer.shopDestination > 0 &&
-          transfer.shopSource !== transfer.shopDestination &&
-          _.isString(transfer.message)
+          transfer.shopSource !== transfer.shopDestination
       }
     },
     products: {
@@ -27,7 +26,7 @@ module.exports = {
         const allObjects = _.every(products, function (product) {
           return _.isObject(product) &&
             _.isNumber(product.product) && product.product>0 &&
-            _.isNumber(product.state)
+            _.isBoolean(product.state)
 
         });
 

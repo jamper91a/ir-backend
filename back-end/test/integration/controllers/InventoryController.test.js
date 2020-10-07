@@ -32,7 +32,7 @@ describe('InventoryController', function() {
           inventory: {
             parcial: true,
             collaborative: true,
-            zone: 2,
+            zone: 1,
             consolidatedInventory: 1
           }
         })
@@ -43,6 +43,47 @@ describe('InventoryController', function() {
             return done(err);
           }
            try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
+        });
+
+    });
+    it('Employee should create inventory', function (done) {
+      //Try to create the inventory
+      request
+        .post('/inventory/create')
+        .send({
+          products: [
+            {
+              zone: '2',
+              product: '1',
+              epc: '2'
+            }
+          ],
+          inventory: {
+            parcial: true,
+            collaborative: true,
+            zone: 2,
+            consolidatedInventory: 1
+          }
+        })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            return done(err);
+          }
+          try{
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {
@@ -234,7 +275,7 @@ describe('InventoryController', function() {
       request
         .post('/inventory/consolidate')
         .send({
-          inventories: [1],
+          inventories: [1,2],
           name: 'New Consolidated'
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
@@ -263,7 +304,7 @@ describe('InventoryController', function() {
       request
         .post('/inventory/consolidate')
         .send({
-          inventories: [1],
+          inventories: [1, 2],
           name: 'New Consolidated'
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
@@ -280,7 +321,7 @@ describe('InventoryController', function() {
       request
         .post('/inventory/consolidate')
         .send({
-          inventories: [6],
+          inventories: [6, 1],
           name: 'New Consolidated'
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})

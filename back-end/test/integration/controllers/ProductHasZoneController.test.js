@@ -217,22 +217,6 @@ describe('ProductHasZoneController', function() {
           done();
         });
     });
-    it('Should not allow employee to find a product', function (done) {
-      request
-        .post('/product/find-products-in-local-by-id')
-        .send({
-          product: 1
-        })
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
-        .expect(403)
-        .end(function (err, res) {
-          if (err) {
-            sails.helpers.printTestError(err, res);
-            return done(err);
-          }
-          done();
-        });
-    });
     it('Should allow admin to find a product', function (done) {
       request
         .post('/product/find-products-in-local-by-id')
@@ -295,22 +279,6 @@ describe('ProductHasZoneController', function() {
         .send()
         .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
         .expect(400)
-        .end(function (err, res) {
-          if (err) {
-            sails.helpers.printTestError(err, res);
-            return done(err);
-          }
-          done();
-        });
-    });
-    it('Should not allow employee to find a product', function (done) {
-      request
-        .post('/product/find-products-in-local-by-epc')
-        .send({
-          epc: 333
-        })
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
-        .expect(403)
         .end(function (err, res) {
           if (err) {
             sails.helpers.printTestError(err, res);

@@ -3,11 +3,11 @@ request = request('http://localhost:1337');
 describe('ZoneController', function() {
   describe('#List zones by shop', function() {
     const url='/zone/list-zones-by-shop';
-    it('Should not allow no admin users', function (done) {
+    it('Should allow employee users', function (done) {
       request
         .get(url)
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
-        .expect(403)
+        .expect(200)
         .end(function (err, res) {
           if (err) {
             sails.helpers.printTestError(err, res);

@@ -82,7 +82,7 @@ module.exports = {
     onlyAllowOrigins: []
   },
   custom:{
-    testPdf: true,
+    testPdf: false,
     test: false
   }
 };
