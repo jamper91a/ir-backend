@@ -27,16 +27,28 @@ module.exports = {
   fn: async function ({consolidatedInventory}) {
       try {
         let zonesHasProducts=[];
+        // //We search the inventories
+        // let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory});
+        // //We search for the products that belongs to those inventories
+        // var inventoryProducts = await InventoriesHasProducts.find({inventory: inventories});
+        // inventoryProducts = inventoryProducts.map(a => a.product);
+        // let products = await ProductsHasZone.find({inventoryProducts})
+        //   .populate('product.company&supplier')
+
         let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory})
           .populate('products.zone&epc&sell&devolution&product.company&supplier');
 
         for(const inventory of inventories) {
           //Find the products
           for(const product of inventory.products) {
-            zonesHasProducts.push(product);
+            zonesHasProducts.push(sails.helpers.format.formatProductHasZone(product));
           }
         }
         let consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
+        // zonesHasProducts = _.map(data.inventories, function (inventory) {
+        //   return sails.helpers.format.formatProductHasZone(zonesHasProducts);
+        // });
+        // zonesHasProducts = await
         return {
           data: {
             products: zonesHasProducts,

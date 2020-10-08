@@ -1,5 +1,4 @@
 
-
 -- -----------------------------------------------------
 -- Data for table `inventarioRealTest`.`users`
 -- -----------------------------------------------------
@@ -19,33 +18,24 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `inventarioRealTest`;
-INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`) VALUES (1, 'SuperAdministrador', '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`) VALUES (2, 'Administrador Empresa', '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`) VALUES (3, 'Cajero', '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`) VALUES (4, 'Bodega', '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`) VALUES (5, 'Distribuidor', '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`) VALUES (6, 'Administrador Local', '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`) VALUES (DEFAULT, NULL, NULL, NULL);
+INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`, `comment`) VALUES (1, 'SuperAdministrador', '2018-08-10', '2018-08-10', 'Super admin of the system');
+INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`, `comment`) VALUES (2, 'Administrador Empresa', '2018-08-10', '2018-08-10', 'User of the web, admin of the system');
+INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`, `comment`) VALUES (3, 'Cajero', '2018-08-10', '2018-08-10', 'User of the app');
+INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`, `comment`) VALUES (4, 'Bodega', '2018-08-10', '2018-08-10', 'User of the app');
+INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`, `comment`) VALUES (5, 'Distribuidor', '2018-08-10', '2018-08-10', 'User of the web, dealer');
+INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`, `comment`) VALUES (6, 'Administrador Local', '2018-08-10', '2018-08-10', 'User of the web, manager of a company');
+INSERT INTO `inventarioRealTest`.`groups` (`id`, `name`, `createdAt`, `updatedAt`, `comment`) VALUES (DEFAULT, NULL, NULL, NULL, NULL);
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `inventarioRealTest`.`dealers`
+-- Data for table `inventarioRealTest`.`products`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `inventarioRealTest`;
-INSERT INTO `inventarioRealTest`.`dealers` (`id`, `name`, `user_id`, `createdAt`, `updatedAt`) VALUES (1, 'Inventario Real', 4, '2019-11-11', '2019-11-11');
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `inventarioRealTest`.`companies`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `inventarioRealTest`;
-INSERT INTO `inventarioRealTest`.`companies` (`id`, `name`, `photo`, `dealer_id`, `user_id`, `createdAt`, `updatedAt`) VALUES (1, 'Inventario Real', NULL, 1, 2, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`products` (`id`, `ean`, `plu`, `plu2`, `plu3`, `branch`, `gender`, `color`, `size`, `category`, `description`, `amount`, `imagen`, `cost_price`, `sell_price`, `company_id`, `supplier_id`, `createdAt`, `updatedAt`) VALUES (1, '11111', 'p11111', 'p211111', 'p311111', 'Arturo Calle', 'M', 'Negro', 'S', 'Camisas', 'Camisa hombre', 10, NULL, 150000, 160000, 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`products` (`id`, `ean`, `plu`, `plu2`, `plu3`, `branch`, `gender`, `color`, `size`, `category`, `description`, `amount`, `imagen`, `cost_price`, `sell_price`, `company_id`, `supplier_id`, `createdAt`, `updatedAt`) VALUES (2, '11112', 'p11112', 'p211112', 'p311112', 'Arturo Calle', 'F', 'Rosa', 'S', 'Camisas', 'Camisa mujer', 10, NULL, 10000, 16000, 1, 1, '2018-08-10', '2018-08-10');
 
 COMMIT;
 
@@ -61,17 +51,6 @@ INSERT INTO `inventarioRealTest`.`suppliers` (`id`, `name`, `company_id`, `creat
 INSERT INTO `inventarioRealTest`.`suppliers` (`id`, `name`, `company_id`, `createdAt`, `updatedAt`) VALUES (9, 'Arturo Calle', 1, '2018-10-24', '2018-10-24');
 INSERT INTO `inventarioRealTest`.`suppliers` (`id`, `name`, `company_id`, `createdAt`, `updatedAt`) VALUES (10, 'Pat Primo', 1, '2018-10-24', '2018-10-24');
 INSERT INTO `inventarioRealTest`.`suppliers` (`id`, `name`, `company_id`, `createdAt`, `updatedAt`) VALUES (11, 'Meo Nostra', 1, '2018-10-24', '2018-10-24');
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `inventarioRealTest`.`products`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `inventarioRealTest`;
-INSERT INTO `inventarioRealTest`.`products` (`id`, `ean`, `plu`, `plu2`, `plu3`, `branch`, `gender`, `color`, `size`, `category`, `description`, `amount`, `imagen`, `cost_price`, `sell_price`, `company_id`, `supplier_id`, `createdAt`, `updatedAt`) VALUES (1, '11111', 'p11111', 'p211111', 'p311111', 'Arturo Calle', 'M', 'Negro', 'S', 'Camisas', 'Camisa hombre', 10, NULL, 150000, 160000, 1, 1, '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`products` (`id`, `ean`, `plu`, `plu2`, `plu3`, `branch`, `gender`, `color`, `size`, `category`, `description`, `amount`, `imagen`, `cost_price`, `sell_price`, `company_id`, `supplier_id`, `createdAt`, `updatedAt`) VALUES (2, '11112', 'p11112', 'p211112', 'p311112', 'Arturo Calle', 'F', 'Rosa', 'S', 'Camisas', 'Camisa mujer', 10, NULL, 10000, 16000, 1, 1, '2018-08-10', '2018-08-10');
 
 COMMIT;
 
@@ -116,20 +95,6 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `inventarioRealTest`.`epcs`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `inventarioRealTest`;
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (1, 1, '0036', 1, 1, '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (2, 1, 'E20053828213013412009C3E', 1, 1, '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (3, 1, 'E20053828213010711909BD1', 1, 1, '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (4, 1, 'E20053828213027012009E5E', 1, 1, '2018-08-10', '2018-08-10');
-INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (5, 0, 'E20053828213011911909C01', 1, 1, '2018-08-10', '2018-08-10');
-
-COMMIT;
-
-
--- -----------------------------------------------------
 -- Data for table `inventarioRealTest`.`products_has_zones`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -138,6 +103,16 @@ INSERT INTO `inventarioRealTest`.`products_has_zones` (`id`, `admission_date`, `
 INSERT INTO `inventarioRealTest`.`products_has_zones` (`id`, `admission_date`, `transfer_date`, `sell_date`, `notes_return`, `logs_users`, `wasTransfered`, `product_id`, `zone_id`, `devolution_id`, `sell_id`, `epc_id`, `createdAt`, `updatedAt`) VALUES (2, '2018-10-27 00:00:00', NULL, NULL, NULL, NULL, NULL, 2, 1, NULL, NULL, 2, '2018-10-27', '2018-10-27');
 INSERT INTO `inventarioRealTest`.`products_has_zones` (`id`, `admission_date`, `transfer_date`, `sell_date`, `notes_return`, `logs_users`, `wasTransfered`, `product_id`, `zone_id`, `devolution_id`, `sell_id`, `epc_id`, `createdAt`, `updatedAt`) VALUES (3, '2018-10-27 00:00:00', NULL, NULL, NULL, NULL, NULL, 1, 2, NULL, NULL, 3, '2018-10-27', '2018-10-27');
 INSERT INTO `inventarioRealTest`.`products_has_zones` (`id`, `admission_date`, `transfer_date`, `sell_date`, `notes_return`, `logs_users`, `wasTransfered`, `product_id`, `zone_id`, `devolution_id`, `sell_id`, `epc_id`, `createdAt`, `updatedAt`) VALUES (4, '2018-10-27 00:00:00', NULL, NULL, NULL, NULL, NULL, 2, 2, NULL, NULL, 4, '2018-10-27', '2018-10-27');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `inventarioRealTest`.`companies`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `inventarioRealTest`;
+INSERT INTO `inventarioRealTest`.`companies` (`id`, `name`, `photo`, `dealer_id`, `user_id`, `createdAt`, `updatedAt`) VALUES (1, 'Inventario Real', NULL, 1, 2, '2018-08-10', '2018-08-10');
 
 COMMIT;
 
@@ -156,6 +131,30 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `inventarioRealTest`.`epcs`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `inventarioRealTest`;
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (1, 1, '0036', 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (2, 1, 'E20053828213013412009C3E', 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (3, 1, 'E20053828213010711909BD1', 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (4, 1, 'E20053828213027012009E5E', 1, 1, '2018-08-10', '2018-08-10');
+INSERT INTO `inventarioRealTest`.`epcs` (`id`, `state`, `epc`, `company_id`, `dealer_id`, `createdAt`, `updatedAt`) VALUES (5, 0, 'E20053828213011911909C01', 1, 1, '2018-08-10', '2018-08-10');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `inventarioRealTest`.`sells`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `inventarioRealTest`;
+INSERT INTO `inventarioRealTest`.`sells` (`id`, `user_id`, `createdAt`, `updatedAt`) VALUES (1, 1, '2020-10-08', '2020-10-08');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `inventarioRealTest`.`employees`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -166,6 +165,7 @@ INSERT INTO `inventarioRealTest`.`employees` (`id`, `company_id`, `user_id`, `sh
 
 COMMIT;
 
+
 -- -----------------------------------------------------
 -- Data for table `inventarioRealTest`.`consolidated_inventories`
 -- -----------------------------------------------------
@@ -174,3 +174,14 @@ USE `inventarioRealTest`;
 INSERT INTO `inventarioRealTest`.`consolidated_inventories` (`id`, `name`, `employee_id`, `total_products`, `createdAt`, `updatedAt`) VALUES (1, 'No consolidated', 1, 0, '2020-06-22', '2020-06-22');
 
 COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `inventarioRealTest`.`dealers`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `inventarioRealTest`;
+INSERT INTO `inventarioRealTest`.`dealers` (`id`, `name`, `user_id`, `createdAt`, `updatedAt`) VALUES (1, 'Inventario Real', 4, '2019-11-11', '2019-11-11');
+
+COMMIT;
+

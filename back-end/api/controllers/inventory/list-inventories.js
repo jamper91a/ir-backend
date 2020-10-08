@@ -5,7 +5,7 @@ module.exports = {
 
 
   description: `
-    Esta funcion se encargara de listar los inventories creados y no consolidados, con el fin de seleccionar inventories
+    Esta funcion se encargara de listar los inventories creados y no consolidados, con el fin de seleccionar inventorarios
     para consolidar.
      * 1-> Busco los usuario que pertenecen a una compania
      * 2-> Busco los inventories creados por esos usuarios
@@ -50,15 +50,25 @@ module.exports = {
               (type === 'consolidado' ? {'>': 1} : type === "no_consolidado" ? 1 : {'>=':1 }),
             collaborative: collaborative
           }
-        });
+        })
       //Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
       inventories = employees.map(a => a.inventories);
       var auxInv = [];
+      //Variable para almacenar las zona y agregarselas a los inventarios, pues es requerido por la app
+      var zonesToFind = [];
       //Unir los inventario en una var
       for(var inventory of inventories){
         for(var aux of inventory){
           auxInv.push(aux);
+          zonesToFind.push(aux.zone);
         }
+      }
+      //Busco las zonas
+      var auxZones = await Zones.find({id: zonesToFind}).populate('shop');
+      for(var inventory of auxInv){
+        inventory.zone = _.find(auxZones, function (zone) {
+          return zone.id === inventory.zone
+        });
       }
       return {data: auxInv}
     } catch (e) {

@@ -97,7 +97,7 @@ describe('TransferController', function() {
             message: 'New message'
           },
           products: [
-            {product: 1, state: 0}
+            {product: 1, state: false}
           ]
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})

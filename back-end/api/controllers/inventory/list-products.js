@@ -24,9 +24,14 @@ module.exports = {
 
     let theInventory;
       try {
-        theInventory = await Inventories.findOne({id: inventory}).populate('zone');
+        theInventory = await Inventories.findOne({id: inventory})
+          .populate('zone')
+          .populate('products');
+        //Create list of products to find
+        var productsToFind = theInventory.products.map(a => a.id);
+
         // Find the products using the productHasZone
-        let products = await ProductsHasZones.find({id: theInventory.products})
+        let products = await ProductsHasZones.find({id: productsToFind})
           .populate('product')
           .populate('zone')
           .populate('devolution')
