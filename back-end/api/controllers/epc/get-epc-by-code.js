@@ -21,6 +21,7 @@ module.exports = {
 
   fn: async function ({epc}) {
     try {
+
       return sails.helpers.epc.findEpcByCodeAndEmployee(epc, this.req.employee.company.id);
     } catch (e) {
       return e;

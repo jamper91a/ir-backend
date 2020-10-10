@@ -17,16 +17,21 @@ module.exports = {
 
 
   exits: {
+    epcNotFound: {
+      description: 'Epc not found',
+      responseType: 'badRequest'
+    },
   },
 
 
   fn: async function ({epc}) {
     try {
-      return sails.helpers.productHasZone.findByEpcCodeAndEmployee(epc, this.req.employee.company.id);
+      console.log('Searching: '+epc);
+      return await sails.helpers.productHasZone.findByEpcCodeAndEmployee(epc, this.req.employee.company.id);
     } catch (e) {
+      console.log('Epc not found: ' + epc);
       return e;
     }
-
   }
 
 

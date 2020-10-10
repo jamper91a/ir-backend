@@ -29,7 +29,12 @@ module.exports = {
       ],
       this.req.user.group)
     ) {
-      const company = await Companies.findOne({user: this.req.employee.user.id});
+      var company;
+      if(this.req.user.group === sails.config.custom.USERS_GROUP.admin) {
+        company = await Companies.findOne({user: this.req.employee.user.id});
+      } else {
+        company = await Companies.findOne({id: this.req.employee.company.id});
+      }
       try {
         const shops = await Shops.find({company: company.id});
         return {data: shops};

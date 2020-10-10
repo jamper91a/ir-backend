@@ -108,6 +108,32 @@ describe('ShopController', function() {
           }
         });
     });
+    it('Should allow employee', function (done) {
+      request
+        .get(url)
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+
+          try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
+        });
+    });
     it('Should not allow sAdmin', function (done) {
       request
         .get(url)

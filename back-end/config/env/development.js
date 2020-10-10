@@ -23,8 +23,8 @@ module.exports = {
   datastores: {
     default: {
         adapter: 'sails-mysql',
-        url: 'mysql://root:jamper91@localhost:3306/inventarioRealTest',
-        // url: 'mysql://root:jamper91@localhost:3306/inventarioRealEn',
+        // url: 'mysql://root:jamper91@localhost:3306/inventarioRealTest',
+        url: 'mysql://root:jamper91@localhost:3306/inventarioRealEn',
       timezone: 'utc-5',
       multipleStatements: true
     },
@@ -53,8 +53,13 @@ module.exports = {
   },
   custom: {
     tokens: {
-      // employee: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJjYWplcm9AaXIuY29tIiwiY29tcGFueV9pZCI6MSwic2hvcF9pZCI6MSwiaWF0IjoxNTkxNDk2MjU1fQ.GS8H1dWtz1PhreNR6v-vyRcUSm3TJldWgkdVBhDsyro',
-      // dealer: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE1OTE0OTgzMTl9.-cc10pNEFx4sGciFIUbV9mwXtvwgcrE8kMFvGLgreC8'
+      employee: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJjYWplcm9AaXIuY29tIiwiY29tcGFueV9pZCI6MSwic2hvcF9pZCI6MSwiaWF0IjoxNTkxNDk2MjU1fQ.GS8H1dWtz1PhreNR6v-vyRcUSm3TJldWgkdVBhDsyro',
+      dealer: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE1OTE4NjE0Mzl9.DUudqLu-5X-nyAvlGBKBftWyur6KNhLUv7GgmFnevPA',
+      manager: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1OTE4NTgzOTR9.qKHSdyi_CuidaOKkwpjDto3EQkmUGP_UP46b5vWCdpM',
+      cashier: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MiwidXNlcl9pZCI6MywidXNlcm5hbWUiOiJjYWplcm9AaXIuY29tIiwiY29tcGFueV9pZCI6MSwic2hvcF9pZCI6MSwiaWF0IjoxNTk3ODg4MDUwfQ.ErGc_aZJnvgBCoD0Poex2xcmSHtlnqnVvmhxL3_aqVg',
+      admin: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE1OTE4NTgzOTR9.qKHSdyi_CuidaOKkwpjDto3EQkmUGP_UP46b5vWCdpM',
+      admin2: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJpYXQiOjE1OTc4MTMwNDR9.gKyxzUbvPUpaxgc3IfwW5-wRaaSqc7_p-ao1nedRys4',
+      sAdmin: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTIwODk2MTB9.ivZftEIfTNos5b-a3tJW0s-yUt0jV6uDY4hR01aI2cI'
     },
     testPdf: false,
     testEmail: false,

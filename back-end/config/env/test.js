@@ -23,7 +23,7 @@ module.exports = {
   datastores: {
     default: {
         adapter: 'sails-mysql',
-        url: 'mysql://inventarioReal:gjwQbdRD4ktt@localhost:3306/inventarioRealTest',
+      url: 'mysql://root:jamper91@localhost:3306/inventarioRealTest',
       timezone: 'utc-5',
       multipleStatements: true
     },

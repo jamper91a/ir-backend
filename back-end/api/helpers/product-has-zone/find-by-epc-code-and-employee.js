@@ -26,6 +26,9 @@ module.exports = {
     success: {
       outputFriendlyName: 'By epc',
     },
+    epcNotFound: {
+      description: 'Epc no found'
+    },
 
   },
 
