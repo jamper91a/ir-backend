@@ -49,7 +49,6 @@ module.exports = {
     } catch (error) {
 
     }
-
     try {
       if (!req.body.user.username || !req.body.user.password || !req.body.dealer.name) {
         let things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};

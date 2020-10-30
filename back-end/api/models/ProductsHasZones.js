@@ -135,27 +135,32 @@ module.exports = {
   },
   beforeUpdate: async function (valuesToSet, proceed) {
     //region Sells validation
+    /**
+     * TODO Implement this logic in the database because it would not work here if I do not send the id
+     */
+
     //If the sell is going to be updated, the product could not have been sold
-    if(valuesToSet.sell>1){
-      try {
-        let product = await ProductsHasZones.findOne({
-          id: valuesToSet.id
-        });
-        if (product && product.sell > 1) {
-          let err = new Error('error_SELL01');
-          err.bd = true;
-          err.propio = true;
-          err.number = 'error_SELL01';
-          return proceed(err);
-        }
-      } catch (e) {
-        let err = new Error('error_SELL02');
-        err.bd = true;
-        err.propio = true;
-        err.number = 'error_SELL02';
-        return proceed(err);
-      }
-    }
+    // if(valuesToSet.sell>1){
+    //   try {
+    //     let product = await ProductsHasZones.findOne({
+    //       id: valuesToSet.id
+    //     });
+    //     if (product && product.sell > 1) {
+    //       let err = new Error('error_SELL01');
+    //       err.bd = true;
+    //       err.propio = true;
+    //       err.number = 'error_SELL01';
+    //       return proceed(err);
+    //     }
+    //   } catch (e) {
+    //     console.log(e);
+    //     let err = new Error('error_SELL02');
+    //     err.bd = true;
+    //     err.propio = true;
+    //     err.number = 'error_SELL02';
+    //     return proceed(err);
+    //   }
+    // }
 
     //endregion
     //region Devolution validation

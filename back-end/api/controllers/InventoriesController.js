@@ -288,12 +288,19 @@ module.exports = {
    * @param inventario_id: consolidado inventories consolidado (inventories_consilidados_id>0)
    */
   listProducts: async function (req, res) {
+    console.time('listProducts');
     let inventoryToList, inventory,things;
     inventoryToList= req.body.inventory;
     if(inventoryToList){
       try {
+        console.log('QUERY');
         inventory = await Inventories.findOne({id: inventoryToList})
           .populate('products');
+        console.log('QUERY');
+        // initialProducts = inventory.products;
+        // for(var i=0; i<100;i++){
+        //   inventory.products = inventory.products.concat(initialProducts);
+        // }
         async.each(inventory.products, async function(product, cb){
           let aux_product = await Products.findOne({id:product.product});
           if(aux_product)
@@ -305,6 +312,7 @@ module.exports = {
             things.error=error;
           }
           things.data = inventory;
+          console.timeEnd('listProducts');
           return res.generalAnswer(things);
         });
 

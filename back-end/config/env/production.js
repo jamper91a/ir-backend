@@ -79,6 +79,12 @@ module.exports = {
   },
 
   sockets: {
-    onlyAllowOrigins: []
+    onlyAllowOrigins: [],
+    adapter: '@sailshq/socket.io-redis',
+    url: 'redis://:@localhost:6379/',
+  },
+  custom:{
+    testPdf: false,
+    test: false
   }
 };
