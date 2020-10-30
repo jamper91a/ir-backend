@@ -21,7 +21,7 @@
     "pdf-generator-api": "^1.1.0",
     "push.js": "^1.0.9",
     "randomstring": "^1.1.5",
-    "sails": "^1.2.3",
+    "sails": "^1.4.0",
     "sails-hook-deep-orm": "^1.0.2",
     "sails-hook-email": "^0.12.1",
     "sails-hook-grunt": "^3.0.2",
