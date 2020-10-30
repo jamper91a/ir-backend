@@ -24,7 +24,7 @@ Versión final del sistema.
 + npm install supertest --save-dev
 + npm install passport-jwt
 + npm install sails-service-cipher
-+ npm i Atlantis-Software/waterline#deepPopulate
++ npm i Atlantis-Software/waterline#deepPopulate (https://github.com/emahuni/sails-hook-deep-orm)
 
 #Base de datos
 sails-inverse-model -u root -p 'gjwQbdRD4ktt' -d inventarioReal -m -c
@@ -32,4 +32,6 @@ sails-inverse-model -u root -p 'gjwQbdRD4ktt' -d inventarioReal -m -c
 #Docker
 Connect terminal docker exec -ti 8b15d2843835680f3a84f3e10cbeda39afc50ce45853fd9b83684054df2e105b bash
 
+#Query logs
+DEBUG=query sails lift
 

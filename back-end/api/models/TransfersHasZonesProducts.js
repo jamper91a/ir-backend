@@ -45,7 +45,7 @@ module.exports = {
 
     TransfersHasZonesProducts.findOne({
       product: valuesToSet.product,
-      state: 0
+      state: false
     })
       .then(function (transferHasZonesProduct) {
         //No puede existir el mismo producto en transferencia a la vez

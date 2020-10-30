@@ -27,7 +27,21 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-  // transports: [ 'websocket' ],
+  transports: [ 'websocket' ],
+
+  // onConnect: function(session, socket) {
+  //   socket.on('getEpcByEpc', async function (data) {
+  //     console.log('Employee: ',this.req.employee);
+  //     //Find the epc
+  //     try {
+  //       var epc = await sails.helpers.epc.findByEpc(data.epc);
+  //       //Reply to the user
+  //       await sails.helpers.socket.send('user-'+data.userId, 'getEpcByEpc', epc);
+  //     } catch (e) {
+  //       console.log('Epc no found');
+  //     }
+  //   });
+  // },
 
 
   /***************************************************************************
@@ -44,6 +58,7 @@ module.exports.sockets = {
 
   // beforeConnect: function(handshake, proceed) {
   //
+  //   console.log('Client trying to connect');
   //   // `true` allows the socket to connect.
   //   // (`false` would reject the connection)
   //   return proceed(undefined, true);

@@ -137,6 +137,8 @@ module.exports = {
         else
           auxEmployee = req.employee;
 
+        console.log('auxEmployee', auxEmployee);
+
         //Find all zones of the company of the empleado
         let zones = await Zones.find({
           where: {
@@ -150,7 +152,10 @@ module.exports = {
           where: {
             product: req.body.product,
             zone: zones,
-            sell: {'<': 2}
+            or:[
+              {sell: {'<': 2}},
+              {sell: null}
+            ]
           }
         })
           .populate('product')

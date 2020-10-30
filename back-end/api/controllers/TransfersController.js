@@ -128,7 +128,7 @@ module.exports = {
    * de manifiesto a buscar (de entrada o de salida)
    */
   listTransfersByType: async function (req, res) {
-
+    console.time('listTransfersByType');
     if(!req.body.shopSource || !req.body.type){
       let things={code: 'error_G01', data:[], propio:true, bd:false, error:null};
       return res.generalAnswer(things);
@@ -146,24 +146,30 @@ module.exports = {
         .populate('shopSource')
         .populate('employee')
         .populate('shopDestination');
+      let max = 0;
 
-      //Lleno la informacion de cada produco_zona_has_transferencias
-      for (let i = 0; i < transfers.length; i++) {
-        let transfer = transfers[i];
-        //Busco la informacion del usuario generador de la transferencia
-        let user = await Users.findOne({id: transfer.employee.user});
-        transfer.employee.user = user;
-        for (let j = 0; j < transfer.products.length; j++) {
-          let product = transfer.products[j];
-          let productZone = product.product;
-          //Busco la informacion de dichos elementos
-          transfers[i].products[j].product = await ProductsHasZones.findOne({id: productZone})
-            .populate('product')
-            .populate('epc');
+      do{
+        max++;
+        //Lleno la informacion de cada produco_zona_has_transferencias
+        for (let i = 0; i < transfers.length; i++) {
+          let transfer = transfers[i];
+          //Busco la informacion del usuario generador de la transferencia
+          let user = await Users.findOne({id: transfer.employee.user});
+          // transfer.employee.user = user;
+          for (let j = 0; j < transfer.products.length; j++) {
+            let product = transfer.products[j];
+            let productZone = product.product;
+            //Busco la informacion de dichos elementos
+            let auxproduct= await ProductsHasZones.findOne({id: productZone})
+              .populate('product')
+              .populate('epc');
+            // transfers[i].products[j].product = auxproduct;
+          }
         }
-      }
-      things = {code: 'Ok', data: transfers};
+      }while (max <= 1000);
 
+      things = {code: 'Ok', data: transfers};
+      console.timeEnd('listTransfersByType');
       return res.generalAnswer(things);
     } catch (err) {
       things = {error: err};

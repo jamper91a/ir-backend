@@ -382,9 +382,9 @@ module.exports = {
     }
 
   },
+
   findEmployeeByUsername: async function (req, res){
     let things={};
-    sails.log.info('findEmployeeByUsername');
     const user = await Users.findOne({
       where:{
         username: req.body.username

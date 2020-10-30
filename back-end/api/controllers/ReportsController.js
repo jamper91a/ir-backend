@@ -148,6 +148,7 @@ module.exports = {
   },
 
   getReportById: async function(req, res){
+    console.time('getReportById');
     let things;
     if (!req.body.id) {
       things = {code: 'error_G01', req: req, res: res, data: [], error: new Error("error_G01")};
@@ -190,6 +191,7 @@ module.exports = {
       }else{
         things = {code: 'error_G06', req: req, res: res, data: [], error: new Error("error_G06")};
       }
+      console.timeEnd('getReportById');
       return res.generalAnswer(things);
     } catch (e) {
       things = {code: err.number, data: [], error: err, propio: err.propio, bd: err.bd};

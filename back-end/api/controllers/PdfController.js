@@ -53,7 +53,7 @@ module.exports = {
               req,
               req.body.to,
               'Inventario Real '+ jsonData.title,
-              'Report generate',
+              'Report generated',
               '<b> '+ jsonData.title +'</b>',
               [
                 {

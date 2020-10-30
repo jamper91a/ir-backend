@@ -21,7 +21,7 @@
     "pdf-generator-api": "^1.1.0",
     "push.js": "^1.0.9",
     "randomstring": "^1.1.5",
-    "sails": "^1.2.3",
+    "sails": "^1.4.0",
     "sails-hook-deep-orm": "^1.0.2",
     "sails-hook-email": "^0.12.1",
     "sails-hook-grunt": "^3.0.2",
@@ -39,7 +39,7 @@
     "supertest": "^3.4.2"
   },
   "scripts": {
-    "start": "NODE_ENV=production node app.js",
+    "start": "SET NODE_ENV=production node app.js",
     "test": "node ./node_modules/mocha/bin/mocha test/lifecycle.test.js test/integration/**/*.test.js",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "migrate": "knex migrate:latest",
