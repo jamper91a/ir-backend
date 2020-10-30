@@ -86,5 +86,8 @@ module.exports = {
   custom:{
     testPdf: false,
     test: false
+  },
+  http: {
+    trustProxy: true
   }
 };
