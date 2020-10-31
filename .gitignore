@@ -130,5 +130,5 @@ lib-cov
 *.out
 *.pid
 
-back-end/assets/images/
-back-end/assets/pdfs/
+assets/images/
+assets/pdfs/
