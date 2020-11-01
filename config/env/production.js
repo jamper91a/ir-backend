@@ -67,7 +67,10 @@ module.exports = {
   sockets: {
     onlyAllowOrigins: [],
     adapter: '@sailshq/socket.io-redis',
-    url: 'redis://:nr3Ywq?U&n~wCFtN)Rp?RTX*BpnQw2nKmk@W}^qAuq&nv8ZN!y:BeC?@127.0.0.1:6379',
+    db: '5',
+    host: '127.0.0.1',
+    pass: 'nr3Ywq?U&n~wCFtN)Rp?RTX*BpnQw2nKmk@W}^qAuq&nv8ZN!y:BeC?',
+    port: '6379'
   },
   custom:{
     testPdf: false,
