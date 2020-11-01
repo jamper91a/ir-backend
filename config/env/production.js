@@ -67,7 +67,7 @@ module.exports = {
   sockets: {
     onlyAllowOrigins: [],
     adapter: '@sailshq/socket.io-redis',
-    db: '5',
+    db: 5,
     host: '127.0.0.1',
     pass: 'nr3Ywq?U&n~wCFtN)Rp?RTX*BpnQw2nKmk@W}^qAuq&nv8ZN!y:BeC?',
     port: '6379'
