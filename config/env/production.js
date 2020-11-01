@@ -67,9 +67,9 @@ module.exports = {
   sockets: {
     onlyAllowOrigins: [],
     adapter: '@sailshq/socket.io-redis',
-    db: 5,
+    db: 0,
     host: '127.0.0.1',
-    pass: 'nr3Ywq?U&n~wCFtN)Rp?RTX*BpnQw2nKmk@W}^qAuq&nv8ZN!y:BeC?',
+    pass: 'ir2020++',
     port: '6379'
   },
   custom:{
@@ -78,5 +78,8 @@ module.exports = {
   },
   http: {
     trustProxy: true
+  },
+  session: {
+    secure: true
   }
 };
