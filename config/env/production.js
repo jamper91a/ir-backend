@@ -24,12 +24,12 @@ module.exports = {
 
     default: {
       adapter: 'sails-mysql',
-      url: 'mysql://jamper91:>B|ySCs5sfDRYz28@colombians.chjjzytipvkj.ap-southeast-2.rds.amazonaws.com:3306/inventarioRealEn',
+      url: 'mysql://ir:Ir2020++@localhost:3306/inventarioRealEn',
 
     },
 
   },
-  port: 8023,
+  port: 1337,
   models: {
     migrate: 'safe',
   },
@@ -53,10 +53,11 @@ module.exports = {
     ***************************************************************************/
     cors: {
       allRoutes: true,
-      allowOrigins: ['http://localhost:8100', 'http://coexnort.servehttp.com:8044', 'https://inventario-real.firebaseapp.com'],
+      allowOrigins: ['http://ir.colombians.dev', 'https://inventario-real.firebaseapp.com', 'https://ir.colombians.dev'],
       allowCredentials: true,
       allowRequestHeaders: "content-type, authorization"
     },
+    csrf: true
 
   },
   log: {
@@ -66,7 +67,7 @@ module.exports = {
   sockets: {
     onlyAllowOrigins: [],
     adapter: '@sailshq/socket.io-redis',
-    url: 'redis://jamper91:cek6molk*tee2RASS@colombians.3gdzak.0001.apse2.cache.amazonaws.com:6379',
+    url: 'redis://:nr3Ywq?U&n~wCFtN)Rp?RTX*BpnQw2nKmk@W}^qAuq&nv8ZN!y:BeC?@127.0.0.1:6379',
   },
   custom:{
     testPdf: false,
