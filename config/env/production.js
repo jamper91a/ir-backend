@@ -66,7 +66,7 @@ module.exports = {
   sockets: {
     onlyAllowOrigins: [],
     adapter: '@sailshq/socket.io-redis',
-    url: 'redis://:@colombians.3gdzak.0001.apse2.cache.amazonaws.com:6379/',
+    url: 'redis://jamper91:cek6molk*tee2RASS@colombians.3gdzak.0001.apse2.cache.amazonaws.com:6379',
   },
   custom:{
     testPdf: false,
