@@ -22,24 +22,9 @@
 module.exports = {
   datastores: {
 
-    /***************************************************************************
-    *                                                                          *
-    * Configure your default production database.                              *
-    *                                                                          *
-    * 1. Choose an adapter:                                                    *
-    *    https://sailsjs.com/plugins/databases                                 *
-    *                                                                          *
-    * 2. Install it as a dependency of your Sails app.                         *
-    *    (For example:  npm install sails-mysql --save)                        *
-    *                                                                          *
-    * 3. Then set it here (`adapter`), along with a connection URL (`url`)     *
-    *    and any other, adapter-specific customizations.                       *
-    *    (See https://sailsjs.com/config/datastores for help.)                 *
-    *                                                                          *
-    ***************************nodemon a************************************************/
     default: {
       adapter: 'sails-mysql',
-      url: 'mysql://jorge:aIR2019**@localhost:3306/inventarioRealEn',
+      url: 'mysql://jamper91:>B|ySCs5sfDRYz28@colombians.chjjzytipvkj.ap-southeast-2.rds.amazonaws.com:3306/inventarioRealEn',
 
     },
 
@@ -81,7 +66,7 @@ module.exports = {
   sockets: {
     onlyAllowOrigins: [],
     adapter: '@sailshq/socket.io-redis',
-    url: 'redis://:@localhost:6379/',
+    url: 'redis://:@colombians.3gdzak.0001.apse2.cache.amazonaws.com:6379/',
   },
   custom:{
     testPdf: false,
