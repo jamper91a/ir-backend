@@ -7,7 +7,7 @@ describe('InventoryErpController', function() {
       request
         .post('/inventory-erp/create')
         .send()
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
         .expect(400)
         .end(function (err, res) {
           if (err) {
@@ -30,7 +30,7 @@ describe('InventoryErpController', function() {
             }
           ]
         })
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
         .expect(400)
         .end(function (err, res) {
           if (err) {
@@ -64,7 +64,7 @@ describe('InventoryErpController', function() {
             }
           ]
         })
-        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
         .expect(200)
         .end(function (err, res) {
           if (err) {

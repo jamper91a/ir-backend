@@ -50,7 +50,7 @@ module.exports.policies = {
   'inventory/list-inventories'                                  : ['isAuthenticated','isEmployee'],
   'inventory/list-products'                                     : ['isAuthenticated'],
 
-  'inventory-erp/create-inventory-erp'                          : ['isAuthenticated', 'isEmployee'],
+  'inventory-erp/create-inventory-erp'                          : ['isAuthenticated', 'isAdmin'],
 
   'pdf/create-pdf'                                              : ['isAuthenticated'],
 
@@ -72,7 +72,7 @@ module.exports.policies = {
   'report/get-reports-by-type'                                  : ['isAuthenticated', 'isEmployee'],
   'report/get-report-by-id'                                     : ['isAuthenticated', 'isEmployee'],
   'report/homologate-units'                                     : ['isAuthenticated', 'isEmployee'],
-  'report/sale-units'                                           : ['isAuthenticated', 'isEmployee'],
+  'report/sale-units'                                           : ['isAuthenticated'], //Policies in the controller
   'report/rotation-units'                                       : ['isAuthenticated'], //Policies in the controller
   'report/devolutions-by-type'                                  : ['isAuthenticated'], //Policies in the controller
   'report/rotation-proyected-by-ean-plu'                        : ['isAuthenticated'], //Policies in the controller
@@ -108,6 +108,8 @@ module.exports.policies = {
   'zone/list-zones-by-shop'                                     : ['isAuthenticated'],
   'zone/find-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
   'zone/update-zone'                                            : ['isAuthenticated', 'isAdmin'],
+
+  // 'security/grant-csrf-token': true
 
   // 'sockets/user'                                               : true
 

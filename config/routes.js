@@ -29,6 +29,7 @@ module.exports.routes = {
   'POST /dealer/getAllActiveDealers':                                                                    'dealer.get-all-active-dealers',
   'POST /dealer/getAllDealers':                                                                          'dealer.get-all-dealers',
   'POST /dealer/update':                                                                                 'dealer.update-dealer',
+  'POST /dealer/getDealerById':                                                                           'dealer.get-dealer-by-id',
   //Devoluciones
   // 'POST /devoluciones/devolverProductos':                                                                'Devolutions.returnProducts',
   'POST /devolution/returnProducts':                                                                     'Devolution.return-products',
@@ -164,5 +165,7 @@ module.exports.routes = {
 
 
   'POST /sockets/subs': 'sockets/user',
+
+  // 'GET /csrfToken': { action: 'security/grant-csrf-token' }
 
 };

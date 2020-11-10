@@ -42,6 +42,7 @@ module.exports = {
       allowCredentials: true,
       allowRequestHeaders: "content-type, authorization"
     },
+    csrf: true
 
   },
   log: {
