@@ -166,6 +166,6 @@ module.exports.routes = {
 
   'POST /sockets/subs': 'sockets/user',
 
-  'GET /csrfToken': { action: 'security/grant-csrf-token' }
+  // 'GET /csrfToken': { action: 'security/grant-csrf-token' }
 
 };

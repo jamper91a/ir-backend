@@ -109,7 +109,7 @@ module.exports.policies = {
   'zone/find-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
   'zone/update-zone'                                            : ['isAuthenticated', 'isAdmin'],
 
-  'security/grant-csrf-token': true
+  // 'security/grant-csrf-token': true
 
   // 'sockets/user'                                               : true
 
