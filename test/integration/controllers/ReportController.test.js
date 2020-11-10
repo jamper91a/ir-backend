@@ -501,12 +501,12 @@ describe('ReportController', function() {
           done();
         });
     });
-    it('Should not allow admin', function (done) {
+    it('Should allow admin', function (done) {
       request
         .post(url)
         .send({firstDate: '2010-09-01', secondDate:'2019-10-06'})
         .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
-        .expect(403)
+        .expect(200)
         .end(function (err, res) {
           if (err) {
             sails.helpers.printTestError(err, res);
@@ -515,12 +515,12 @@ describe('ReportController', function() {
           done();
         });
     });
-    it('Should not allow manager', function (done) {
+    it('Should allow manager', function (done) {
       request
         .post(url)
-        .send({firstDate: '2010-09-01', secondDate:'2019-10-06'})
+        .send({firstDate: '2010-09-01T16:34:56', secondDate:'2019-10-06'})
         .set({Authorization: "Bearer " + sails.config.custom.tokens.manager})
-        .expect(403)
+        .expect(200)
         .end(function (err, res) {
           if (err) {
             sails.helpers.printTestError(err, res);
@@ -532,7 +532,7 @@ describe('ReportController', function() {
     it('Should return data', function (done) {
       request
         .post(url)
-        .send({firstDate: '2010-09-01', secondDate:'2019-10-06'})
+        .send({firstDate: '2010-09-01', secondDate:'2019-10-06T16:34:56'})
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
         .expect(200)
         .end(function (err, res) {

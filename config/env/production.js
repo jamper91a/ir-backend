@@ -65,7 +65,7 @@ module.exports = {
   },
 
   sockets: {
-    onlyAllowOrigins: [],
+    onlyAllowOrigins: ['http://ir.colombians.dev', 'https://inventario-real.firebaseapp.com', 'https://ir.colombians.dev'],
     adapter: '@sailshq/socket.io-redis',
     db: 0,
     host: '127.0.0.1',
