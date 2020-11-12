@@ -121,6 +121,8 @@ module.exports = {
             sails.helpers.printError({title: 'photoNoSaved', message: ''}, this.req, inputs);
             throw 'photoNoSaved';
           }
+        } else{
+          delete inputs.imagen;
         }
         inputs.company = company.id;
         try {

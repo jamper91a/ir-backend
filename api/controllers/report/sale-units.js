@@ -21,6 +21,7 @@ module.exports = {
       required: true,
       custom: function (date) {
         date = new Date(date);
+
         return date!='Invalid Date' && _.isDate(date);
       }
     },
@@ -60,15 +61,17 @@ module.exports = {
           },
           select: ['id']
         });
+        console.log('Find in zones');
         zones = zones.map(z => z.id);
         let products = await ProductsHasZones.find({
           where:{
             or:[
               //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
               {
-                or:[
-                  {wasTransfered: null}, {wasTransfered:0}
-                ], zone: zones, updatedAt: {'>=': firstDate, '<=': secondDate }},
+                or:[{wasTransfered: null}, {wasTransfered:0}],
+                zone: zones,
+                updatedAt: {'>=': firstDate, '<=': secondDate }
+                },
               //Search all the products that were transfer and belongs to the local and the updated date is in the range
               {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate }},
             ]
@@ -80,7 +83,6 @@ module.exports = {
 
         let saleUnits = [];
         let returnedUnits = [];
-        //Search for the products of the first inventory in the second inventory
 
         for(const product of products) {
           if(product.sell>1){

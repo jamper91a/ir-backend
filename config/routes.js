@@ -86,6 +86,7 @@ module.exports.routes = {
   'POST /product/import' :                                                                               'product.import-products',
   'POST /product/find-one' :                                                                             'product.find-one-product',
   'POST /product/find-by-epc' :                                                                          'product.find-product-by-epc',
+  'POST /product/find-by-id' :                                                                           'product.find-product-by-id',
   'POST /product/find-products-in-local-by-id' :                                                         'product-has-zone.find-products-in-local-by-id',
   'POST /product/find-products-in-local-by-epc' :                                                        'product-has-zone.find-products-in-local-by-epc',
   'POST /product/update' :                                                                               'product.update-product',
