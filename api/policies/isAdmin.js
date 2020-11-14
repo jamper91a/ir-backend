@@ -10,9 +10,9 @@ module.exports = (req, res, next) => {
   if(req.user.group === sails.config.custom.USERS_GROUP.admin) {
     return next();
   }
-  if(req.user.group === sails.config.custom.USERS_GROUP.sAdmin) {
-    return next();
-  }
+  // if(req.user.group === sails.config.custom.USERS_GROUP.sAdmin) {
+  //   return next();
+  // }
   return res.forbidden();
 
 };

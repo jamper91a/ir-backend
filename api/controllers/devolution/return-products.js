@@ -44,6 +44,7 @@ module.exports = {
         .transaction(async (db) => {
           //Update every productZone
           for (const product of products) {
+            console.log(product);
             try {
               //Save data for logs
               let newDevolutionHistory = {
@@ -57,7 +58,7 @@ module.exports = {
                 .set({id: product.id, devolution: product.devolution, notes_return: product.notes_return})
                 .usingConnection(db);
             } catch (err) {
-              sails.helpers.printError({title: 'productsNoReturned', message: e.message}, this.req);
+              sails.helpers.printError({title: 'productsNoReturned', message: err.message}, this.req);
               throw err;
             }
           }

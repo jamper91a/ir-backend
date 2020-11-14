@@ -122,6 +122,7 @@ module.exports.routes = {
   'POST /sell/create-sell':                                                                              'sell.create-sell',
   //Shops
   'POST /shop/create-shop':                                                                               'shop.create-shop',
+  'POST /shop/find-shop-by-id':                                                                           'shop.find-shop-by-id',
   'GET  /shop/find-shops-by-company':                                                                     'shop.find-shops-by-company',
   'GET  /shop/update-shop':                                                                               'shop.update-shop',
   //Suppliers

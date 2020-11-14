@@ -79,6 +79,7 @@ module.exports = {
           select: ['id']
         });
         zones = zones.map(z => z.id);
+        console.log('zones', zones);
 
         //Find all devolutions by type
         let devolutions = await Devolutions.find({
@@ -88,6 +89,9 @@ module.exports = {
           select: ['id']
         });
         devolutions = devolutions.map(d => d.id);
+        console.log('devolutions', devolutions)
+        console.log('firstDate', firstDate)
+        console.log('secondDate', secondDate)
         let products = await ProductsHasZones.find({
           where: {
             or: [
