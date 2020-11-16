@@ -110,6 +110,7 @@ module.exports.policies = {
 
   'zone/create-zone'                                            : ['isAuthenticated', 'isAdmin'],
   'zone/list-zones-by-shop'                                     : ['isAuthenticated'],
+  'zone/find-zone-by-id'                                        : ['isAuthenticated', 'isAdmin'],
   'zone/find-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
   'zone/find-zones-by-company'                                  : ['isAuthenticated', 'isAdmin'],
   'zone/update-zone'                                            : ['isAuthenticated', 'isAdmin'],

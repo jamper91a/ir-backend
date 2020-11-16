@@ -163,6 +163,7 @@ module.exports.routes = {
   //Zones
   'GET  /zone/create-zone' :                                                                              'zone.create-zone',
   'GET  /zone/list-zones-by-shop' :                                                                       'zone.list-zones-by-shop',
+  'POST /zone/find-zone-by-id' :                                                                          'zone.find-zone-by-id',
   'POST /zone/find-zones-by-shop' :                                                                       'zone.find-zones-by-shop',
   'POST /zone/find-zones-by-company' :                                                                    'zone.find-zones-by-company',
   'POST /zone/update-zone' :                                                                              'zone.update-zone',
