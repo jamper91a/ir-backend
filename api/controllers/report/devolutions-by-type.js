@@ -89,9 +89,6 @@ module.exports = {
           select: ['id']
         });
         devolutions = devolutions.map(d => d.id);
-        console.log('devolutions', devolutions)
-        console.log('firstDate', firstDate)
-        console.log('secondDate', secondDate)
         let products = await ProductsHasZones.find({
           where: {
             or: [

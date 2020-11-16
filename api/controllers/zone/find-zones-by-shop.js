@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Find shop by id',
 
 
-  description: '',
+  description: 'It is used in the front-end by the admin',
 
 
   inputs: {

@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'List zones',
 
 
-  description: '',
+  description: 'It is used in the mobile app',
 
 
   inputs: {

@@ -84,6 +84,48 @@ describe('ZoneController', function() {
         });
     });
   });
+  describe('#Find zones by company', function() {
+    const url='/zone/find-zones-by-company';
+    it('Should not allow no admin users', function (done) {
+      request
+        .post(url)
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should allow admin users', function (done) {
+      request
+        .post(url)
+        .send({id: 1})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
+        });
+    });
+  });
   describe('#Create zone', function() {
     const url='/zone/create-zone';
     it('Should validate parameters', function (done) {
