@@ -21,7 +21,7 @@ module.exports = {
       const company = this.req.employee.company;
       let shops = await Shops.find({where: {company: company.id}, select: ['id']});
       shops = shops.map(d => d.id);
-      const zones = await Zones.find({shop: shops});
+      const zones = await Zones.find({shop: shops}).populate('shop');
       return { data: zones};
     } catch (e) {
       sails.helpers.printError({title: 'findZonesByCompany', message: e.message}, this.req, e);
