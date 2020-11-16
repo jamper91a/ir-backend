@@ -86,6 +86,7 @@ module.exports.routes = {
   'POST /product/import' :                                                                               'product.import-products',
   'POST /product/find-one' :                                                                             'product.find-one-product',
   'POST /product/find-by-epc' :                                                                          'product.find-product-by-epc',
+  'POST /product/find-by-id' :                                                                           'product.find-product-by-id',
   'POST /product/find-products-in-local-by-id' :                                                         'product-has-zone.find-products-in-local-by-id',
   'POST /product/find-products-in-local-by-epc' :                                                        'product-has-zone.find-products-in-local-by-epc',
   'POST /product/update' :                                                                               'product.update-product',
@@ -121,10 +122,12 @@ module.exports.routes = {
   'POST /sell/create-sell':                                                                              'sell.create-sell',
   //Shops
   'POST /shop/create-shop':                                                                               'shop.create-shop',
+  'POST /shop/find-shop-by-id':                                                                           'shop.find-shop-by-id',
   'GET  /shop/find-shops-by-company':                                                                     'shop.find-shops-by-company',
   'GET  /shop/update-shop':                                                                               'shop.update-shop',
   //Suppliers
   'POST /supplier/create-supplier':                                                                       'supplier.create-supplier',
+  'POST  /supplier/find-supplier-by-id':                                                                   'supplier.find-supplier-by-id',
   'GET  /supplier/find-suppliers-by-company':                                                             'supplier.find-suppliers-by-company',
   'POST /supplier/update-supplier':                                                                       'supplier.update-supplier',
   //Transferencias
@@ -153,13 +156,16 @@ module.exports.routes = {
   'POST /user/login-web':                                                                                 'user.login-web',
   'POST /user/sync':                                                                                      'user.sync',
   'POST /user/find-employee-by-username':                                                                 'user.find-employee-by-username',
+  'POST /user/find-employee-by-id':                                                                       'user.find-employee-by-id',
   'POST /user/modify-employee-by-username':                                                               'user.modify-employee-by-username',
   'POST /user/list-employees-by-company':                                                                 'user.list-employees-by-company',
   'POST /user/change-employee-state':                                                                     'user.change-employee-state',
   //Zones
   'GET  /zone/create-zone' :                                                                              'zone.create-zone',
   'GET  /zone/list-zones-by-shop' :                                                                       'zone.list-zones-by-shop',
+  'POST /zone/find-zone-by-id' :                                                                          'zone.find-zone-by-id',
   'POST /zone/find-zones-by-shop' :                                                                       'zone.find-zones-by-shop',
+  'POST /zone/find-zones-by-company' :                                                                    'zone.find-zones-by-company',
   'POST /zone/update-zone' :                                                                              'zone.update-zone',
   // 'POST /zones/find' :                                                                                   'Zones.find'
 

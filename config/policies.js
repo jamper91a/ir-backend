@@ -57,6 +57,7 @@ module.exports.policies = {
   'product/create-product'                                      : ['isAuthenticated', 'isAdmin'],
   'product/find-one-product'                                    : ['isAuthenticated'],
   'product/find-product-by-epc'                                 : ['isAuthenticated', 'isEmployee'],
+  'product/find-product-by-id'                                  : ['isAuthenticated', 'isAdmin'],
   'product/find-products'                                       : ['isAuthenticated', 'isAdmin'],
   'product/import-products'                                     : ['isAuthenticated', 'isAdmin'],
   'product/update-product'                                      : ['isAuthenticated', 'isAdmin'],
@@ -81,10 +82,12 @@ module.exports.policies = {
   'sell/create-sell'                                            : ['isAuthenticated', 'isEmployee'],
 
   'shop/create-shop'                                            : ['isAuthenticated', 'isAdmin'],
+  'shop/find-shop-by-id'                                        : ['isAuthenticated', 'isAdmin'],
   'shop/find-shops-by-company'                                  : ['isAuthenticated'],  //Policies in the controller,
   'shop/update-shop'                                            : ['isAuthenticated', 'isAdmin'],
 
   'supplier/create-supplier'                                    : ['isAuthenticated', 'isAdmin'],
+  'supplier/find-supplier-by-id'                               : ['isAuthenticated', 'isAdmin'],
   'supplier/find-suppliers-by-company'                          : ['isAuthenticated'],  //Policies in the controller,
   'supplier/update-supplier'                                    : ['isAuthenticated', 'isAdmin'],
 
@@ -100,13 +103,16 @@ module.exports.policies = {
   'user/login-web'                                              : true,
   'user/sync'                                                   : ['isAuthenticated', 'isEmployee'],
   'user/find-employee-by-username'                              : ['isAuthenticated', 'isAdmin'],//isAdmin
+  'user/find-employee-by-id'                                    : ['isAuthenticated', 'isAdmin'],
   'user/modify-employee-by-username'                            : ['isAuthenticated', 'isAdmin'],//isAdmin
   'user/list-employees-by-company'                              : ['isAuthenticated', 'isAdmin'],//isAdmin
   'user/change-employee-state'                                  : ['isAuthenticated', 'isAdmin'],//isAdmin
 
   'zone/create-zone'                                            : ['isAuthenticated', 'isAdmin'],
   'zone/list-zones-by-shop'                                     : ['isAuthenticated'],
+  'zone/find-zone-by-id'                                        : ['isAuthenticated', 'isAdmin'],
   'zone/find-zones-by-shop'                                     : ['isAuthenticated', 'isAdmin'],
+  'zone/find-zones-by-company'                                  : ['isAuthenticated', 'isAdmin'],
   'zone/update-zone'                                            : ['isAuthenticated', 'isAdmin'],
 
   // 'security/grant-csrf-token': true

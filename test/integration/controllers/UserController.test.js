@@ -675,7 +675,7 @@ describe('UserController', function() {
         .post(url)
         .send(
           {
-            user: {password: '12345', username: 'newUserAdmin', group: 3},
+            user: {password: '12345', rpassword:'12345', username: 'newUserAdmin', group: 3},
             employee: {company: { name: 'New company 2'}}
           })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
@@ -805,6 +805,126 @@ describe('UserController', function() {
             return done(err);
           }
              try{
+
+            JSON.parse(JSON.stringify(res.body));
+            if(res.headers['content-type'].includes('application/json')) {
+              done();
+            } else {
+              done(new Error('No valid Json format'));
+            }
+
+          } catch (e) {
+            console.error(e);
+            return done(e);
+          }
+        });
+    });
+  });
+  describe('#Find Employee by id', function() {
+    const url='/user/find-employee-by-id';
+    it('Should validate parameters', function (done) {
+      request
+        .post(url)
+        .send()
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should validate id', function (done) {
+      request
+        .post(url)
+        .send({ id: ''})
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should no find employee', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            id: 0
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'employeeNoFound') {
+            done();
+          } else {
+            done('Should not found employee')
+          }
+        });
+    });
+    it('Should no allow non admin users', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            id: 1
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+        .expect(403)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('Should no return data', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            id: 1,
+            companyId: -1
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(400)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          if(res.res.headers['x-exit'] === 'employeeNoFound') {
+            done();
+          } else {
+            done('Should not found employee')
+          }
+        });
+    });
+    it('Should return data', function (done) {
+      request
+        .post(url)
+        .send(
+          {
+            id: 1
+          })
+        .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            sails.helpers.printTestError(err, res);
+            return done(err);
+          }
+          try{
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {

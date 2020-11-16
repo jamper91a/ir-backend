@@ -504,7 +504,7 @@ describe('ReportController', function() {
     it('Should allow admin', function (done) {
       request
         .post(url)
-        .send({firstDate: '2010-09-01', secondDate:'2019-10-06'})
+        .send({firstInventory: 1, secondInventory: 2})
         .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
         .expect(200)
         .end(function (err, res) {
@@ -518,7 +518,7 @@ describe('ReportController', function() {
     it('Should allow manager', function (done) {
       request
         .post(url)
-        .send({firstDate: '2010-09-01T16:34:56', secondDate:'2019-10-06'})
+        .send({firstInventory: 1, secondInventory: 2})
         .set({Authorization: "Bearer " + sails.config.custom.tokens.manager})
         .expect(200)
         .end(function (err, res) {
@@ -532,7 +532,7 @@ describe('ReportController', function() {
     it('Should return data', function (done) {
       request
         .post(url)
-        .send({firstDate: '2010-09-01', secondDate:'2019-10-06T16:34:56'})
+        .send({firstInventory: 2, secondInventory: 3})
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
         .expect(200)
         .end(function (err, res) {

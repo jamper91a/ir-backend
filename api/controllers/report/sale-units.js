@@ -8,22 +8,14 @@ module.exports = {
 
 
   inputs: {
-    firstDate: {
-      type: 'string',
-      required: true,
-      custom: function (date) {
-        date = new Date(date);
-        return date!='Invalid Date' && _.isDate(date);
-      }
+    firstInventory: {
+      type: 'number',
+      required: true
     },
-    secondDate: {
-      type: 'string',
-      required: true,
-      custom: function (date) {
-        date = new Date(date);
-        return date!='Invalid Date' && _.isDate(date);
-      }
-    },
+    secondInventory: {
+      type: 'number',
+      required: true
+    }
   },
 
 
@@ -31,11 +23,15 @@ module.exports = {
     notAllow: {
       description: 'User no allow',
       responseType: 'forbidden'
+    },
+    productsNotFound: {
+      description: 'Products were not found',
+      responseType: 'badRequest'
     }
   },
 
 
-  fn: async function ({firstDate, secondDate}) {
+  fn: async function ({firstInventory, secondInventory}) {
     if(sails.helpers.policies.canBeAnyOfThese(
       [
         sails.config.custom.USERS_GROUP.admin,
@@ -45,54 +41,70 @@ module.exports = {
       this.req.user.group)
     ) {
       try {
-        //Remove time in case is include
-        let aux = firstDate.split("T")[0];
-        firstDate = aux + " 00:00:00";
-        aux = secondDate.split("T")[0];
-        secondDate = secondDate + " 23:59:59";
+        //Find all inventories of the first consolidated inventory
+        let productsFirstInventory = await sails.helpers.product.productsInConsolidatedInventory(firstInventory);
+        let productsSecondInventory = await sails.helpers.product.productsInConsolidatedInventory(secondInventory);
 
-
-        //Check all the zones of the local
-        //Find all zones from the employee's company
-        let zones = await Zones.find({
-          where: {
-            shop: this.req.employee.shop.id
-          },
-          select: ['id']
-        });
-        zones = zones.map(z => z.id);
-        let products = await ProductsHasZones.find({
-          where:{
-            or:[
-              //Search all the product that were not transfer,  belongs to the local and the created date is in the range.
-              {
-                or:[
-                  {wasTransfered: null}, {wasTransfered:0}
-                ], zone: zones, updatedAt: {'>=': firstDate, '<=': secondDate }},
-              //Search all the products that were transfer and belongs to the local and the updated date is in the range
-              {wasTransfered: 1, zone: zones, transfer_date: {'>=': firstDate, '<=': secondDate }},
-            ]
-          }
-        }).populate('zone')
-          .populate('product')
-          .populate('epc');
-
+        //In case first inventory does not have data, I will switch to the second to be able to fill the no found products
+        if(productsFirstInventory.length === 0 && productsSecondInventory.length > 0) {
+          productsFirstInventory = productsSecondInventory;
+          //I know one of them is empty
+          productsSecondInventory  = [] ;
+        } else if (productsFirstInventory.length === 0 && productsSecondInventory.length === 0) {
+          throw 'productsNotFound';
+        }
 
         let saleUnits = [];
         let returnedUnits = [];
-        //Search for the products of the first inventory in the second inventory
 
-        for(const product of products) {
-          if(product.sell>1){
-            if(!sails.helpers.existInArray(saleUnits, product))
-              saleUnits.push(product);
-          }else{
-            if(product.devolution>1){
-              if(!sails.helpers.existInArray(returnedUnits, product))
-                returnedUnits.push(product);
+        await async.forEach(productsFirstInventory,
+          async function (product, cb) {
+              if(product.sell>1){
+                if(!sails.helpers.existInArray(saleUnits, product))
+                  saleUnits.push(product);
+                cb();
+              }else if(product.devolution>1){
+                if(!sails.helpers.existInArray(returnedUnits, product))
+                  returnedUnits.push(product);
+                cb();
+              }
+          },
+          async function(e){
+            if(e){
+              sails.helpers.printError({title: 'sale-units'},this.req, e);
+              throw e;
             }
+
           }
-        }
+        );
+        //Search for the products of the secons inventory in the first inventory
+        await async.forEach(productsSecondInventory,
+          async function (product, cb) {
+          console.log(product.id);
+            let found = productsFirstInventory.find(product => product.id === product.id);
+            //If the product was not found I will check if it was sold or transfer
+            if(!found){
+              if(product.sell>1){
+                if(!sails.helpers.existInArray(saleUnits, product))
+                  saleUnits.push(product);
+                cb();
+              }else if(product.devolution>1){
+                if(!sails.helpers.existInArray(returnedUnits, product))
+                  returnedUnits.push(product);
+                cb();
+              }
+            }else{
+              cb();
+            }
+          },
+          async function(e){
+            if(e){
+              sails.helpers.printError({title: 'sale-units'},this.req, e);
+              throw e;
+            }
+
+          }
+        );
 
         const data = {
           saleUnits: saleUnits,
