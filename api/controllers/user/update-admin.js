@@ -12,9 +12,12 @@ module.exports = {
       type: 'json',
       required: true,
       custom: function (user) {
+        let password = true;
+        if(user.password){
+          password =_.isString(user.password) && _.isString(user.rpassword) && user.password === user.rpassword
+        }
         return _.isObject(user) &&
-          _.isString(user.username) && user.username &&
-          _.isString(user.password) && user.password
+          _.isString(user.username)  && password
       }
     },
     employee: {

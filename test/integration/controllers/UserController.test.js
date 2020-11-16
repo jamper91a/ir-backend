@@ -675,7 +675,7 @@ describe('UserController', function() {
         .post(url)
         .send(
           {
-            user: {password: '12345', username: 'newUserAdmin', group: 3},
+            user: {password: '12345', rpassword:'12345', username: 'newUserAdmin', group: 3},
             employee: {company: { name: 'New company 2'}}
           })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
