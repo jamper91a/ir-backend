@@ -65,7 +65,13 @@ module.exports = {
   },
 
   sockets: {
-    onlyAllowOrigins: ['http://ir.colombians.dev', 'https://inventario-real.firebaseapp.com', 'https://ir.colombians.dev'],
+    beforeConnect: function(handshake, proceed) {
+
+      // Send back `true` to allow the socket to connect.
+      // (Or send back `false` to reject the attempt.)
+      return proceed(undefined, true);
+
+    },
     adapter: '@sailshq/socket.io-redis',
     db: 0,
     host: '127.0.0.1',
