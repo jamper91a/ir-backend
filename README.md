@@ -33,5 +33,5 @@ sails-inverse-model -u root -p 'gjwQbdRD4ktt' -d inventarioReal -m -c
 Connect terminal docker exec -ti 8b15d2843835680f3a84f3e10cbeda39afc50ce45853fd9b83684054df2e105b bash
 
 #Query logs
-DEBUG=query sails lift
+set DEBUG=query & node app.js
 

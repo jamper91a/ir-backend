@@ -11,25 +11,38 @@ describe('Company', function() {
         .send({})
         .set({Authorization: "Bearer " + sails.config.custom.tokens.dealer})
         .expect(200)
-        .end(function(err, res) {
+        .end(async function(err, res) {
           if (err){
             printError(res);
             return done(err);
           }
-          request
-            .post('/company/getCompaniesByDealer')
-            .send({})
-            .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
-            .expect(403)
-            .end(function(err, res) {
-              if (err){
-                printError(res);
-                return done(err);
-              }
-              done();
-            });
-        });
+          //Validate format
+          if(res.headers['content-type'].includes('application/json')) {
+            try {
+              await sails.helpers.validation.responses.validateCompaniesByDealer(res.body);
+              request
+                .post('/company/getCompaniesByDealer')
+                .send({})
+                .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
+                .expect(403)
+                .end(function(err, res) {
+                  if (err){
+                    printError(res);
+                    return done(err);
+                  }
+                  done();
+                });
+            } catch (e) {
+              console.error(e);
+              done(new Error('No valid Json'));
+            }
+          } else {
+            done(new Error('No valid Json format'));
+          }
 
+
+
+        });
     });
   });
 
