@@ -1,5 +1,5 @@
 var request = require('supertest');
-request = request('http://localhost:1337'); //r
+request = request('http://localhost:1338'); //r
 describe('Company', function() {
 
   //Log

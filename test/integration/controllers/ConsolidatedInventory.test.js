@@ -9,7 +9,7 @@ describe('ConsolidatedInventoryController', function() {
         .send()
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
         .expect(200)
-        .end(function(err, res) {
+        .end(async function(err, res) {
           if (err){
             // console.log(err);
             return done(err);
@@ -18,7 +18,13 @@ describe('ConsolidatedInventoryController', function() {
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {
-              done();
+              try {
+                await sails.helpers.validation.responses.ci.validateLastInventory(res.body);
+                done();
+              } catch (e) {
+                console.error(e);
+                done(new Error('No valid Json'));
+              }
             } else {
               done(new Error('No valid Json format'));
             }
