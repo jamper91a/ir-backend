@@ -172,7 +172,7 @@ describe('Company', function() {
         .send()
         .set({Authorization: "Bearer " + sails.config.custom.tokens.admin})
         .expect(200)
-        .end(function(err, res) {
+        .end(async function(err, res) {
 
           if (err){
             printError(res);
@@ -182,7 +182,13 @@ describe('Company', function() {
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {
-              done();
+              try {
+                await sails.helpers.validation.responses.company.validateEmployeesByAdmin(res.body);
+                done();
+              } catch (e) {
+                console.error(e);
+                done(new Error('No valid Json'));
+              }
             } else {
               done(new Error('No valid Json format'));
             }

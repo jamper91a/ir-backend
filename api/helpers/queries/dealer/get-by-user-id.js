@@ -37,7 +37,8 @@ module.exports = {
              users.id as 'user.id',
              users.name as 'user.name',
              users.username as 'user.username',
-             users.active as 'user.active'
+             users.active as 'user.active',
+             users.group_id as 'user.group.id'
       FROM dealers,
            users,
            ${sails.config.custom.dbName}.groups

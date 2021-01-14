@@ -1,3 +1,4 @@
+
 module.exports = {
 
 
@@ -30,9 +31,17 @@ module.exports = {
     } catch (e) {
       throw 'noCompany'
     }
-    employees = await Employees
-      .find({company})
-      .populate
+
+    if(sails.config.custom.rawQueries){
+      try {
+        employees = await sails.helpers.queries.company.getEmployeesByAdmin(company);
+      } catch (e) {
+        throw e;
+      }
+    } else {
+      employees = await Employees
+        .find({company})
+        .populate
         ('user',
           {
             group: [
@@ -42,8 +51,12 @@ module.exports = {
             ]
           }
         )
-      .populate('shop');
+        .populate('shop');
+
+    }
     return  {data: employees};
+
+
 
   }
 

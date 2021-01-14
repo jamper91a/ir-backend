@@ -47,10 +47,10 @@ module.exports = {
     {
 
       const userValid =
-        _.isNumber(user.id) && user.id > 0
+        _.isNumber(user.id) && user.id > 0 &&
         _.isString(user.name) &&
         _.isString(user.username) &&
-        _.isBoolean(user.active) &&
+        _.isNumber(user.active) &&
         _.isObject(user.group) && _.isNumber(user.group.id);
 
       const dealerValid =
