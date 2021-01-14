@@ -29,7 +29,7 @@ module.exports = {
     let consolidatedInventory = [];
 
 
-    if(!sails.config.custom.rawQueries){
+    if(sails.config.custom.rawQueries){
       try {
         consolidatedInventory = await sails.helpers.queries.ci.lastInventory(employee);
         consolidatedInventory.inventories = await sails.helpers.queries.ci.getInventoriesByCi(consolidatedInventory.id);

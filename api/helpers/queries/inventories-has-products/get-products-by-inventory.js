@@ -29,7 +29,9 @@ module.exports = {
         products_has_zones.sell_date,
         products_has_zones.notes_return,
         products_has_zones.logs_users,
-        CASE WHEN products_has_zones.wasTransfered = 1 THEN TRUE ELSE FALSE END AS wasTransfered,,
+        products_has_zones.wasTransfered,
+        products_has_zones.devolution_id as 'devolution.id',
+        products_has_zones.sell_id as 'sell.id',
         zones__zone.createdAt AS 'zone.createdAt',
         zones__zone.updatedAt AS 'zone.updatedAt',
         zones__zone.id AS 'zone.id',
@@ -72,6 +74,7 @@ module.exports = {
     if(products && products.rows){
       products = products.rows
       products = _.map(products, function(product){
+        product.wasTransfered = Boolean(product.wasTransfered);
         return sails.helpers.util.nested(product);
       });
       return products;
