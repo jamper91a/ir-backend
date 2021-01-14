@@ -30,8 +30,11 @@ module.exports = {
 
   fn: async function ({id}) {
       let filter = {};
+      let byId = true;
+    let company = null;
       if (!id) {
         filter = {user: this.req.employee.user.id};
+        byId = false;
       } else {
         filter = {id};
         //Must be a dealer or admin
@@ -40,12 +43,26 @@ module.exports = {
           throw 'notAllow';
         }
       }
-      let company = await Companies.findOne(filter).populate('user');
-      if (company) {
-        return {data: company};
-      } else {
-        throw 'noCompany';
+
+    if(sails.config.custom.rawQueries){
+      try {
+        if(byId)
+          company = await sails.helpers.queries.company.getById(id);
+        else
+          company = await sails.helpers.queries.company.getByUserId(this.req.employee.user.id);
+      } catch (e) {
+        throw e;
       }
+    } else {
+      company = await Companies.findOne(filter).populate('user');
+    }
+    if (company) {
+      return {data: company};
+    } else {
+      throw 'noCompany';
+    }
+
+
 
   }
 
