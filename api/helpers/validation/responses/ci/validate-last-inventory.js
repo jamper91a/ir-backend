@@ -26,6 +26,9 @@ module.exports = {
     },
     inventoriesNoValid: {
       description: 'Format no valid',
+    },
+    ciValid: {
+      description: 'Format no valid',
     }
 
   },
@@ -34,6 +37,7 @@ module.exports = {
   fn: async function ({body}) {
     const dateFormatToValid = "YYYY-MM-DDTHH:mm:ss";
     const inventories = body.data.inventories;
+    const ci = body.data;
     if(_.isArray(inventories))
     {
       const allInventories = _.every(inventories, function (inventory) {
@@ -166,8 +170,17 @@ module.exports = {
 
         return true;
       });
+      const ciValid = _.isObject(ci) &&
+        _.isNumber(ci.id) && ci.id > 0 &&
+        sails.helpers.util.validateDate(ci.createdAt, dateFormatToValid) &&
+        sails.helpers.util.validateDate(ci.updatedAt, dateFormatToValid) &&
+        _.isString(ci.name) &&
+        _.isNumber(ci.total_products) &&
+        _.isObject(ci.employee) && ci.employee.id > 0
       if(!allInventories)
         throw 'inventoriesNoValid';
+      if(!ciValid)
+        throw 'ciValid';
 
       return true;
 
