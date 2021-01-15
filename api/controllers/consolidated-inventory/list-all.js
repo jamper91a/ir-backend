@@ -40,28 +40,40 @@ module.exports = {
       } catch (e) {
         throw 'noCompany';
       }
-      let consolidatedInventories, employeeIventories = [], employees;
+      let consolidatedInventories;
 
-      employees = await  Employees.find({
-        where:{company}
-      })
-        .populate('inventories',{
-          where:{
-            consolidatedInventory: {'>': 0}
+      if(sails.config.custom.rawQueries){
+        try {
+          consolidatedInventories = await sails.helpers.queries.ci.getAllByCompany(company);
+        } catch (e) {
+          throw e;
+        }
+      } else
+        {
+        let employeeInventories = [], employees
+        employees = await  Employees.find({
+          where:{company}
+        })
+          .populate('inventories',{
+            where:{
+              consolidatedInventory: {'>': 0}
+            }
+          });
+        // Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
+        employees.forEach(function (employee) {
+          if(employee.inventories){
+            employee.inventories.forEach(async function (inventory) {
+              employeeInventories.push(inventory);
+            })
           }
         });
-      // Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
-      employees.forEach(function (employee) {
-        if(employee.inventories){
-          employee.inventories.forEach(async function (inventory) {
-            employeeIventories.push(inventory);
-          })
-        }
-      });
-      employeeIventories = employeeIventories.map(a => a.consolidatedInventory);
-      consolidatedInventories = await  ConsolidatedInventories.find({
-        id: {in: employeeIventories}
-      });
+        employeeInventories = employeeInventories.map(a => a.consolidatedInventory);
+        consolidatedInventories = await  ConsolidatedInventories.find({
+          id: {in: employeeInventories}
+        });
+      }
+
+
 
       return {data:consolidatedInventories};
     } else {
