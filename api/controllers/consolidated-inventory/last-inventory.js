@@ -8,6 +8,11 @@ module.exports = {
 
 
   inputs: {
+    json: {
+      type: 'boolean',
+      required: false,
+      defaultsTo: false
+    }
   },
 
 
@@ -19,7 +24,7 @@ module.exports = {
   },
 
 
-  fn: async function () {
+  fn: async function ({json}) {
     let employee = null;
     try {
       employee = this.req.employee.id;
@@ -31,13 +36,7 @@ module.exports = {
 
     if(sails.config.custom.rawQueries){
       try {
-        consolidatedInventory = await sails.helpers.queries.ci.lastInventory(employee);
-        consolidatedInventory.inventories = await sails.helpers.queries.ci.getInventoriesByCi(consolidatedInventory.id);
-        //Get the products of each inventory
-        for (const inventory of consolidatedInventory.inventories) {
-          const products = await sails.helpers.queries.inventoriesHasProducts.getProductsByInventory(inventory.id);
-          inventory.products = products;
-        }
+        consolidatedInventory = await sails.helpers.queries.ci.lastInventoryJson(employee);
       } catch (e) {
         throw e;
       }
