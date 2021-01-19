@@ -33,34 +33,45 @@ module.exports = {
     }
     let consolidatedInventories, employeeIventories = [], employees;
 
-    try {
-      employees = await Employees.find({
-        where: {company}
-      })
-        .populate('inventories', {
-          where: {
-            consolidatedInventory: {'>': 0},
-            collaborative: collaborative
+    if(sails.config.custom.rawQueries){
+      try {
+        consolidatedInventories = await sails.helpers.queries.ci.getAllCiByCompanyByCollaborative(company, collaborative);
+      } catch (e) {
+        throw e;
+      }
+    } else {
+      try {
+        employees = await Employees.find({
+          where: {company}
+        })
+          .populate('inventories', {
+            where: {
+              consolidatedInventory: {'>': 0},
+              collaborative: collaborative
+            }
+          });
+        // Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
+        employees.forEach(function (employee) {
+          if (employee.inventories) {
+            employee.inventories.forEach(async function (inventory) {
+              employeeIventories.push(inventory);
+            })
           }
         });
-      // Se elimina la informacion innecesaria y se muestra solo los inventories de cada empleado
-      employees.forEach(function (employee) {
-        if (employee.inventories) {
-          employee.inventories.forEach(async function (inventory) {
-            employeeIventories.push(inventory);
-          })
-        }
-      });
-      employeeIventories = employeeIventories.map(a => a.consolidatedInventory);
-      consolidatedInventories = await ConsolidatedInventories.find({
-        id: {in: employeeIventories}
-      });
-
-      return {data: consolidatedInventories};
-    } catch (e) {
-      sails.helpers.printError(e, this.req, {});
-      throw e;
+        employeeIventories = employeeIventories.map(a => a.consolidatedInventory);
+        consolidatedInventories = await ConsolidatedInventories.find({
+          id: {in: employeeIventories}
+        });
+      } catch (e) {
+        sails.helpers.printError(e, this.req, {});
+        throw e;
+      }
     }
+
+    return {data: consolidatedInventories};
+
+
+
 
   }
 

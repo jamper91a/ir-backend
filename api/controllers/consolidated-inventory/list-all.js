@@ -41,10 +41,9 @@ module.exports = {
         throw 'noCompany';
       }
       let consolidatedInventories;
-
       if(sails.config.custom.rawQueries){
         try {
-          consolidatedInventories = await sails.helpers.queries.ci.getAllByCompany(company);
+          consolidatedInventories = await sails.helpers.queries.ci.getAllCiByCompany(company);
         } catch (e) {
           throw e;
         }

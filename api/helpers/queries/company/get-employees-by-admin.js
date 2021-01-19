@@ -43,7 +43,7 @@ module.exports = {
       WHERE employees.company_id = $1
         and employees.user_id = users.id
         and employees.shop_id = shops.id
-        and users.group_id in (3,4,6)
+        and users.group_id in (${sails.config.custom.USERS_GROUP.Cashier},${sails.config.custom.USERS_GROUP.warehouse},${sails.config.custom.USERS_GROUP.manager})
      `;
 
     let employees = await sails.sendNativeQuery(SQL_DEALER, [companyId]);

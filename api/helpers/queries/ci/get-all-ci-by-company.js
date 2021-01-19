@@ -20,17 +20,22 @@ module.exports = {
   fn: async function ({companyId}) {
 
     let SQL_DEALER= `
-      SELECT consolidated_inventories.id,
+      SELECT inventories.id,
+             consolidated_inventories.id,
              consolidated_inventories.name,
              consolidated_inventories.total_products,
              consolidated_inventories.createdAt,
              consolidated_inventories.updatedAt,
-             consolidated_inventories.employee_id as 'employee.id'
-      FROM consolidated_inventories,
-           employees
+             consolidated_inventories.employee_id as 'employee.id',
+             inventories.collaborative
+      FROM consolidated_inventories
+             LEFT OUTER JOIN inventories
+                             ON consolidated_inventories.id = inventories.consolidated_inventory_id
+             LEFT OUTER JOIN employees
+                             ON consolidated_inventories.employee_id = employees.id
       WHERE employees.company_id = $1
-        and employees.id = consolidated_inventories.employee_id
-        and consolidated_inventories.id > 1`;
+        and consolidated_inventories.id > 1
+      GROUP BY inventories.consolidated_inventory_id`;
 
     let consolidateInventories = await sails.sendNativeQuery(SQL_DEALER, [companyId]);
     if(consolidateInventories && consolidateInventories.rows){
