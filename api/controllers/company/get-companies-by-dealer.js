@@ -27,9 +27,14 @@ module.exports = {
   fn: async function ({justActive}) {
     if(sails.config.custom.rawQueries){
       try {
-        const dealer = await sails.helpers.queries.dealer.getByUserId(this.req.user.id);
-        const companies = await sails.helpers.queries.dealer.getCompanies(dealer.id, justActive);
-        dealer.companies = companies;
+
+        const dealer = await sails.helpers.queries.dealer.getCompaniesJson(this.req.user.id, justActive);
+        // if(noJson) {
+          // const dealer = await sails.helpers.queries.dealer.getByUserId(this.req.user.id);
+          // const companies = await sails.helpers.queries.dealer.getCompanies(dealer.id, justActive);
+          // dealer.companies = companies;
+        // }
+
         return {data: dealer};
       } catch (e) {
         throw e;
