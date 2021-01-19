@@ -62,6 +62,7 @@ module.exports = {
       admin2: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJpYXQiOjE1OTc4MTMwNDR9.gKyxzUbvPUpaxgc3IfwW5-wRaaSqc7_p-ao1nedRys4',
       sAdmin: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTIwODk2MTB9.ivZftEIfTNos5b-a3tJW0s-yUt0jV6uDY4hR01aI2cI'
     },
+    // dbName: 'inventarioRealTest',
     dbName: 'inventarioRealEn',
     testPdf: false,
     testEmail: false,

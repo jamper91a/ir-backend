@@ -1,7 +1,7 @@
 module.exports = {
 
 
-  friendlyName: 'Last consolidated inventory',
+  friendlyName: 'List products from a consolidated inventory',
 
 
   description: 'Find the inventories belongs to a consolidated inventory, after get the products if each if the inventories' +
@@ -26,29 +26,30 @@ module.exports = {
 
   fn: async function ({consolidatedInventory}) {
       try {
-        let zonesHasProducts=[];
-        // //We search the inventories
-        // let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory});
-        // //We search for the products that belongs to those inventories
-        // var inventoryProducts = await InventoriesHasProducts.find({inventory: inventories});
-        // inventoryProducts = inventoryProducts.map(a => a.product);
-        // let products = await ProductsHasZone.find({inventoryProducts})
-        //   .populate('product.company&supplier')
-
-        let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory})
-          .populate('products.zone&epc&sell&devolution&product.company&supplier');
-
-        for(const inventory of inventories) {
-          //Find the products
-          for(const product of inventory.products) {
-            zonesHasProducts.push(sails.helpers.format.formatProductHasZone(product));
+        let zonesHasProducts=[], consolidatedInventories = [];
+        if(sails.config.custom.rawQueries){
+          try {
+            const data = await sails.helpers.queries.ci.listProductsByConsolidatedInventory(consolidatedInventory);
+            consolidatedInventories = data.ci;
+            zonesHasProducts = data.products;
+          } catch (e) {
+            throw e;
           }
+        } else {
+          let inventories = await Inventories.find({consolidatedInventory: consolidatedInventory})
+            .populate('products.zone&epc&sell&devolution&product.company&supplier');
+
+          for(const inventory of inventories) {
+            //Find the products
+            for(const product of inventory.products) {
+              zonesHasProducts.push(sails.helpers.format.formatProductHasZone(product));
+            }
+          }
+          consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
         }
-        let consolidatedInventories = await ConsolidatedInventories.findOne({id:consolidatedInventory});
-        // zonesHasProducts = _.map(data.inventories, function (inventory) {
-        //   return sails.helpers.format.formatProductHasZone(zonesHasProducts);
-        // });
-        // zonesHasProducts = await
+
+
+
         return {
           data: {
             products: zonesHasProducts,
