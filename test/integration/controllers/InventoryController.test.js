@@ -205,7 +205,7 @@ describe('InventoryController', function() {
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
         .expect(200)
-        .end(function (err, res) {
+        .end(async function (err, res) {
           if (err) {
             // console.log(err);
             return done(err);
@@ -214,6 +214,7 @@ describe('InventoryController', function() {
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {
+              await sails.helpers.validation.responses.inventory.validateInventoryList(res.body);
               done();
             } else {
               done(new Error('No valid Json format'));
@@ -235,7 +236,7 @@ describe('InventoryController', function() {
         })
         .set({Authorization: "Bearer " + sails.config.custom.tokens.employee})
         .expect(200)
-        .end(function (err, res) {
+        .end(async function (err, res) {
           if (err) {
             return done(err);
           }
@@ -243,6 +244,7 @@ describe('InventoryController', function() {
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {
+              await sails.helpers.validation.responses.inventory.validateInventoryList(res.body);
               done();
             } else {
               done(new Error('No valid Json format'));
@@ -283,6 +285,7 @@ describe('InventoryController', function() {
         .end(function (err, res) {
           if (err) {
             // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
            try{

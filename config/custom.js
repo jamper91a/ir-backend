@@ -59,6 +59,8 @@ module.exports.custom = {
 
   testPdf: false,
   testEmail: false,
-  test: true
+  test: true,
+
+  dateFormat: '\'%Y-%m-%d %H:%i:%s\''
 
 };

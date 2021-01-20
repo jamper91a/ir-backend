@@ -91,7 +91,7 @@ module.exports = {
                 WHERE id IN ($1)
 
           `;
-          auxInventories = await sails.sendNativeQuery(SQL, [ inventories.join]).usingConnection(db);
+          auxInventories = await sails.sendNativeQuery(SQL, [ inventories]).usingConnection(db);
           if(auxInventories && auxInventories.rows && auxInventories.rows.length > 1) {
             auxInventories = auxInventories.rows;
             let zones = auxInventories.map(a => a.zone);
