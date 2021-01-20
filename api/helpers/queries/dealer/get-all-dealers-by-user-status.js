@@ -6,6 +6,10 @@ module.exports = {
 
 
   inputs: {
+    active: {
+      type: 'boolean',
+      required: true
+    }
   },
 
 
@@ -21,7 +25,7 @@ module.exports = {
   },
 
 
-  fn: async function () {
+  fn: async function ({active}) {
 
     let SQL_DEALER= `
       SELECT dealers.id,
@@ -35,10 +39,10 @@ module.exports = {
              users.createdAt as 'user.createdAt'
       FROM dealers
              LEFT JOIN users ON dealers.user_id = users.id
-      WHERE users.active = 1
+      WHERE users.active = $1
      `;
 
-    let dealers = await sails.sendNativeQuery(SQL_DEALER, []);
+    let dealers = await sails.sendNativeQuery(SQL_DEALER, [active ? 1 : 0]);
     if(dealers && dealers.rows){
       dealers = dealers.rows
       dealers = _.map(dealers, function(dealer){
