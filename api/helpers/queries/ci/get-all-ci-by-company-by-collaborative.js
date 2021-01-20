@@ -28,8 +28,8 @@ module.exports = {
              consolidated_inventories.id,
              consolidated_inventories.name,
              consolidated_inventories.total_products,
-             consolidated_inventories.createdAt,
-             consolidated_inventories.updatedAt,
+             DATE_FORMAT(consolidated_inventories.createdAt, ${sails.config.custom.dateFormat}) AS 'createdAt',
+             DATE_FORMAT(consolidated_inventories.updatedAt, ${sails.config.custom.dateFormat}) AS 'updatedAt',
              consolidated_inventories.employee_id as 'employee.id',
              inventories.collaborative
       FROM consolidated_inventories

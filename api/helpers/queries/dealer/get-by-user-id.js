@@ -31,8 +31,8 @@ module.exports = {
     const SQL_DEALER= `
       SELECT dealers.id ,
              dealers.name ,
-             dealers.createdAt ,
-             dealers.updatedAt ,
+             DATE_FORMAT(dealers.createdAt, ${sails.config.custom.dateFormat}) as 'createdAt',
+             DATE_FORMAT(dealers.updatedAt, ${sails.config.custom.dateFormat}) as 'updatedAt',
              ${sails.config.custom.dbName}.groups.id as 'group.id',
              users.id as 'user.id',
              users.name as 'user.name',

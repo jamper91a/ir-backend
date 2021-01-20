@@ -26,13 +26,13 @@ module.exports = {
     let SQL_DEALER= `
       SELECT dealers.id,
              dealers.name,
-             dealers.createdAt,
+             DATE_FORMAT(dealers.createdAt, ${sails.config.custom.dateFormat}) as 'createdAt',
              users.id as 'user.id',
              users.name as 'user.name',
              users.username as 'user.username',
              users.active as 'user.active',
              users.group_id as 'user.group.id',
-             users.createdAt as 'user.createdAt'
+             DATE_FORMAT(users.createdAt, ${sails.config.custom.dateFormat}) as 'user.createdAt'
       FROM dealers
              LEFT JOIN users ON dealers.user_id = users.id
      `;

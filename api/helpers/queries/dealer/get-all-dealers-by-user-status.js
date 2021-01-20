@@ -30,7 +30,7 @@ module.exports = {
     let SQL_DEALER= `
       SELECT dealers.id,
              dealers.name,
-             dealers.createdAt,
+             DATE_FORMAT(dealers.createdAt, ${sails.config.custom.dateFormat}) as 'createdAt',
              users.id as 'user.id',
              users.name as 'user.name',
              users.username as 'user.username',

@@ -24,17 +24,17 @@ module.exports = {
     let SQL_DEALER= `
       SELECT
         consolidated_inventories.id,
-        consolidated_inventories.createdAt,
-        consolidated_inventories.updatedAt,
+        DATE_FORMAT(consolidated_inventories.createdAt, ${sails.config.custom.dateFormat}) AS 'createdAt',
+        DATE_FORMAT(consolidated_inventories.updatedAt, ${sails.config.custom.dateFormat}) AS 'updatedAt',
         consolidated_inventories.name,
         consolidated_inventories.total_products,
         consolidated_inventories.employee_id AS 'employee.id',
         JSON_ARRAY(
           JSON_OBJECT(
             'id', inventories.id,
-            'createdAt', inventories.createdAt,
-            'updatedAt', inventories.updatedAt,
-            'date', inventories.date,
+            'createdAt', DATE_FORMAT(inventories.createdAt, ${sails.config.custom.dateFormat}),
+            'updatedAt', DATE_FORMAT(inventories.updatedAt, ${sails.config.custom.dateFormat}),
+            'date', DATE_FORMAT(inventories.date, ${sails.config.custom.dateFormat}),
             'parcial', inventories.parcial,
             'collaborative', inventories.collaborative,
             'message', inventories.message,
@@ -43,28 +43,28 @@ module.exports = {
             'products', JSON_ARRAYAGG(
               JSON_OBJECT(
                 'id', products_has_zones.id,
-                'admission_date', products_has_zones.admission_date,
-                'transfer_date', products_has_zones.transfer_date,
-                'sell_date', products_has_zones.sell_date,
+                'admission_date',  DATE_FORMAT(products_has_zones.admission_date, ${sails.config.custom.dateFormat}),
+                'transfer_date',  DATE_FORMAT(products_has_zones.transfer_date, ${sails.config.custom.dateFormat}),
+                'sell_date',  DATE_FORMAT(products_has_zones.sell_date, ${sails.config.custom.dateFormat}),
                 'notes_return', products_has_zones.notes_return,
                 'logs_users', products_has_zones.logs_users,
                 'wasTransfered', products_has_zones.wasTransfered,
                 'devolution.id', products_has_zones.devolution_id,
                 'sell.id', products_has_zones.sell_id,
-                'zone.createdAt', zones__zone.createdAt,
-                'zone.updatedAt', zones__zone.updatedAt,
+                'zone.createdAt', DATE_FORMAT(zones__zone.createdAt, ${sails.config.custom.dateFormat}),
+                'zone.updatedAt', DATE_FORMAT(zones__zone.updatedAt, ${sails.config.custom.dateFormat}),
                 'zone.id', zones__zone.id,
                 'zone.name', zones__zone.name,
                 'zone.shop.id', zones__zone.shop_id,
-                'epc.createdAt', epcs__epc.createdAt,
-                'epc.updatedAt', epcs__epc.updatedAt,
+                'epc.createdAt', DATE_FORMAT(epcs__epc.createdAt, ${sails.config.custom.dateFormat}),
+                'epc.updatedAt', DATE_FORMAT(epcs__epc.updatedAt, ${sails.config.custom.dateFormat}),
                 'epc.id', epcs__epc.id,
                 'epc.state', epcs__epc.state,
                 'epc.epc', epcs__epc.epc,
                 'epc.company.id', epcs__epc.company_id,
                 'epc.dealer.id', epcs__epc.dealer_id,
-                'product.createdAt', products__product.createdAt,
-                'product.updatedAt', products__product.updatedAt,
+                'product.createdAt', DATE_FORMAT(products__product.createdAt, ${sails.config.custom.dateFormat}),
+                'product.updatedAt', DATE_FORMAT(products__product.updatedAt, ${sails.config.custom.dateFormat}),
                 'product.id', products__product.id,
                 'product.ean', products__product.ean,
                 'product.plu', products__product.plu,
@@ -112,7 +112,7 @@ module.exports = {
 
     let ci = await sails.sendNativeQuery(SQL_DEALER, [employeeId]);
     let inventories = [];
-    if(ci && ci.rows) {
+    if(ci && ci.rows && ci.rows.length>0) {
       ci = ci.rows
       ci = _.map(ci, function(consolidated_inventory){
         //Join the inventories to return a ci object

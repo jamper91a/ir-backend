@@ -1,5 +1,5 @@
 var request = require('supertest');
-request = request('http://localhost:1338');
+request = request('http://localhost:1337');
 describe('ConsolidatedInventoryController', function() {
 
   describe('#LastInventory', function() {
@@ -12,6 +12,7 @@ describe('ConsolidatedInventoryController', function() {
         .end(async function(err, res) {
           if (err){
             // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
            try{
@@ -44,6 +45,7 @@ describe('ConsolidatedInventoryController', function() {
         .end(async function(err, res) {
           if (err){
             // console.log(err);
+            sails.helpers.printTestError(err, res);
             return done(err);
           }
           try{

@@ -24,7 +24,7 @@ module.exports = {
     let dealers;
     if(sails.config.custom.rawQueries){
       try {
-        dealers = await sails.helpers.queries.dealer.getAllActiveDealers();
+        dealers = await sails.helpers.queries.dealer.getAllDealersByUserStatus(true);
       } catch (e) {
         throw e;
       }
