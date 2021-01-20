@@ -23,7 +23,7 @@ module.exports = {
   datastores: {
     default: {
         adapter: 'sails-mysql',
-      url: 'mysql://root:jamper91@localhost:3306/inventarioRealEn',
+      url: 'mysql://root:jamper91@localhost:3306/inventarioRealTest',
       timezone: 'utc-5',
       multipleStatements: true
     },
@@ -60,7 +60,7 @@ module.exports = {
       admin2: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJpYXQiOjE1OTc4MTMwNDR9.gKyxzUbvPUpaxgc3IfwW5-wRaaSqc7_p-ao1nedRys4',
       sAdmin: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE1OTIwODk2MTB9.ivZftEIfTNos5b-a3tJW0s-yUt0jV6uDY4hR01aI2cI'
     },
-    dbName: 'inventarioRealEn',
+    dbName: 'inventarioRealTest',
     testPdf: false,
     testEmail: false,
     test: true,

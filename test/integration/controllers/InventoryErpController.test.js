@@ -1,5 +1,5 @@
 var request = require('supertest');
-request = request('http://localhost:1337');
+request = request('http://localhost:1338');
 describe('InventoryErpController', function() {
 
   describe('#Create Inventory Erp', function() {

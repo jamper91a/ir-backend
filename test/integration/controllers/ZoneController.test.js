@@ -1,5 +1,5 @@
 var request = require('supertest');
-request = request('http://localhost:1337');
+request = request('http://localhost:1338');
 describe('ZoneController', function() {
   describe('#List zones by shop', function() {
     const url='/zone/list-zones-by-shop';

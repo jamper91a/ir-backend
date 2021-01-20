@@ -44,7 +44,6 @@ module.exports = {
         .transaction(async (db) => {
           //Update every productZone
           for (const product of products) {
-            console.log(product);
             try {
               //Save data for logs
               let newDevolutionHistory = {
