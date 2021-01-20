@@ -1,5 +1,5 @@
 var request = require('supertest');
-request = request('http://localhost:1337');
+request = request('http://localhost:1338');
 describe('DealerController', function() {
 
   describe('#CreateDealer', function() {
@@ -89,7 +89,7 @@ describe('DealerController', function() {
         .send()
         .set({Authorization: "Bearer " + sails.config.custom.tokens.sAdmin})
         .expect(200)
-        .end(function(err, res) {
+        .end(async function(err, res) {
           if (err){
             return done(err);
           }
@@ -97,6 +97,7 @@ describe('DealerController', function() {
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {
+              await sails.helpers.validation.responses.dealer.validateAllActiveDealers(res.body);
               done();
             } else {
               done(new Error('No valid Json format'));
@@ -114,7 +115,7 @@ describe('DealerController', function() {
         .send()
         .set({Authorization: "Bearer " + sails.config.custom.tokens.sAdmin})
         .expect(200)
-        .end(function(err, res) {
+        .end(async function(err, res) {
           if (err){
             return done(err);
           }
@@ -127,6 +128,7 @@ describe('DealerController', function() {
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {
+              await sails.helpers.validation.responses.dealer.validateAllActiveDealers(res.body);
               done();
             } else {
               done(new Error('No valid Json format'));

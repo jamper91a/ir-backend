@@ -22,7 +22,16 @@ module.exports = {
 
   fn: async function () {
     let dealers;
-    dealers = await  Dealers.find().populate('user',{active: true});
+    if(sails.config.custom.rawQueries){
+      try {
+        dealers = await sails.helpers.queries.dealer.getAllActiveDealers();
+      } catch (e) {
+        throw e;
+      }
+    } else {
+      dealers = await  Dealers.find().populate('user',{active: true});
+    }
+
     if(dealers) {
       return {data:dealers};
     } else

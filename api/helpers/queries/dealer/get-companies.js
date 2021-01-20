@@ -25,6 +25,9 @@ module.exports = {
     success: {
       outputFriendlyName: 'Companies',
     },
+    noCompanies: {
+      description: 'Companies no found'
+    }
 
   },
 
@@ -59,6 +62,8 @@ module.exports = {
         return sails.helpers.util.nested(company);
       });
       return companies;
+    } else{
+      throw 'noCompanies';
     }
 
 
