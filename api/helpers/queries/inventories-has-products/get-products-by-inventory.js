@@ -2,7 +2,7 @@ module.exports = {
 
 
 
-  description: 'Get prodcuts that belong to an inventory',
+  description: 'Get products that belong to an inventory',
 
 
   inputs: {

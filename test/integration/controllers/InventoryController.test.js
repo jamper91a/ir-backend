@@ -1,5 +1,5 @@
 var request = require('supertest');
-request = request('http://localhost:1338');
+request = request('http://localhost:1337');
 describe('InventoryController', function() {
 
   describe('#Create Inventory', function() {
@@ -381,27 +381,8 @@ describe('InventoryController', function() {
 
             JSON.parse(JSON.stringify(res.body));
             if(res.headers['content-type'].includes('application/json')) {
-              try{
-                const products = res.body.data.products;
-                const zone = res.body.data.zone;
-                const zones = Array(1).fill(zone);
-                const consolidatedInventory = res.body.data.consolidatedInventory;
-
-                const allProducts = await sails.helpers.validation.validateProductsHasZones(products);
-                const allZones = await sails.helpers.validation.validateZones(zones);
-                if(allProducts && allZones) {
-                  JSON.parse(JSON.stringify(res.body));
+                  await sails.helpers.validation.responses.inventory.validateListProducts(res.body);
                   done();
-                } else {
-                  console.log('allProducts', allProducts);
-                  console.log('allZones', allZones);
-                  done (new Error('No valid format for the response'));
-                }
-
-              } catch (e) {
-                console.error(e);
-                return done(e);
-              }
             } else {
               done(new Error('No valid Json format'));
             }
